@@ -13,7 +13,7 @@ int main()
 
     walkPat.AddStepForward(1);
 
-    cout << "Hello Worlds!" << endl;
+    cout << "Hello Words!" << endl;
 
     return 0;
 }
