@@ -1,0 +1,65 @@
+\hypertarget{classspGait}{}\section{sp\+Gait Class Reference}
+\label{classspGait}\index{sp\+Gait@{sp\+Gait}}
+
+
+Inheritance diagram for sp\+Gait\+:
+% FIG 0
+
+
+Collaboration diagram for sp\+Gait\+:
+% FIG 1
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classspGait_a0053df3db6e9061e986408386b064dd4}{Add\+Step\+Forward} (int step\+Number)
+\begin{DoxyCompactList}\small\item\em This function will add \char`\"{}step\+Number\char`\"{} steps in forward direction, taking care of any stability criteria or gait issue. Result is stored in the trajectory source variable. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classspGait_a144ff064b71e8ed3f8ab487c97795bbc}{}double {\bfseries swing\+Elevation}\label{classspGait_a144ff064b71e8ed3f8ab487c97795bbc}
+
+\item 
+\hypertarget{classspGait_adc0c85585717d39c89868f0b0f13def3}{}double {\bfseries swing\+Distance}\label{classspGait_adc0c85585717d39c89868f0b0f13def3}
+
+\item 
+\hypertarget{classspGait_ae87571122d9d31ed189a19be29ccb7fa}{}double {\bfseries t}\label{classspGait_ae87571122d9d31ed189a19be29ccb7fa}
+
+\item 
+\hypertarget{classspGait_a52ea02e69dc2c2791d169dc8974c8c8b}{}int {\bfseries step\+Phase}\label{classspGait_a52ea02e69dc2c2791d169dc8974c8c8b}
+
+\item 
+\hypertarget{classspGait_af278dddbe1fc697b00ae3f1b88cb0a84}{}long {\bfseries step\+Total\+Phases}\label{classspGait_af278dddbe1fc697b00ae3f1b88cb0a84}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classspGait_a0053df3db6e9061e986408386b064dd4}{}\index{sp\+Gait@{sp\+Gait}!Add\+Step\+Forward@{Add\+Step\+Forward}}
+\index{Add\+Step\+Forward@{Add\+Step\+Forward}!sp\+Gait@{sp\+Gait}}
+\subsubsection[{Add\+Step\+Forward}]{\setlength{\rightskip}{0pt plus 5cm}bool sp\+Gait\+::\+Add\+Step\+Forward (
+\begin{DoxyParamCaption}
+\item[{int}]{step\+Number}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{classspGait_a0053df3db6e9061e986408386b064dd4}
+
+
+This function will add \char`\"{}step\+Number\char`\"{} steps in forward direction, taking care of any stability criteria or gait issue. Result is stored in the trajectory source variable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em step\+Number} & = Number of biped walk steps to add. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true at success. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classGait}{Gait}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/spgait.\+h\item 
+src/spgait.\+cpp\end{DoxyCompactItemize}
