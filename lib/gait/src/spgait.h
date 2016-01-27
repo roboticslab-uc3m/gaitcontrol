@@ -9,6 +9,7 @@ public:
     bool AddStepForward(int stepNumber);
     //parameters in meters, seconds
 
+    bool SetStepParameters(double swingFootDistance, double swingFootElevation);
 private:
     //swing foot parameters
     double swingElevation;

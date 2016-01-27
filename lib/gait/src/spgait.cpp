@@ -20,6 +20,7 @@ bool spGait::AddStepForward(int stepNumber)
     SpaceTrajectory next;
     //strategy
     //move root over right foot
+
     //balance over right foot
     //left foot forward
     //move root over center
@@ -32,11 +33,34 @@ bool spGait::AddStepForward(int stepNumber)
     return true;
 }
 
+
+/**
+ * @brief spGait::spGait = Constructor with the initial feet poses.
+ * @param initialRightFoot = Initial right foot pose.
+ * @param initialLeftFoot = Initial left foot pose.
+ */
 spGait::spGait(Pose initialRightFoot, Pose initialLeftFoot)
 {
     rfTraj.waypoints[0] = initialRightFoot;
     lfTraj.waypoints[0] = initialLeftFoot;
 
+    swingDistance = 0.0;
+    swingElevation = 0.0;
+
+}
+
+/**
+ * @brief spGait::SetStepParameters = Set the step parameters for the gait functions.
+ * @param swingFootDistance = The distance the floating foot will move forward on every step.
+ * @param swingFootElevation = The distance the floating foot will raise from ground on every step.
+ * @return
+ */
+bool spGait::SetStepParameters( double swingFootDistance, double swingFootElevation )
+{
+    swingDistance = swingFootDistance;
+    swingElevation = swingFootElevation;
+
+    return true;
 }
 
 /*

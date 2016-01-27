@@ -11,3 +11,10 @@ Pose::Pose(double x0, double y0, double z0)
     y=y0;
     z=z0;
 }
+/*
+Pose Pose::TransformTo(Pose anotherPose)
+{
+    Pose transform;
+    return transform;
+}
+*/
