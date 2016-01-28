@@ -21,7 +21,7 @@ using namespace OpenRAVE;
 
 struct spGaitParameters
 {
-    //parameters in meters, seconds.
+    //parameters in meters, seconds
 
     //swing foot parameters
     double swingElevation;
