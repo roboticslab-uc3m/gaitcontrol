@@ -10,7 +10,7 @@ using namespace std;
 
 /**
  * @brief This function will add "stepNumber" steps in forward direction, using
- * support poligon stability criteria. Results are stored in the trajectory source variable.
+ * support poligon stability criteria. Results are stored in the Space trajectory variable.
  * @param stepNumber = Number of steps to add.
  * @return true at success.
  */
@@ -18,6 +18,7 @@ bool spGait::AddStepForward(int stepNumber)
 {
 
     double x,y,z;
+    double dx,dy,dz;
     Pose actualRightFoot, actualLeftFoot;
     Pose desiredRightFoot,desiredLeftFoot;
 
@@ -25,26 +26,90 @@ bool spGait::AddStepForward(int stepNumber)
 
     //SpaceTrajectory next;
     //strategy
-    //-1-move root over right foot (or right and left foot under root)
+    //-1-move root over right foot (or right foot under root (0,0,z), z is actual foot elevation)
     trajRightFoot.GetCurrentPose(actualRightFoot);
     actualRightFoot.GetPosition(x,y,z);
+    //origin (x,y,z) destination (0,0,z)
+    dx=0-x;
+    dy=0-y;
+    dz=z-z;
+    desiredRightFoot.ChangePosition(dx,dy,dz);
+    desiredLeftFoot.ChangePosition(dx,dy,dz);
 
-    desiredRightFoot.SetPosition(0,0,z);
     trajRightFoot.AddWaypoint(desiredRightFoot);
-
-    desiredLeftFoot.ChangePosition(0-x,0-y,z-z);
     trajLeftFoot.AddWaypoint(desiredLeftFoot);
+
 
     //-2-balance over right foot
     //TODO
+
+
     //-3-left foot forward
-    desiredLeftFoot.ChangePosition(swingDistance,0,swingElevation);
+    //trajRightFoot.GetCurrentPose(desiredRightFoot);
+    desiredLeftFoot.ChangePosition(swingDistance/2, 0, swingElevation);
+
+    trajRightFoot.AddWaypoint(desiredRightFoot);
     trajLeftFoot.AddWaypoint(desiredLeftFoot);
-    //move root over center
-    //move root over left foot
-    //balance over left foot
-    //right foot forward
-    //move root over center
+
+    //trajRightFoot.GetCurrentPose(desiredRightFoot);
+    desiredLeftFoot.ChangePosition(swingDistance/2, 0, -swingElevation);
+
+    trajRightFoot.AddWaypoint(desiredRightFoot);
+    trajLeftFoot.AddWaypoint(desiredLeftFoot);
+
+    //-4-move root over center again (undo former feet movement)
+    desiredRightFoot.ChangePosition(-dx,-dy,-dz);
+    desiredLeftFoot.ChangePosition(-dx,-dy,-dz);
+    //also, move root x axis half a swing positive (or feet x axis half a swing negative)
+    desiredRightFoot.ChangePosition(-swingDistance/2,0,0);
+    desiredLeftFoot.ChangePosition(-swingDistance/2,0,0);
+
+    trajRightFoot.AddWaypoint(desiredRightFoot);
+    trajLeftFoot.AddWaypoint(desiredLeftFoot);
+
+
+    //-5-move root over left foot (or left foot under root (0,0,z), z is actual foot elevation)
+    trajLeftFoot.GetCurrentPose(actualLeftFoot);
+    actualLeftFoot.GetPosition(x,y,z);
+    //origin (x,y,z) destination (0,0,z)
+    dx=0-x;
+    dy=0-y;
+    dz=z-z;
+    desiredRightFoot.ChangePosition(dx,dy,dz);
+    desiredLeftFoot.ChangePosition(dx,dy,dz);
+
+    trajRightFoot.AddWaypoint(desiredRightFoot);
+    trajLeftFoot.AddWaypoint(desiredLeftFoot);
+
+
+    //-6-balance over left foot
+    //TODO
+
+
+    //-7-right foot forward
+    //trajLeftFoot.GetCurrentPose(desiredLeftFoot);
+    desiredRightFoot.ChangePosition(swingDistance/2, 0, swingElevation);
+
+    trajRightFoot.AddWaypoint(desiredRightFoot);
+    trajLeftFoot.AddWaypoint(desiredLeftFoot);
+
+    //trajLeftFoot.GetCurrentPose(desiredLeftFoot);
+    desiredRightFoot.ChangePosition(swingDistance/2, 0, -swingElevation);
+
+    trajRightFoot.AddWaypoint(desiredRightFoot);
+    trajLeftFoot.AddWaypoint(desiredLeftFoot);
+
+    //-8-move root over center again (undo former feet movement)
+    desiredRightFoot.ChangePosition(-dx,-dy,-dz);
+    desiredLeftFoot.ChangePosition(-dx,-dy,-dz);
+    //also, move root x axis half a swing positive (or feet x axis half a swing negative)
+    desiredRightFoot.ChangePosition(-swingDistance/2,0,0);
+    desiredLeftFoot.ChangePosition(-swingDistance/2,0,0);
+
+    trajRightFoot.AddWaypoint(desiredRightFoot);
+    trajLeftFoot.AddWaypoint(desiredLeftFoot);
+
+    //one step finished
 
 
     return true;
