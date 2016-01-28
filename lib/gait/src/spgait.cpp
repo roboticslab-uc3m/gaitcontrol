@@ -17,18 +17,29 @@ using namespace std;
 bool spGait::AddStepForward(int stepNumber)
 {
 
-    double dx,dy,dz;
+    double x,y,z;
     Pose actualRightFoot, actualLeftFoot;
+    Pose desiredRightFoot,desiredLeftFoot;
 
-    //trajtrajLeftFoot.waypoints.end()
 
-    SpaceTrajectory next;
+
+    //SpaceTrajectory next;
     //strategy
-    //move root over right foot (right and left foot under root)
+    //-1-move root over right foot (or right and left foot under root)
+    trajRightFoot.GetCurrentPose(actualRightFoot);
+    actualRightFoot.GetPosition(x,y,z);
 
+    desiredRightFoot.SetPosition(0,0,z);
+    trajRightFoot.AddWaypoint(desiredRightFoot);
 
-    //balance over right foot
-    //left foot forward
+    desiredLeftFoot.ChangePosition(0-x,0-y,z-z);
+    trajLeftFoot.AddWaypoint(desiredLeftFoot);
+
+    //-2-balance over right foot
+    //TODO
+    //-3-left foot forward
+    desiredLeftFoot.ChangePosition(swingDistance,0,swingElevation);
+    trajLeftFoot.AddWaypoint(desiredLeftFoot);
     //move root over center
     //move root over left foot
     //balance over left foot
@@ -47,8 +58,8 @@ bool spGait::AddStepForward(int stepNumber)
  */
 spGait::spGait(Pose initialRightFoot, Pose initialLeftFoot)
 {
-    trajRightFoot.AddTimedWaypoint(0, initialRightFoot);
-    trajLeftFoot.AddTimedWaypoint(0, initialLeftFoot);
+    trajRightFoot.AddTimedWaypoint(-1, initialRightFoot);
+    trajLeftFoot.AddTimedWaypoint(-1, initialLeftFoot);
 
     swingDistance = 0.0;
     swingElevation = 0.0;

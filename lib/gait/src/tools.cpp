@@ -16,6 +16,31 @@ Pose::Pose(double x0, double y0, double z0)
     y=y0;
     z=z0;
 }
+
+bool Pose::GetPosition(double &new_x, double &new_y, double &new_z)
+{
+    new_x=x;
+    new_y=y;
+    new_z=z;
+    return true;
+}
+
+bool Pose::SetPosition(double new_x, double new_y, double new_z)
+{
+    x=new_x;
+    y=new_y;
+    z=new_z;
+    return true;
+}
+
+bool Pose::ChangePosition(double dx, double dy, double dz)
+{
+    x+=dx;
+    y+=dy;
+    z+=dz;
+    return true;
+
+}
 /*
 Pose Pose::TransformTo(Pose anotherPose)
 {
@@ -39,4 +64,18 @@ bool SpaceTrajectory::AddTimedWaypoint(double dt, Pose waypoint)
         return -1;
     }*/
     return 0;
+}
+
+bool SpaceTrajectory::AddWaypoint(Pose waypoint)
+{
+
+    waypoints.push_back(waypoint);
+
+    return 0;
+}
+
+bool SpaceTrajectory::GetCurrentPose(Pose &current)
+{
+    current = waypoints.back();
+    return true;
 }
