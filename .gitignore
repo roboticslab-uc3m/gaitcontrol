@@ -27,6 +27,7 @@ Makefile*
 
 # QtCreator
 
+CMakeLists.txt.user
 *.autosave
 
 #QtCtreator Qml

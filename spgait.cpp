@@ -21,13 +21,13 @@ using namespace OpenRAVE;
 
 struct spGaitParameters
 {
-    //parameters in meters, seconds
+    //parameters in meters, seconds.
 
     //swing foot parameters
     double swingElevation;
     double swingDistance;
 
-    //step parameters
+    //step parameters.
     double t;
     int stepPhase;  //from 1 to .. step phases
     uint stepTotalPhases; //total number of phases in a step
