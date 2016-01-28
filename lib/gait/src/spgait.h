@@ -24,6 +24,6 @@ private:
     Pose poseRf0,poseLf0;
 
     //trajectories based on root
-    SpaceTrajectory rfTraj, lfTraj;
+    SpaceTrajectory trajRightFoot, trajLeftFoot;
     JointTrajectory jointRootTraj[3];
 };

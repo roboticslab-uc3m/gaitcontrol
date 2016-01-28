@@ -17,9 +17,15 @@ using namespace std;
 bool spGait::AddStepForward(int stepNumber)
 {
 
+    double dx,dy,dz;
+    Pose actualRightFoot, actualLeftFoot;
+
+    //trajtrajLeftFoot.waypoints.end()
+
     SpaceTrajectory next;
     //strategy
-    //move root over right foot
+    //move root over right foot (right and left foot under root)
+
 
     //balance over right foot
     //left foot forward
@@ -41,8 +47,8 @@ bool spGait::AddStepForward(int stepNumber)
  */
 spGait::spGait(Pose initialRightFoot, Pose initialLeftFoot)
 {
-    rfTraj.waypoints[0] = initialRightFoot;
-    lfTraj.waypoints[0] = initialLeftFoot;
+    trajRightFoot.AddTimedWaypoint(0, initialRightFoot);
+    trajLeftFoot.AddTimedWaypoint(0, initialLeftFoot);
 
     swingDistance = 0.0;
     swingElevation = 0.0;

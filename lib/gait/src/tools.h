@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <map>
+#include <iostream>
 
 class Pose
 {
@@ -17,9 +18,21 @@ private:
 
 };
 
-struct SpaceTrajectory
+class SpaceTrajectory
 {
+public:
+    bool AddTimedWaypoint(double t, Pose waypoint);
+
+
+
+private:
+    std::vector<Pose> waypoints;
+    std::vector<double> delta_t;
+    /*
     std::map<double,Pose> waypoints;
+    std::pair<double,Pose> wp; //Temporary storage. Use as local only. It can change.
+    std::map<double,Pose>::iterator it;
+    std::pair<std::map<double,Pose>::iterator,bool> error;*/
 
 };
 
