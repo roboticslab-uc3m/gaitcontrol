@@ -14,7 +14,7 @@ int main()
 
     walkPat.AddStepForward(1);
 
-    cout << "Hello Words!" << endl;
+    cout << "Hello Worls!" << endl;
 
     return 0;
 }
