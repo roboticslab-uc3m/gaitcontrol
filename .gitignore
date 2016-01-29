@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # C++ objects and libs
 
 *.slo
@@ -33,3 +34,6 @@ CMakeLists.txt.user
 #QtCtreator Qml
 *.qmlproject.user
 *.qmlproject.user.*
+=======
+CMakeLists.txt.user
+>>>>>>> e9144d76f174944607410778740e7054b6184334
