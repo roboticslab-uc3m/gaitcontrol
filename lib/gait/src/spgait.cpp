@@ -82,7 +82,7 @@ bool spGait::AddStepForward(int stepNumber)
     trajLeftFoot.AddWaypoint(desiredLeftFoot);
 
 
-    //-6-balance over left foot
+    //-6-balance over left foot.
     //TODO
 
 
