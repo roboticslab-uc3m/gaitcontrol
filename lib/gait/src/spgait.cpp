@@ -23,8 +23,6 @@ bool spGait::AddStepForward(int stepNumber)
     Pose desiredRightFoot,desiredLeftFoot;
 
 
-
-    //SpaceTrajectory next;
     //strategy
     //-1-move root over right foot (or right foot under root (0,0,z), z is actual foot elevation)
     trajRightFoot.GetCurrentPose(actualRightFoot);
