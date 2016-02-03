@@ -5,6 +5,12 @@
 #include <map>
 #include <iostream>
 
+namespace teo
+{
+
+namespace tra
+{
+
 class Pose
 {
 public:
@@ -42,6 +48,9 @@ struct JointTrajectory
     std::vector<double> x;
 };
 
+}//end namespace tra
+
+}//end namespace teo
 
 #endif // TOOLS_H
 

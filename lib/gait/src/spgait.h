@@ -1,11 +1,13 @@
 #include "Gait.h"
 #include "tools.h"
 
-class spGait : public Gait
+using namespace teo::tra;
+
+class GaitSP : public Gait
 {
 public:
 
-    spGait(Pose initialRightFoot, Pose initialLeftFoot);
+    GaitSP(Pose initialRightFoot, Pose initialLeftFoot);
     bool AddStepForward(int stepNumber);
     //parameters in meters, seconds
 

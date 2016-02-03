@@ -2,6 +2,7 @@
 
 
 using namespace std;
+using namespace teo::tra;
 
 //Pose definitions
 

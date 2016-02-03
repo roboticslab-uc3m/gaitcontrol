@@ -14,7 +14,7 @@ using namespace std;
  * @param stepNumber = Number of steps to add.
  * @return true at success.
  */
-bool spGait::AddStepForward(int stepNumber)
+bool GaitSP::AddStepForward(int stepNumber)
 {
 
     double x,y,z;
@@ -119,7 +119,7 @@ bool spGait::AddStepForward(int stepNumber)
  * @param initialRightFoot = Initial right foot pose.
  * @param initialLeftFoot = Initial left foot pose.
  */
-spGait::spGait(Pose initialRightFoot, Pose initialLeftFoot)
+GaitSP::GaitSP(Pose initialRightFoot, Pose initialLeftFoot)
 {
     trajRightFoot.AddTimedWaypoint(-1, initialRightFoot);
     trajLeftFoot.AddTimedWaypoint(-1, initialLeftFoot);
@@ -135,7 +135,7 @@ spGait::spGait(Pose initialRightFoot, Pose initialLeftFoot)
  * @param swingFootElevation = The distance the floating foot will raise from ground on every step.
  * @return
  */
-bool spGait::SetStepParameters( double swingFootDistance, double swingFootElevation )
+bool GaitSP::SetStepParameters( double swingFootDistance, double swingFootElevation )
 {
     swingDistance = swingFootDistance;
     swingElevation = swingFootElevation;
