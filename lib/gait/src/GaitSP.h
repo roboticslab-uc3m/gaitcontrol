@@ -1,5 +1,6 @@
 #include "Gait.h"
 #include "tools.h"
+#include <stdio.h>
 
 using namespace teo::tra;
 
@@ -9,6 +10,7 @@ public:
 
     GaitSP(Pose initialRightFoot, Pose initialLeftFoot);
     bool AddStepForward(int stepNumber);
+    bool SaveSpaceTrajectories(std::ofstream &fileLeftFoot, std::ofstream &fileRightFoot);
     //parameters in meters, seconds
 
     bool SetStepParameters(double swingFootDistance, double swingFootElevation);

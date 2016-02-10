@@ -3,7 +3,7 @@
 
 using namespace std;
 
-#include "spgait.h"
+#include "GaitSP.h"
 
 //kdl
 //#include <frames.hpp>
@@ -25,7 +25,7 @@ bool GaitSP::AddStepForward(int stepNumber)
 
     //strategy:
     //-1-move root over right foot (or right foot under root (0,0,z), z is actual foot elevation)
-    trajRightFoot.GetCurrentPose(actualRightFoot);
+    trajRightFoot.GetLastWaypoint(actualRightFoot);
     actualRightFoot.GetPosition(x,y,z);
     //origin (x,y,z) destination (0,0,z)
     dx=0-x;
@@ -67,7 +67,7 @@ bool GaitSP::AddStepForward(int stepNumber)
 
 
     //-5-move root over left foot (or left foot under root (0,0,z), z is actual foot elevation)
-    trajLeftFoot.GetCurrentPose(actualLeftFoot);
+    trajLeftFoot.GetLastWaypoint(actualLeftFoot);
     actualLeftFoot.GetPosition(x,y,z);
     //origin (x,y,z) destination (0,0,z)
     dx=0-x;
@@ -113,6 +113,22 @@ bool GaitSP::AddStepForward(int stepNumber)
     return true;
 }
 
+/**
+ * @brief GaitSP::SaveSpaceTrajectories: Will save existing trajectories in the class (all the waypoints) in two csv files,
+ * one for each foot.
+ * @param fileLeftFoot: File (std::ofstream) for saving left foot trajectory.
+ * @param fileRightFoot: File (std::ofstream) for saving right foot trajectory.
+ * @return true on success.
+ */
+
+bool GaitSP::SaveSpaceTrajectories(ofstream &fileLeftFoot, ofstream &fileRightFoot)
+{
+
+    trajLeftFoot.SaveToFile(fileLeftFoot);
+    trajRightFoot.SaveToFile(fileRightFoot);
+    return true;
+}
+
 
 /**
  * @brief spGait::spGait = Constructor with the initial feet poses.
@@ -143,99 +159,3 @@ bool GaitSP::SetStepParameters( double swingFootDistance, double swingFootElevat
     return true;
 }
 
-/*
-bool StepStageUpdatePoses(spGaitParameters params, std::vector<Transform>& effectorPosesResult)
-{
-
-    double dx, dy, dz; //root translation
-    switch(params.stepPhase)
-    {
-
-    //--Double support. Moving root inside poligon to left foot.--
-
-    case 1: //--Move root over left foot while in double support--
-        dx = 0;
-        dy = effectorPosesResult[6].trans.y - effectorPosesResult[0].trans.y;
-        dz = 0;
-        RootTranslationWithAttachments(dx, dy, dz, effectorPosesResult);
-
-        break;
-
-        //--Single support on left foot. Move root and right floating foot.--
-
-    case 2: //First half swing of right foot
-
-        //righ foot swing
-        effectorPosesResult[5].trans.z += params.swingElevation;
-        effectorPosesResult[5].trans.x += params.swingDistance/2;
-
-        //root translation
-        dx = params.swingDistance/4;
-        dy = 0;
-        dz = 0;
-        RootTranslationWithAttachments(dx, dy, dz, effectorPosesResult);
-        break;
-
-    case 3: //Second half swing of right foot
-
-        //righ foot swing
-        effectorPosesResult[5].trans.z -= params.swingElevation;
-        effectorPosesResult[5].trans.x += params.swingDistance/2;
-
-        //root translation
-        dx = params.swingDistance/4;
-        dy = 0;
-        dz = 0;
-        RootTranslationWithAttachments(dx, dy, dz, effectorPosesResult);
-        break;
-
-        //--Double support. Moving root inside poligon.--
-
-    case 4: //--Move root over right foot while in double support--
-        dx = 0;
-        dy = effectorPosesResult[5].trans.y - effectorPosesResult[0].trans.y;
-        dz = 0;
-        RootTranslationWithAttachments(dx, dy, dz, effectorPosesResult);
-        break;
-
-        //--Single support on right foot. Move root and left floating foot.--
-
-    case 5: //First half swing of left foot
-
-        //left foot swing
-        effectorPosesResult[6].trans.z += params.swingElevation;
-        effectorPosesResult[6].trans.x += params.swingDistance/2;
-
-        //root translation
-        dx = params.swingDistance/4;
-        dy = 0;
-        dz = 0;
-        RootTranslationWithAttachments(dx, dy, dz, effectorPosesResult);
-        break;
-
-    case 6: //Second half swing of left foot
-
-        //left foot swing
-        effectorPosesResult[6].trans.z -= params.swingElevation;
-        effectorPosesResult[6].trans.x += params.swingDistance/2;
-
-        //root translation
-        dx = params.swingDistance/4;
-        dy = 0;
-        dz = 0;
-        RootTranslationWithAttachments(dx, dy, dz, effectorPosesResult);
-        break;
-
-    case 7:
-        //move root from right foot to double support center
-
-
-    default:
-        //If this is no step phase stop and return error.
-        return false;
-    };
-
-
-    return true;
-}
-*/

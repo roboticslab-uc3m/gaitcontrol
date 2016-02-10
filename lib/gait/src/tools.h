@@ -4,6 +4,8 @@
 #include <vector>
 #include <map>
 #include <iostream>
+#include <fstream>      // std::ofstream
+#include <iomanip>      // std::setprecision
 
 namespace teo
 {
@@ -18,7 +20,8 @@ public:
     Pose(double x0, double y0, double z0);
     bool SetPosition(double new_x, double new_y, double new_z);
     bool ChangePosition(double dx, double dy, double dz);
-    bool GetPosition(double &new_x, double &new_y, double &new_z);
+    bool GetPosition(double &pos_x, double &pose_y, double &pose_z);
+    bool GetRotation(double &axis_i, double &axis_j, double &axis_k, double &pose_angle);
 private:
     double x,y,z;
     double i,j,k;
@@ -31,7 +34,8 @@ class SpaceTrajectory
 public:
     bool AddTimedWaypoint(double t, Pose waypoint);
     bool AddWaypoint(Pose waypoint);
-    bool GetCurrentPose(Pose & current);
+    bool GetLastWaypoint(Pose & waypoint);
+    bool SaveToFile(std::ofstream &csvFile);
 private:
     std::vector<Pose> waypoints;
     std::vector<double> delta_t;

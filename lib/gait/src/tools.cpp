@@ -1,6 +1,5 @@
 #include "tools.h"
 
-
 using namespace std;
 using namespace teo::tra;
 
@@ -18,11 +17,20 @@ Pose::Pose(double x0, double y0, double z0)
     z=z0;
 }
 
-bool Pose::GetPosition(double &new_x, double &new_y, double &new_z)
+bool Pose::GetPosition(double &pose_x, double &pose_y, double &pose_z)
 {
-    new_x=x;
-    new_y=y;
-    new_z=z;
+    pose_x=x;
+    pose_y=y;
+    pose_z=z;
+    return true;
+}
+
+bool Pose::GetRotation(double &axis_i, double &axis_j, double &axis_k, double &pose_angle)
+{
+    axis_i=i;
+    axis_j=j;
+    axis_k=k;
+    pose_angle=angle;
     return true;
 }
 
@@ -75,8 +83,29 @@ bool SpaceTrajectory::AddWaypoint(Pose waypoint)
     return 0;
 }
 
-bool SpaceTrajectory::GetCurrentPose(Pose &current)
+bool SpaceTrajectory::GetLastWaypoint(Pose &waypoint)
 {
-    current = waypoints.back();
+    waypoint = waypoints.back();
     return true;
+}
+
+bool SpaceTrajectory::SaveToFile(std::ofstream &csvFile)
+{
+    //Pose wpPose;
+    double x,y,z;
+    double i,j,k,angle;
+    for (int n=0; n<waypoints.size(); n++)
+    {
+        //wpPose.GetPosition(x,y,z);
+        waypoints[n].GetPosition(x,y,z);
+        //wpPose.GetRotation(i,j,k,angle);
+        waypoints[n].GetRotation(i,j,k,angle);
+        csvFile << x << ",";
+        csvFile << y << ",";
+        csvFile << z << ",";
+        csvFile << i << ",";
+        csvFile << j << ",";
+        csvFile << k << ",";
+        csvFile << angle << std::endl;
+    }
 }
