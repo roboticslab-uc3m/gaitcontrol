@@ -10,20 +10,23 @@ using namespace std;
 int main()
 {
 
+
+    GaitSP walkPattern(Pose(0,-0.3,-1),Pose(0,+0.3,-1));
+    walkPattern.SetStepParameters(0.01,0.01);
+
+    //add steps
+    walkPattern.AddStepForward(1);
+
+
     ofstream saveRF, saveLF;
     saveLF.open("rf.csv");
     saveRF.open("lf.csv");
     saveLF << std::setprecision(6) << std::fixed;
     saveRF << std::setprecision(6) << std::fixed;
+    //here we go!
+    walkPattern.SaveSpaceTrajectories(saveRF, saveLF);
 
-
-    GaitSP walkPat(Pose(0,-0.3,-1),Pose(0,+0.3,-1));
-    walkPat.SetStepParameters(0.01,0.01);
-
-    walkPat.AddStepForward(1);
-    walkPat.SaveSpaceTrajectories(saveRF, saveLF);
-
-    cout << "Hello Worls!" << endl;
+    cout << "Finished!" << endl;
 
     return 0;
 }
