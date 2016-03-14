@@ -8,30 +8,32 @@ using namespace std;
 //kdl
 //#include <frames.hpp>
 
-/**
- * @brief This function will add "stepNumber" steps in forward direction, using
- * support poligon stability criteria. Results are stored in the Space trajectory variable.
- * @param stepNumber = Number of steps to add.
- * @return true at success.
- */
+
 bool GaitSP::AddStepForward(int stepNumber)
 {
 
-    double x,y,z;
+    //double x,y,z; actualRightFoot.GetPosition(x,y,z);
     double dx,dy,dz;
     Pose actualRightFoot, actualLeftFoot;
     Pose desiredRightFoot,desiredLeftFoot;
 
+    trajRightFoot.GetLastWaypoint(actualRightFoot);
+    trajLeftFoot.GetLastWaypoint(actualLeftFoot);
+
 
     //strategy:
-    //-1-move root over right foot (or right foot under root (0,0,z), z is actual foot elevation)
-    trajRightFoot.GetLastWaypoint(actualRightFoot);
-    actualRightFoot.GetPosition(x,y,z);
+    //-1-move root over right foot (right foot under root (0,0,z), z is actual foot elevation)
+    //calculate right foot
+
     //origin (x,y,z) destination (0,0,z)
-    dx=0-x;
-    dy=0-y;
-    dz=z-z;
+    dx=0-actualRightFoot.GetX();
+    dy=0-actualRightFoot.GetY();
+    dz=0;
+    desiredRightFoot=actualRightFoot;
     desiredRightFoot.ChangePosition(dx,dy,dz);
+
+    //left foot moves parallel to right foot
+    desiredLeftFoot=actualLeftFoot;
     desiredLeftFoot.ChangePosition(dx,dy,dz);
 
     trajRightFoot.AddWaypoint(desiredRightFoot);
@@ -43,22 +45,20 @@ bool GaitSP::AddStepForward(int stepNumber)
 
 
     //-3-left foot forward
-    //trajRightFoot.GetCurrentPose(desiredRightFoot);
+    //forward up
     desiredLeftFoot.ChangePosition(swingDistance/2, 0, swingElevation);
-
     trajRightFoot.AddWaypoint(desiredRightFoot);
     trajLeftFoot.AddWaypoint(desiredLeftFoot);
 
-    //trajRightFoot.GetCurrentPose(desiredRightFoot);
+    //forward down
     desiredLeftFoot.ChangePosition(swingDistance/2, 0, -swingElevation);
-
     trajRightFoot.AddWaypoint(desiredRightFoot);
     trajLeftFoot.AddWaypoint(desiredLeftFoot);
 
     //-4-move root over center again (undo former feet movement)
     desiredRightFoot.ChangePosition(-dx,-dy,-dz);
     desiredLeftFoot.ChangePosition(-dx,-dy,-dz);
-    //also, move root x axis half a swing positive (or feet x axis half a swing negative)
+    //also, move root x axis half a swing positive (feet x axis half a swing negative)
     desiredRightFoot.ChangePosition(-swingDistance/2,0,0);
     desiredLeftFoot.ChangePosition(-swingDistance/2,0,0);
 
@@ -66,15 +66,20 @@ bool GaitSP::AddStepForward(int stepNumber)
     trajLeftFoot.AddWaypoint(desiredLeftFoot);
 
 
-    //-5-move root over left foot (or left foot under root (0,0,z), z is actual foot elevation)
+    //-5-move root over left foot (left foot under root (0,0,z), z is actual foot elevation)
+    trajRightFoot.GetLastWaypoint(actualRightFoot);
     trajLeftFoot.GetLastWaypoint(actualLeftFoot);
-    actualLeftFoot.GetPosition(x,y,z);
+
     //origin (x,y,z) destination (0,0,z)
-    dx=0-x;
-    dy=0-y;
-    dz=z-z;
-    desiredRightFoot.ChangePosition(dx,dy,dz);
+    dx=0-actualLeftFoot.GetX();
+    dy=0-actualLeftFoot.GetY();
+    dz=0;
+    desiredLeftFoot=actualLeftFoot;
     desiredLeftFoot.ChangePosition(dx,dy,dz);
+
+    //right foot moves parallel to left foot
+    desiredRightFoot=actualRightFoot;
+    desiredRightFoot.ChangePosition(dx,dy,dz);
 
     trajRightFoot.AddWaypoint(desiredRightFoot);
     trajLeftFoot.AddWaypoint(desiredLeftFoot);
@@ -113,13 +118,7 @@ bool GaitSP::AddStepForward(int stepNumber)
     return true;
 }
 
-/**
- * @brief GaitSP::SaveSpaceTrajectories: Will save existing trajectories in the class (all the waypoints) in two csv files,
- * one for each foot.
- * @param fileLeftFoot: File (std::ofstream) for saving left foot trajectory.
- * @param fileRightFoot: File (std::ofstream) for saving right foot trajectory.
- * @return true on success.
- */
+
 
 bool GaitSP::SaveSpaceTrajectories(ofstream &fileLeftFoot, ofstream &fileRightFoot)
 {
@@ -130,11 +129,7 @@ bool GaitSP::SaveSpaceTrajectories(ofstream &fileLeftFoot, ofstream &fileRightFo
 }
 
 
-/**
- * @brief spGait::spGait = Constructor with the initial feet poses.
- * @param initialRightFoot = Initial right foot pose.
- * @param initialLeftFoot = Initial left foot pose.
- */
+
 GaitSP::GaitSP(Pose initialRightFoot, Pose initialLeftFoot)
 {
     trajRightFoot.AddTimedWaypoint(-1, initialRightFoot);
@@ -145,12 +140,7 @@ GaitSP::GaitSP(Pose initialRightFoot, Pose initialLeftFoot)
 
 }
 
-/**
- * @brief spGait::SetStepParameters = Set the step parameters for the gait functions.
- * @param swingFootDistance = The distance the floating foot will move forward on every step.
- * @param swingFootElevation = The distance the floating foot will raise from ground on every step.
- * @return
- */
+
 bool GaitSP::SetStepParameters( double swingFootDistance, double swingFootElevation )
 {
     swingDistance = swingFootDistance;

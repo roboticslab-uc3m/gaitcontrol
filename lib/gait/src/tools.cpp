@@ -25,6 +25,21 @@ bool Pose::GetPosition(double &pose_x, double &pose_y, double &pose_z)
     return true;
 }
 
+double Pose::GetX()
+{
+    return x;
+}
+
+double Pose::GetY()
+{
+    return y;
+}
+
+double Pose::GetZ()
+{
+    return z;
+}
+
 bool Pose::GetRotation(double &axis_i, double &axis_j, double &axis_k, double &pose_angle)
 {
     axis_i=i;

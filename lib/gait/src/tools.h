@@ -21,11 +21,14 @@ public:
     bool SetPosition(double new_x, double new_y, double new_z);
     bool ChangePosition(double dx, double dy, double dz);
     bool GetPosition(double &pos_x, double &pose_y, double &pose_z);
+    double GetX();
+    double GetY();
+    double GetZ();
     bool GetRotation(double &axis_i, double &axis_j, double &axis_k, double &pose_angle);
 private:
     double x,y,z;
-    double i,j,k;
-    double angle;
+    double i,j,k; //axis
+    double angle; //angle
 
 };
 

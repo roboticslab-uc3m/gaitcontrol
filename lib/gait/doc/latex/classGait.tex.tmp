@@ -7,7 +7,7 @@ Inheritance diagram for Gait\+:
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classGait_aee3367228f97a70de799f63ed2c369fb}{}virtual bool {\bfseries Add\+Step\+Forward} (int step\+Number)=0\label{classGait_aee3367228f97a70de799f63ed2c369fb}
+virtual bool {\bfseries Add\+Step\+Forward} (int step\+Number)=0\hypertarget{classGait_aee3367228f97a70de799f63ed2c369fb}{}\label{classGait_aee3367228f97a70de799f63ed2c369fb}
 
 \end{DoxyCompactItemize}
 
