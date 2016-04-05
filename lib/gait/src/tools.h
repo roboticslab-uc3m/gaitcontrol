@@ -104,6 +104,8 @@ public:
     bool AddWaypoint(Pose waypoint);
     bool GetLastWaypoint(Pose & waypoint);
     bool SaveToFile(std::ofstream &csvFile);
+    bool GetWaypoint(int index, Pose &getWaypoint);
+    int Size();
 private:
     std::vector<Pose> waypoints;
     std::vector<double> delta_t;
@@ -115,17 +117,9 @@ private:
 
 };
 
-struct JointTrajectory
-{
-    std::vector<double> x;
-};
 
 }//end namespace tra
 
-namespace kin
-{
-
-}// end namespace kin
 
 }//end namespace teo
 

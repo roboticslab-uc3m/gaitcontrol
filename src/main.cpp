@@ -11,11 +11,11 @@ int main()
 {
 
 
-    GaitSupportPoligon walkPattern(Pose(0,-0.3,-1),Pose(0,+0.3,-1));
-    walkPattern.SetStepParameters(0.01,0.01);
+    GaitSupportPoligon walk01(Pose(0,-0.3,-1),Pose(0,+0.3,-1));
+    walk01.SetStepParameters(0.01,0.01);
 
     //add steps
-    walkPattern.AddStepForward(1);
+    walk01.AddStepForward(2);
 
 
     //save the trayectories in files
@@ -25,7 +25,24 @@ int main()
     saveLF << std::setprecision(6) << std::fixed;
     saveRF << std::setprecision(6) << std::fixed;
     //here we go!
-    walkPattern.SaveSpaceTrajectories(saveRF, saveLF);
+    walk01.SaveSpaceTrajectories(saveRF, saveLF);
+
+    //get and print the trajectories
+    SpaceTrajectory righFootTraj, leftFootTraj;
+    walk01.GetTrajectories(righFootTraj, leftFootTraj);
+
+    Pose waypoint;
+    for(int i=0;i<righFootTraj.Size();i++)
+    {
+        righFootTraj.GetWaypoint(i,waypoint);
+        std::cout << waypoint.GetX() << "," << waypoint.GetY() << "," << waypoint.GetZ() << "," << std::endl;
+    }
+
+    for(int i=0;i<leftFootTraj.Size();i++)
+    {
+        leftFootTraj.GetWaypoint(i,waypoint);
+        std::cout << waypoint.GetX() << "," << waypoint.GetY() << "," << waypoint.GetZ() << "," << std::endl;
+    }
 
     cout << "Finished!" << endl;
 

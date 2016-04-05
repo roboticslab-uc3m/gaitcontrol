@@ -13,7 +13,7 @@ using namespace teo::tra;
  * 3- Call the Add functions to add steps to trajectory.
  *
  * The object main properties are:
- * 1- SpaceTrajectory: All the steps will be stored in a cartesian trajectory object.
+ * 1- SpaceTrajectory: All the steps will be stored in a cartesian trajectory object. Retrieve data with get functions.
  *
  */
 
@@ -57,6 +57,8 @@ public:
      */
     bool SetStepParameters(double swingFootDistance, double swingFootElevation);
 
+    bool GetTrajectories(tra::SpaceTrajectory& getRightFoot, tra::SpaceTrajectory& getLeftFoot);
+
 
 private:
 
@@ -65,6 +67,7 @@ private:
     //swing foot parameters
     double swingElevation;
     double swingDistance;
+    bool startOnRightFootSupport;
 
     //step parameters
     double t;
@@ -76,5 +79,8 @@ private:
 
     //trajectories based on root
     SpaceTrajectory trajRightFoot, trajLeftFoot;
-    JointTrajectory jointRootTraj[3];
+
+    //private functions
+    bool HalfStepForwardRS();
+    bool HalfStepForwardLS();
 };

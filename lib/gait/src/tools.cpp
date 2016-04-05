@@ -107,8 +107,20 @@ bool SpaceTrajectory::AddWaypoint(Pose waypoint)
 {
 
     waypoints.push_back(waypoint);
+    delta_t.push_back(0);
 
     return 0;
+}
+
+int SpaceTrajectory::Size()
+{
+    return waypoints.size();
+}
+
+bool SpaceTrajectory::GetWaypoint(int index, Pose& getWaypoint)
+{
+    getWaypoint=waypoints[index];
+    return true;
 }
 
 bool SpaceTrajectory::GetLastWaypoint(Pose &waypoint)
