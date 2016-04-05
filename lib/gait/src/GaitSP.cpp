@@ -9,7 +9,7 @@ using namespace std;
 //#include <frames.hpp>
 
 
-bool GaitSP::AddStepForward(int stepNumber)
+bool GaitSupportPoligon::AddStepForward(int stepNumber)
 {
 
     //double x,y,z; actualRightFoot.GetPosition(x,y,z);
@@ -120,7 +120,7 @@ bool GaitSP::AddStepForward(int stepNumber)
 
 
 
-bool GaitSP::SaveSpaceTrajectories(ofstream &fileLeftFoot, ofstream &fileRightFoot)
+bool GaitSupportPoligon::SaveSpaceTrajectories(ofstream &fileLeftFoot, ofstream &fileRightFoot)
 {
 
     trajLeftFoot.SaveToFile(fileLeftFoot);
@@ -130,7 +130,7 @@ bool GaitSP::SaveSpaceTrajectories(ofstream &fileLeftFoot, ofstream &fileRightFo
 
 
 
-GaitSP::GaitSP(Pose initialRightFoot, Pose initialLeftFoot)
+GaitSupportPoligon::GaitSupportPoligon(Pose initialRightFoot, Pose initialLeftFoot)
 {
     trajRightFoot.AddTimedWaypoint(-1, initialRightFoot);
     trajLeftFoot.AddTimedWaypoint(-1, initialLeftFoot);
@@ -141,7 +141,7 @@ GaitSP::GaitSP(Pose initialRightFoot, Pose initialLeftFoot)
 }
 
 
-bool GaitSP::SetStepParameters( double swingFootDistance, double swingFootElevation )
+bool GaitSupportPoligon::SetStepParameters( double swingFootDistance, double swingFootElevation )
 {
     swingDistance = swingFootDistance;
     swingElevation = swingFootElevation;

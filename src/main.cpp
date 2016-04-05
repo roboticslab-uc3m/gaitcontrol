@@ -11,13 +11,14 @@ int main()
 {
 
 
-    GaitSP walkPattern(Pose(0,-0.3,-1),Pose(0,+0.3,-1));
+    GaitSupportPoligon walkPattern(Pose(0,-0.3,-1),Pose(0,+0.3,-1));
     walkPattern.SetStepParameters(0.01,0.01);
 
     //add steps
     walkPattern.AddStepForward(1);
 
 
+    //save the trayectories in files
     ofstream saveRF, saveLF;
     saveLF.open("rf.csv");
     saveRF.open("lf.csv");

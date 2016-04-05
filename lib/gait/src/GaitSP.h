@@ -4,16 +4,30 @@
 
 using namespace teo::tra;
 
-class GaitSP : public Gait
+/**
+ * @brief The GaitSupportPoligon class encapsulates cartesian foot trajectory generation for biped gaits.
+ *
+ * How to use:
+ * 1- Instance by calling the constructor wiht feet Poses as parameters.
+ * 2- Set the gait parameters with SetStepParameters function.
+ * 3- Call the Add functions to add steps to trajectory.
+ *
+ * The object main properties are:
+ * 1- SpaceTrajectory: All the steps will be stored in a cartesian trajectory object.
+ *
+ */
+
+class GaitSupportPoligon : public Gait
 {
 public:
 
     /**
      * @brief spGait::spGait = Constructor with the initial feet poses.
-     * @param initialRightFoot = Initial right foot pose.
-     * @param initialLeftFoot = Initial left foot pose.
+     * Frame of reference for feet poses must be the center of mass (com) at robot default configuration.
+     * @param initialRightFoot = Initial right foot pose from com.
+     * @param initialLeftFoot = Initial left foot pose from com.
      */
-    GaitSP(Pose initialRightFoot, Pose initialLeftFoot);
+    GaitSupportPoligon(Pose initialRightFoot, Pose initialLeftFoot);
 
 
     /**

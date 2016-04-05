@@ -15,6 +15,10 @@ Pose::Pose(double x0, double y0, double z0)
     x=x0;
     y=y0;
     z=z0;
+    i=0;
+    j=0;
+    k=0;
+    angle=0;
 }
 
 bool Pose::GetPosition(double &pose_x, double &pose_y, double &pose_z)
@@ -46,6 +50,15 @@ bool Pose::GetRotation(double &axis_i, double &axis_j, double &axis_k, double &p
     axis_j=j;
     axis_k=k;
     pose_angle=angle;
+    return true;
+}
+
+bool Pose::SetRotation(double &axis_i, double &axis_j, double &axis_k, double &pose_angle)
+{
+    i=axis_i;
+    j=axis_j;
+    k=axis_k;
+    angle=pose_angle;
     return true;
 }
 
