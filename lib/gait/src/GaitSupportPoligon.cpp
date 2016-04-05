@@ -3,7 +3,7 @@
 
 using namespace std;
 
-#include "GaitSP.h"
+#include "GaitSupportPoligon.h"
 
 //kdl
 //#include <frames.hpp>

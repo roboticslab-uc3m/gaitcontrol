@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "GaitSP.h"
+#include "GaitSupportPoligon.h"
 
 using namespace std;
 
