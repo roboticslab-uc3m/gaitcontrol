@@ -1,0 +1,3 @@
+[submodule "sensor-integration"]
+	path = lib/sensor-integration
+	url = https://github.com/munozyanez/sensor-integration.git
