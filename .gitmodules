@@ -1,3 +1,6 @@
 [submodule "sensor-integration"]
 	path = lib/sensor-integration
 	url = https://github.com/munozyanez/sensor-integration.git
+[submodule "lib/teoMWI"]
+	path = lib/teoMWI
+	url = https://github.com/munozyanez/teoMWI.git
