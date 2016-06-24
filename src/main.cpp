@@ -2,6 +2,8 @@
 #include <fstream>
 
 #include "GaitSupportPoligon.h"
+#include "MiddlewareInterface.h"
+#include "SensorIntegration.h"
 
 using namespace std;
 
