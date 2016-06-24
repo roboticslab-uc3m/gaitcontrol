@@ -13,7 +13,7 @@ int main()
 {
 
 
-    GaitSupportPoligon walk01(Pose(0,-0.3,-1),Pose(0,+0.3,-1));
+    GaitSupportPoligon walk01(kin::Pose(0,-0.3,-1),kin::Pose(0,+0.3,-1));
     walk01.SetStepParameters(0.01,0.01);
 
     //add steps
@@ -30,10 +30,10 @@ int main()
     walk01.SaveSpaceTrajectories(saveRF, saveLF);
 
     //get and print the trajectories
-    SpaceTrajectory righFootTraj, leftFootTraj;
+    tra::SpaceTrajectory righFootTraj, leftFootTraj;
     walk01.GetTrajectories(righFootTraj, leftFootTraj);
 
-    Pose waypoint;
+    kin::Pose waypoint;
     for(int i=0;i<righFootTraj.Size();i++)
     {
         righFootTraj.GetWaypoint(i,waypoint);

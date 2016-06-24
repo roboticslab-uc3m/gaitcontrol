@@ -21,7 +21,7 @@ bool GaitSupportPoligon::SaveSpaceTrajectories(ofstream &fileLeftFoot, ofstream 
 
 
 
-GaitSupportPoligon::GaitSupportPoligon(Pose initialRightFoot, Pose initialLeftFoot)
+GaitSupportPoligon::GaitSupportPoligon(kin::Pose initialRightFoot, kin::Pose initialLeftFoot)
 {
     trajRightFoot.AddTimedWaypoint(-1, initialRightFoot);
     trajLeftFoot.AddTimedWaypoint(-1, initialLeftFoot);
@@ -41,7 +41,7 @@ bool GaitSupportPoligon::SetStepParameters( double swingFootDistance, double swi
     return true;
 }
 
-bool GaitSupportPoligon::GetTrajectories(SpaceTrajectory& getRightFoot, SpaceTrajectory& getLeftFoot)
+bool GaitSupportPoligon::GetTrajectories(tra::SpaceTrajectory& getRightFoot, tra::SpaceTrajectory& getLeftFoot)
 {
 
     getRightFoot = trajRightFoot;
@@ -178,8 +178,8 @@ bool GaitSupportPoligon::HalfStepForwardRS()
 
     //double x,y,z; actualRightFoot.GetPosition(x,y,z);
     double dx,dy,dz;
-    Pose actualRightFoot, actualLeftFoot;
-    Pose desiredRightFoot,desiredLeftFoot;
+    kin::Pose actualRightFoot, actualLeftFoot;
+    kin::Pose desiredRightFoot,desiredLeftFoot;
 
     trajRightFoot.GetLastWaypoint(actualRightFoot);
     trajLeftFoot.GetLastWaypoint(actualLeftFoot);
@@ -241,8 +241,8 @@ bool GaitSupportPoligon::HalfStepForwardLS()
 
     //double x,y,z; actualRightFoot.GetPosition(x,y,z);
     double dx,dy,dz;
-    Pose actualRightFoot, actualLeftFoot;
-    Pose desiredRightFoot,desiredLeftFoot;
+    kin::Pose actualRightFoot, actualLeftFoot;
+    kin::Pose desiredRightFoot,desiredLeftFoot;
 
     trajRightFoot.GetLastWaypoint(actualRightFoot);
     trajLeftFoot.GetLastWaypoint(actualLeftFoot);

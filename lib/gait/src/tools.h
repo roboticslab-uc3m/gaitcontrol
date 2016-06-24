@@ -10,7 +10,7 @@
 namespace teo
 {
 
-namespace tra
+namespace kin
 {
 
 class Pose
@@ -78,7 +78,7 @@ public:
      * @param pose_angle
      * @return
      */
-    bool GetRotation(double &axis_i, double &axis_j, double &axis_k, double &pose_angle);
+    bool GetRotation(double axis_i, double axis_j, double axis_k, double pose_angle);
 
     /**
      * @brief SetRotation: Set a new pose rotation given an axis angle. Overwrites old rotation.
@@ -88,7 +88,7 @@ public:
      * @param pose_angle
      * @return
      */
-    bool SetRotation(double &axis_i, double &axis_j, double &axis_k, double &pose_angle);
+    bool SetRotation(double axis_i, double axis_j, double axis_k, double pose_angle);
 
 private:
     double x,y,z;
@@ -97,17 +97,63 @@ private:
 
 };
 
+class Link
+{
+public:
+    //Link();
+
+    /**
+     * @brief Link : Every link must have an initial pose
+     * @param initialPose
+     */
+    Link(Pose& initialPose);
+protected:
+    //The end side of link. Usually the position of the joint with the next link.
+    Pose actualPose;
+    /**
+     * @brief changePose : virtual function that describes how the link moves. Several standard links are
+     * defined in child classes (like LinkRotZ), but you can define your own just deriving from Link class
+     * @param dof: The degree of freedom that will change the pose. Angle for rotations, distance for prismatic.
+     * @return
+     */
+    virtual bool changePose(double dof) {return true;}
+};
+
+class LinkRotZ : public Link
+{
+    bool changePose(double dof);
+
+};
+
+class Robot
+{
+public:
+
+    bool addLink(const Link& newLink);
+    Pose getRobotBase() const;
+    void setRobotBase(const Pose &value);
+
+private:
+    Pose robotBase;
+    std::vector<kin::Link> links;
+};
+
+}//end namespace kin
+
+namespace tra
+{
+
 class SpaceTrajectory
 {
 public:
-    bool AddTimedWaypoint(double t, Pose waypoint);
-    bool AddWaypoint(Pose waypoint);
-    bool GetLastWaypoint(Pose & waypoint);
+    bool AddTimedWaypoint(double t, kin::Pose waypoint);
+    bool AddWaypoint(kin::Pose waypoint);
+    bool GetLastWaypoint(kin::Pose & waypoint);
     bool SaveToFile(std::ofstream &csvFile);
-    bool GetWaypoint(int index, Pose &getWaypoint);
+    bool GetWaypoint(int index, kin::Pose &getWaypoint);
     int Size();
 private:
-    std::vector<Pose> waypoints;
+    std::vector<kin::Pose> waypoints;
     std::vector<double> delta_t;
     /*
     std::map<double,Pose> waypoints;
@@ -119,6 +165,11 @@ private:
 
 
 }//end namespace tra
+
+
+
+
+
 
 
 }//end namespace teo

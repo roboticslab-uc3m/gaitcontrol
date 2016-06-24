@@ -1,6 +1,7 @@
 #include "tools.h"
 
 using namespace std;
+using namespace teo::kin;
 using namespace teo::tra;
 
 //Pose definitions
@@ -44,7 +45,7 @@ double Pose::GetZ()
     return z;
 }
 
-bool Pose::GetRotation(double &axis_i, double &axis_j, double &axis_k, double &pose_angle)
+bool Pose::GetRotation(double axis_i, double axis_j, double axis_k, double pose_angle)
 {
     axis_i=i;
     axis_j=j;
@@ -53,7 +54,7 @@ bool Pose::GetRotation(double &axis_i, double &axis_j, double &axis_k, double &p
     return true;
 }
 
-bool Pose::SetRotation(double &axis_i, double &axis_j, double &axis_k, double &pose_angle)
+bool Pose::SetRotation(double axis_i, double axis_j, double axis_k, double pose_angle)
 {
     i=axis_i;
     j=axis_j;
@@ -85,6 +86,24 @@ Pose Pose::TransformTo(Pose anotherPose)
     return transform;
 }
 */
+
+
+//link definitions
+
+
+
+bool LinkRotZ::changePose(double dof)
+{
+    actualPose.SetRotation(0,0,1,dof);
+
+}
+
+Link::Link(Pose &initialPose)
+{
+    actualPose = initialPose;
+
+}
+
 
 //SpaceTrajectory definitions
 
@@ -148,4 +167,23 @@ bool SpaceTrajectory::SaveToFile(std::ofstream &csvFile)
         csvFile << k << ",";
         csvFile << angle << std::endl;
     }
+}
+
+
+
+
+bool Robot::addLink(const Link& newLink)
+{
+    links.push_back(newLink);
+    return true;
+}
+
+Pose Robot::getRobotBase() const
+{
+    return robotBase;
+}
+
+void Robot::setRobotBase(const Pose &value)
+{
+    robotBase = value;
 }

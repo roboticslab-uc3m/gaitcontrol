@@ -2,7 +2,7 @@
 #include "tools.h"
 #include <stdio.h>
 
-using namespace teo::tra;
+using namespace teo;
 
 /**
  * @brief The GaitSupportPoligon class encapsulates cartesian foot trajectory generation for biped gaits.
@@ -27,7 +27,7 @@ public:
      * @param initialRightFoot = Initial right foot pose from com.
      * @param initialLeftFoot = Initial left foot pose from com.
      */
-    GaitSupportPoligon(Pose initialRightFoot, Pose initialLeftFoot);
+    GaitSupportPoligon(kin::Pose initialRightFoot, kin::Pose initialLeftFoot);
 
 
     /**
@@ -75,10 +75,10 @@ private:
     long stepTotalPhases; //total number of phases in a step
 
     //initial foot poses
-    Pose poseRf0,poseLf0;
+    kin::Pose poseRf0,poseLf0;
 
     //trajectories based on root
-    SpaceTrajectory trajRightFoot, trajLeftFoot;
+    tra::SpaceTrajectory trajRightFoot, trajLeftFoot;
 
     //private functions
     bool HalfStepForwardRS();
