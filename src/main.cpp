@@ -13,6 +13,10 @@ int main()
 {
 
 
+    //define robots
+    kin::Robot leftLeg;
+
+
     GaitSupportPoligon walk01(kin::Pose(0,-0.3,-1),kin::Pose(0,+0.3,-1));
     walk01.SetStepParameters(0.01,0.01);
 
