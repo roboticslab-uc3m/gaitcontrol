@@ -56,7 +56,7 @@ public:
      * @return
      */
     bool SetSwingParameters(double swingFootDistance, double swingFootElevation);
-    bool SetSupportParameters(double new_hipSideshift, double new_legWeight);
+    bool SetSupportParameters(double new_hipSideshift);
 
 
     bool GetTrajectories(tra::SpaceTrajectory& getRightFoot, tra::SpaceTrajectory& getLeftFoot);
@@ -73,7 +73,6 @@ private:
 
     //support foot parameters
     double hipSideshift; //meters. Lateral hip movement for one leg support.
-    double legWeight; //newtons. Weigth of one leg.
     double legHeight; //meters. Heigth of one leg.
 
     //step parameters

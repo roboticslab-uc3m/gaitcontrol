@@ -78,7 +78,7 @@ public:
      * @param pose_angle
      * @return
      */
-    bool GetRotation(double axis_i, double axis_j, double axis_k, double pose_angle);
+    bool GetRotation(double &axis_i, double &axis_j, double &axis_k, double &pose_angle);
 
     /**
      * @brief SetRotation: Set a new pose rotation given an axis angle. Overwrites old rotation.

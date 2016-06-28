@@ -21,7 +21,7 @@ int main()
 
     GaitSupportPoligon walk01(kin::Pose(0,-0.3,-1),kin::Pose(0,+0.3,-1));
     walk01.SetSwingParameters(0.01,0.01);
-    walk01.SetSupportParameters(0.2, 98.0); //revisar estos valores
+    walk01.SetSupportParameters(0.2); //revisar estos valores
 
     //add steps
     walk01.AddStepForward(2);
@@ -41,16 +41,19 @@ int main()
     walk01.GetTrajectories(righFootTraj, leftFootTraj);
 
     kin::Pose waypoint;
+    double rx,ry,rz,ang;
+
     for(int i=0;i<righFootTraj.Size();i++)
     {
         righFootTraj.GetWaypoint(i,waypoint);
-        std::cout << waypoint.GetX() << "," << waypoint.GetY() << "," << waypoint.GetZ() << "," << std::endl;
-    }
+        waypoint.GetRotation(rx,ry,rz,ang);
+        std::cout << waypoint.GetX() << "," << waypoint.GetY() << "," << waypoint.GetZ() << ","
+                  << rx << "," << ry << "," << rz << "," << ang << std::endl;
 
-    for(int i=0;i<leftFootTraj.Size();i++)
-    {
         leftFootTraj.GetWaypoint(i,waypoint);
-        std::cout << waypoint.GetX() << "," << waypoint.GetY() << "," << waypoint.GetZ() << "," << std::endl;
+        waypoint.GetRotation(rx,ry,rz,ang);
+        std::cout << waypoint.GetX() << "," << waypoint.GetY() << "," << waypoint.GetZ() << ","
+                  << rx << "," << ry << "," << rz << "," << ang << std::endl;
     }
 
     cout << "Finished!" << endl;

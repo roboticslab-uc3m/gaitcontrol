@@ -45,7 +45,7 @@ double Pose::GetZ()
     return z;
 }
 
-bool Pose::GetRotation(double axis_i, double axis_j, double axis_k, double pose_angle)
+bool Pose::GetRotation(double & axis_i, double & axis_j, double & axis_k, double & pose_angle)
 {
     axis_i=i;
     axis_j=j;
