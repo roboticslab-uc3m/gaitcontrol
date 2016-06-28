@@ -94,14 +94,30 @@ Pose Pose::TransformTo(Pose anotherPose)
 
 bool LinkRotZ::changePose(double dof)
 {
-    actualPose.SetRotation(0,0,1,dof);
+    end.SetRotation(0,0,1,dof);
 
 }
 
-Link::Link(Pose &initialPose)
+Link::Link()
 {
-    actualPose = initialPose;
+    end = Pose(0,0,0);
 
+}
+
+Link::Link(const Pose &initialPose)
+{
+    end = initialPose;
+
+}
+
+Pose Link::getCOG() const
+{
+    return COG;
+}
+
+void Link::setCOG(const Pose &value)
+{
+    COG = value;
 }
 
 

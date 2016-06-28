@@ -15,10 +15,13 @@ int main()
 
     //define robots
     kin::Robot leftLeg;
+    kin::Link base;
+
 
 
     GaitSupportPoligon walk01(kin::Pose(0,-0.3,-1),kin::Pose(0,+0.3,-1));
-    walk01.SetStepParameters(0.01,0.01);
+    walk01.SetSwingParameters(0.01,0.01);
+    walk01.SetSupportParameters(0.2, 98.0); //revisar estos valores
 
     //add steps
     walk01.AddStepForward(2);

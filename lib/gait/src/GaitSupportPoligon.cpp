@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <math.h>       /* atan, sqrt */
 
 using namespace std;
 
@@ -26,17 +27,27 @@ GaitSupportPoligon::GaitSupportPoligon(kin::Pose initialRightFoot, kin::Pose ini
     trajRightFoot.AddTimedWaypoint(-1, initialRightFoot);
     trajLeftFoot.AddTimedWaypoint(-1, initialLeftFoot);
 
-    swingDistance = 0.0;
-    swingElevation = 0.0;
+    SetSwingParameters(0, 0);
+    SetSupportParameters(0,0);
+    legHeight = initialLeftFoot.GetZ();
+
     startOnRightFootSupport = true;
 
 }
 
 
-bool GaitSupportPoligon::SetStepParameters( double swingFootDistance, double swingFootElevation )
+bool GaitSupportPoligon::SetSwingParameters( double swingFootDistance, double swingFootElevation )
 {
     swingDistance = swingFootDistance;
     swingElevation = swingFootElevation;
+
+    return true;
+}
+
+bool GaitSupportPoligon::SetSupportParameters(double new_hipSideshift, double new_legWeight)
+{
+    hipSideshift = new_hipSideshift;
+    legWeight = new_legWeight;
 
     return true;
 }
@@ -178,6 +189,8 @@ bool GaitSupportPoligon::HalfStepForwardRS()
 
     //double x,y,z; actualRightFoot.GetPosition(x,y,z);
     double dx,dy,dz;
+    double ankleAngle;
+
     kin::Pose actualRightFoot, actualLeftFoot;
     kin::Pose desiredRightFoot,desiredLeftFoot;
 
@@ -186,12 +199,12 @@ bool GaitSupportPoligon::HalfStepForwardRS()
 
 
     //strategy:
-    //-1-move root over right foot (right foot under root (0,0,z), z is actual foot elevation)
+    //-1-move root hipSideshift meters over right foot ( (0,-hipSideshift,z), z is actual foot elevation)
     //calculate right foot
 
-    //origin (x,y,z) destination (0,0,z)
+    //origin (x,y,z) destination (0,0-hipSideshift,z)
     dx=0-actualRightFoot.GetX();
-    dy=0-actualRightFoot.GetY();
+    dy=-hipSideshift;
     dz=0;
     desiredRightFoot=actualRightFoot;
     desiredRightFoot.ChangePosition(dx,dy,dz);
@@ -205,8 +218,13 @@ bool GaitSupportPoligon::HalfStepForwardRS()
 
 
     //-2-balance over right foot
-    //TODO
-
+    //get ankle angle that balances robot over right foot
+    ankleAngle = atan( hipSideshift*legWeight / sqrt(pow(legHeight,2)-pow(hipSideshift,2)) );
+    //check angle sign before apply!!
+    //apply angle
+    desiredRightFoot.SetRotation(1,0,0,ankleAngle);
+    trajRightFoot.AddWaypoint(desiredRightFoot);
+    trajLeftFoot.AddWaypoint(desiredLeftFoot);
 
     //-3-left foot forward
     //forward up
@@ -219,7 +237,13 @@ bool GaitSupportPoligon::HalfStepForwardRS()
     trajRightFoot.AddWaypoint(desiredRightFoot);
     trajLeftFoot.AddWaypoint(desiredLeftFoot);
 
-    //-4-move root over center again (undo former feet movement)
+    //-4-reset ankle position after landing
+    //remove angle
+    desiredRightFoot.SetRotation(1,0,0,0);
+    trajRightFoot.AddWaypoint(desiredRightFoot);
+    trajLeftFoot.AddWaypoint(desiredLeftFoot);
+
+    //-5-move root over center again (undo former feet movement)
     desiredRightFoot.ChangePosition(-dx,-dy,-dz);
     desiredLeftFoot.ChangePosition(-dx,-dy,-dz);
     //also, move root x axis half a swing positive (feet x axis half a swing negative)
@@ -241,6 +265,9 @@ bool GaitSupportPoligon::HalfStepForwardLS()
 
     //double x,y,z; actualRightFoot.GetPosition(x,y,z);
     double dx,dy,dz;
+    double ankleAngle;
+
+
     kin::Pose actualRightFoot, actualLeftFoot;
     kin::Pose desiredRightFoot,desiredLeftFoot;
 
@@ -249,7 +276,7 @@ bool GaitSupportPoligon::HalfStepForwardLS()
 
 
 
-    //-5-move root over left foot (left foot under root (0,0,z), z is actual foot elevation)
+    //-6-move root over left foot (left foot under root (0,0,z), z is actual foot elevation)
     trajRightFoot.GetLastWaypoint(actualRightFoot);
     trajLeftFoot.GetLastWaypoint(actualLeftFoot);
 
@@ -268,11 +295,17 @@ bool GaitSupportPoligon::HalfStepForwardLS()
     trajLeftFoot.AddWaypoint(desiredLeftFoot);
 
 
-    //-6-balance over left foot.
-    //TODO
+    //-7-balance over left foot.
+    //get ankle angle that balances robot over left foot
+    ankleAngle = atan( hipSideshift*legWeight / sqrt(pow(legHeight,2)-pow(hipSideshift,2)) );
+    //check angle sign before apply!!
+    //apply angle
+    desiredLeftFoot.SetRotation(1,0,0,-ankleAngle);
+    trajRightFoot.AddWaypoint(desiredRightFoot);
+    trajLeftFoot.AddWaypoint(desiredLeftFoot);
 
 
-    //-7-right foot forward
+    //-8-right foot forward
     //trajLeftFoot.GetCurrentPose(desiredLeftFoot);
     desiredRightFoot.ChangePosition(swingDistance/2, 0, swingElevation);
 
@@ -285,7 +318,13 @@ bool GaitSupportPoligon::HalfStepForwardLS()
     trajRightFoot.AddWaypoint(desiredRightFoot);
     trajLeftFoot.AddWaypoint(desiredLeftFoot);
 
-    //-8-move root over center again (undo former feet movement)
+    //-9-reset ankle position after landing
+    //remove angle
+    desiredLeftFoot.SetRotation(1,0,0,0);
+    trajRightFoot.AddWaypoint(desiredRightFoot);
+    trajLeftFoot.AddWaypoint(desiredLeftFoot);
+
+    //-10-move root over center again (undo former feet movement)
     desiredRightFoot.ChangePosition(-dx,-dy,-dz);
     desiredLeftFoot.ChangePosition(-dx,-dy,-dz);
     //also, move root x axis half a swing positive (or feet x axis half a swing negative)

@@ -100,16 +100,16 @@ private:
 class Link
 {
 public:
-    //Link();
+    Link();
+    Link(const Pose &initialPose);
+    Pose getCOG() const;
+    void setCOG(const Pose &value);
 
-    /**
-     * @brief Link : Every link must have an initial pose
-     * @param initialPose
-     */
-    Link(Pose& initialPose);
 protected:
     //The end side of link. Usually the position of the joint with the next link.
-    Pose actualPose;
+    Pose end;
+    //Link center of gravity.
+    Pose COG;
     /**
      * @brief changePose : virtual function that describes how the link moves. Several standard links are
      * defined in child classes (like LinkRotZ), but you can define your own just deriving from Link class

@@ -55,7 +55,9 @@ public:
      * @param swingFootElevation = The distance the floating foot will raise from ground on every step.
      * @return
      */
-    bool SetStepParameters(double swingFootDistance, double swingFootElevation);
+    bool SetSwingParameters(double swingFootDistance, double swingFootElevation);
+    bool SetSupportParameters(double new_hipSideshift, double new_legWeight);
+
 
     bool GetTrajectories(tra::SpaceTrajectory& getRightFoot, tra::SpaceTrajectory& getLeftFoot);
 
@@ -65,9 +67,14 @@ private:
     //parameters in meters, seconds
 
     //swing foot parameters
-    double swingElevation;
-    double swingDistance;
+    double swingElevation; //meters
+    double swingDistance; //meters
     bool startOnRightFootSupport;
+
+    //support foot parameters
+    double hipSideshift; //meters. Lateral hip movement for one leg support.
+    double legWeight; //newtons. Weigth of one leg.
+    double legHeight; //meters. Heigth of one leg.
 
     //step parameters
     double t;
