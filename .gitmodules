@@ -4,3 +4,6 @@
 [submodule "lib/teoMWI"]
 	path = lib/teoMWI
 	url = https://github.com/munozyanez/teoMWI.git
+[submodule "lib/gait"]
+	path = lib/gait
+	url = https://github.com/roboticslab-uc3m/gait.git
