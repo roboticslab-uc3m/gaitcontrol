@@ -14,9 +14,9 @@ int main()
 
 
     //define robots
-    kin::Robot leftLeg;
+/*    kin::Robot leftLeg;
     kin::Link base;
-
+*/
 
 
     GaitSupportPoligon walk01(kin::Pose(0,-0.3,-1),kin::Pose(0,+0.3,-1));
@@ -28,15 +28,15 @@ int main()
 
 
     //save the trayectories in files
-    ofstream saveRF, saveLF;
+/*    ofstream saveRF, saveLF;
     saveLF.open("rf.csv");
     saveRF.open("lf.csv");
     saveLF << std::setprecision(6) << std::fixed;
     saveRF << std::setprecision(6) << std::fixed;
     //here we go!
     walk01.SaveSpaceTrajectories(saveRF, saveLF);
-
-    //get and print the trajectories
+*/
+    //get and cout print the trajectories
     tra::SpaceTrajectory righFootTraj, leftFootTraj;
     walk01.GetTrajectories(righFootTraj, leftFootTraj);
 
