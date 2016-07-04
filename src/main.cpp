@@ -19,15 +19,19 @@ int main()
 */
 
 
+    //every gait operation start with instantiation and initialization of a Gait child class
     GaitSupportPoligon walk01(kin::Pose(0,-0.3,-1),kin::Pose(0,+0.3,-1));
     walk01.SetSwingParameters(0.01,0.01);
     walk01.SetSupportParameters(0.2); //revisar estos valores
 
-    //add steps
+    //Having the object we can:
+
+    //Add steps forward
+    //this will generate trajectory objects for both feet according to gait strategy
     walk01.AddStepForward(2);
 
 
-    //save the trayectories in files
+    //Uncomment to save the trayectories in files (in working directory)
 /*    ofstream saveRF, saveLF;
     saveLF.open("rf.csv");
     saveRF.open("lf.csv");
@@ -36,7 +40,7 @@ int main()
     //here we go!
     walk01.SaveSpaceTrajectories(saveRF, saveLF);
 */
-    //get and cout print the trajectories
+    //get and print the trajectories in cout
     tra::SpaceTrajectory righFootTraj, leftFootTraj;
     walk01.GetTrajectories(righFootTraj, leftFootTraj);
 
