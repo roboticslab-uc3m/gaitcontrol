@@ -41,15 +41,15 @@ int main()
     walk01.SaveSpaceTrajectories(saveRF, saveLF);
 */
     //get and print the trajectories in cout
-    tra::SpaceTrajectory righFootTraj, leftFootTraj;
-    walk01.GetTrajectories(righFootTraj, leftFootTraj);
+    tra::SpaceTrajectory rightFootTraj, leftFootTraj;
+    walk01.GetTrajectories(rightFootTraj, leftFootTraj);
 
     kin::Pose waypoint;
     double rx,ry,rz,ang;
 
-    for(int i=0;i<righFootTraj.Size();i++)
+    for(int i=0;i<rightFootTraj.Size();i++)
     {
-        righFootTraj.GetWaypoint(i,waypoint);
+        rightFootTraj.GetWaypoint(i,waypoint);
         waypoint.GetRotation(rx,ry,rz,ang);
         std::cout << waypoint.GetX() << "," << waypoint.GetY() << "," << waypoint.GetZ() << ","
                   << rx << "," << ry << "," << rz << "," << ang << std::endl;
@@ -59,6 +59,16 @@ int main()
         std::cout << waypoint.GetX() << "," << waypoint.GetY() << "," << waypoint.GetZ() << ","
                   << rx << "," << ry << "," << rz << "," << ang << std::endl;
     }
+
+    cout << "---------------------------------------------!" << endl;
+
+
+    kin::Pose sample;
+
+    rightFootTraj.GetSample(1.5,sample);
+    sample.GetRotation(rx,ry,rz,ang);
+    std::cout << sample.GetX() << "," << sample.GetY() << "," << sample.GetZ() << ","
+              << rx << "," << ry << "," << rz << "," << ang << std::endl;
 
     cout << "Finished!" << endl;
 
