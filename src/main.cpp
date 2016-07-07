@@ -22,7 +22,7 @@ int main()
     //every gait operation start with instantiation and initialization of a Gait child class
     GaitSupportPoligon walk01(kin::Pose(0,-0.3,-1),kin::Pose(0,+0.3,-1));
     walk01.SetSwingParameters(0.01,0.01); //(swing distance, swing height). revisar valores
-    walk01.SetSupportParameters(0.2); //(hip sideshift). revisar estos valores
+    walk01.SetSupportParameters(0.25); //(hip sideshift). revisar estos valores
 
     //The Gait objects can do the following tasks.
 
@@ -46,18 +46,19 @@ int main()
 
     kin::Pose waypoint;
     double rx,ry,rz,ang;
+    double wpt;
 
     for(int i=0;i<rightFootTraj.Size();i++)
     {
-        rightFootTraj.GetWaypoint(i,waypoint);
+        rightFootTraj.GetWaypoint(i,waypoint,wpt);
         waypoint.GetRotation(rx,ry,rz,ang);
-        std::cout << waypoint.GetX() << "," << waypoint.GetY() << "," << waypoint.GetZ() << ","
-                  << rx << "," << ry << "," << rz << "," << ang << std::endl;
+        std::cout << i << ":" << waypoint.GetX() << "," << waypoint.GetY() << "," << waypoint.GetZ() << ","
+                  << rx << "," << ry << "," << rz << "," << ang << ","<<  wpt << std::endl;
 
-        leftFootTraj.GetWaypoint(i,waypoint);
+        leftFootTraj.GetWaypoint(i,waypoint,wpt);
         waypoint.GetRotation(rx,ry,rz,ang);
-        std::cout << waypoint.GetX() << "," << waypoint.GetY() << "," << waypoint.GetZ() << ","
-                  << rx << "," << ry << "," << rz << "," << ang << std::endl;
+        std::cout << i << ":" << waypoint.GetX() << "," << waypoint.GetY() << "," << waypoint.GetZ() << ","
+                  << rx << "," << ry << "," << rz << "," << ang << ","<<  wpt << std::endl;
     }
 
     cout << "---------------------------------------------!" << endl;
