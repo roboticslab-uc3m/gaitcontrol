@@ -66,11 +66,13 @@ int main()
 
     kin::Pose sample;
 
-    rightFootTraj.GetSample(1,sample);
-    sample.GetRotation(rx,ry,rz,ang);
-    std::cout << sample.GetX() << "," << sample.GetY() << "," << sample.GetZ() << ","
-              << rx << "," << ry << "," << rz << "," << ang << std::endl;
-
+    for (double t=0.1;t<10;t+=0.1)
+    {
+        rightFootTraj.GetSample(t,sample);
+        sample.GetRotation(rx,ry,rz,ang);
+        std::cout << sample.GetX() << "," << sample.GetY() << "," << sample.GetZ() << ","
+                  << rx << "," << ry << "," << rz << "," << ang << std::endl;
+    }
     cout << "Finished!" << endl;
 
     return 0;
