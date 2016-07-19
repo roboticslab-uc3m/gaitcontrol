@@ -16,17 +16,25 @@ aux_source_directory(./src SRC_LIST)
 
 #libraries
 #gait
-#find_package(gait REQUIRED)
-if(gait_FOUND)
-  set(GAIT_INCLUDE_DIR ${gait_INCLUDE_DIRS})
+#Change directory here if Gait instalation is not found
+set(GAIT_LOCATION /usr/local)
+message(STATUS "Looking for local Gait in: [${GAIT_LOCATION}].")
+# TODO:force to refresh find_library every run
+find_library(gait_LIBRARY NAMES gait libgait PATHS "${GAIT_LOCATION}/lib/gait/")
+if(${gait_LIBRARY} STREQUAL "gait_LIBRARY-NOTFOUND")
+    #Try to use the source code if not installed
+    message(STATUS "Gait not installed. Trying to compile gait from sources")
+    add_subdirectory(${PROJECT_SOURCE_DIR}/lib/gait)
+    set(GAIT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/lib/gait/src ${GAIT_INCLUDE_DIR})
+    set(gait_LIBRARY "gait")
 else()
-  message(STATUS "Gait not installed. Trying to compile gait from sources")
-  add_subdirectory(${PROJECT_SOURCE_DIR}/lib/gait)
-  set(GAIT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/lib/gait/src ${GAIT_INCLUDE_DIR})
-
-endif(gait_FOUND)
-
-  INCLUDE_DIRECTORIES(${GAIT_INCLUDE_DIR})
+    #Try to use the local lib if installed
+    message(STATUS "Gait library found. Using local files")
+    FIND_PATH(GAIT_INCLUDE_DIR Gait.h /usr/local/include/gait/)
+    message(STATUS "Local Gait files detected: [${gait_LIBRARY}].")
+    message(STATUS "Local include directories: [${GAIT_INCLUDE_DIR}].")
+endif()
+INCLUDE_DIRECTORIES(${GAIT_INCLUDE_DIR})
 
 #teo MiddleWareInterface
 message(STATUS "compiling teo MiddleWareInterface form sources")
@@ -43,7 +51,7 @@ INCLUDE_DIRECTORIES(${SensorIntegration_INCLUDE_DIR})
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 
 #link with libs
-target_link_libraries( ${PROJECT_NAME} gait teoMWI SensorIntegration)
+target_link_libraries( ${PROJECT_NAME} ${gait_LIBRARY} teoMWI SensorIntegration)
 #echo_all_cmake_variable_values()
 
 
