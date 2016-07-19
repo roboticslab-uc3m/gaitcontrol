@@ -16,14 +16,15 @@ aux_source_directory(./src SRC_LIST)
 
 #libraries
 #gait
+#find_package(gait REQUIRED)
 if(gait_FOUND)
   set(GAIT_INCLUDE_DIR ${gait_INCLUDE_DIRS})
 else()
-  message(STATUS "compiling gait from sources")
+  message(STATUS "Gait not installed. Trying to compile gait from sources")
   add_subdirectory(${PROJECT_SOURCE_DIR}/lib/gait)
   set(GAIT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/lib/gait/src ${GAIT_INCLUDE_DIR})
 
-endif()
+endif(gait_FOUND)
 
   INCLUDE_DIRECTORIES(${GAIT_INCLUDE_DIR})
 
