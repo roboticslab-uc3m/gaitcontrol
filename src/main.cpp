@@ -47,9 +47,10 @@ int main()
     walk01.GetTrajectories(rightFootTraj, leftFootTraj);
 
     kin::Pose waypoint;
+    double px,py,pz;
     double rx,ry,rz,ang;
     double wpt;
-
+/*
     cout << "--------------waypoints test-------------------------------!" << endl;
 
 
@@ -66,10 +67,8 @@ int main()
                   << rx << "," << ry << "," << rz << "," << ang << ","<<  wpt << std::endl;
     }
 
-
+*/
     cout << "--------------GetSample test-------------------------------!" << endl;
-
-
     kin::Pose sample;
 
     for (double t=0.1;t<10;t+=0.1)
@@ -80,22 +79,23 @@ int main()
                   << rx << "," << ry << "," << rz << "," << ang << std::endl;
     }
     cout << "Finished!" << endl;
-
+/*
 
     cout << "-----------------GetSampleVelocity test----------------------------!" << endl;
-
-
     kin::Pose sampleVel;
 
     for (double t=0.1;t<10;t+=0.1)
     {
         rightFootTraj.GetSampleVelocity(t,sampleVel);
+        sampleVel.GetPosition(px,py,pz);
         sampleVel.GetRotation(rx,ry,rz,ang);
-        std::cout << t << ": " << sampleVel.GetX() << "," << sampleVel.GetY() << "," << sampleVel.GetZ() << ","
+        std::cout << t << ": " << px << "," << py << "," << pz << ","
                   << rx << "," << ry << "," << rz << "," << ang << std::endl;
     }
     cout << "Finished!" << endl;
+*/
 
+    rightFootTraj.ShowData();
     return 0;
 }
 
