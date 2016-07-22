@@ -67,7 +67,6 @@ int main()
                   << rx << "," << ry << "," << rz << "," << ang << ","<<  wpt << std::endl;
     }
 
-*/
     cout << "--------------GetSample test-------------------------------!" << endl;
     kin::Pose sample;
 
@@ -79,8 +78,8 @@ int main()
                   << rx << "," << ry << "," << rz << "," << ang << std::endl;
     }
     cout << "Finished!" << endl;
-/*
 
+*/
     cout << "-----------------GetSampleVelocity test----------------------------!" << endl;
     kin::Pose sampleVel;
 
@@ -93,7 +92,7 @@ int main()
                   << rx << "," << ry << "," << rz << "," << ang << std::endl;
     }
     cout << "Finished!" << endl;
-*/
+
 
     rightFootTraj.ShowData();
     return 0;
