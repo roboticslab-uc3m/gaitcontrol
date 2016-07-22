@@ -50,7 +50,7 @@ int main()
     double px,py,pz;
     double rx,ry,rz,ang;
     double wpt;
-/*
+
     cout << "--------------waypoints test-------------------------------!" << endl;
 
 
@@ -59,12 +59,12 @@ int main()
         rightFootTraj.GetWaypoint(i,waypoint,wpt);
         waypoint.GetRotation(rx,ry,rz,ang);
         std::cout << i << ":" << waypoint.GetX() << "," << waypoint.GetY() << "," << waypoint.GetZ() << ","
-                  << rx << "," << ry << "," << rz << "," << ang << ","<<  wpt << std::endl;
+                  << rx << "," << ry << "," << rz << "," << ang << ". Time: "<<  wpt << std::endl;
 
         leftFootTraj.GetWaypoint(i,waypoint,wpt);
         waypoint.GetRotation(rx,ry,rz,ang);
         std::cout << i << ":" << waypoint.GetX() << "," << waypoint.GetY() << "," << waypoint.GetZ() << ","
-                  << rx << "," << ry << "," << rz << "," << ang << ","<<  wpt << std::endl;
+                  << rx << "," << ry << "," << rz << "," << ang << ". Time: "<<  wpt << std::endl;
     }
 
     cout << "--------------GetSample test-------------------------------!" << endl;
@@ -79,7 +79,7 @@ int main()
     }
     cout << "Finished!" << endl;
 
-*/
+
     cout << "-----------------GetSampleVelocity test----------------------------!" << endl;
     kin::Pose sampleVel;
 
@@ -94,7 +94,7 @@ int main()
     cout << "Finished!" << endl;
 
 
-    rightFootTraj.ShowData();
+
     return 0;
 }
 
