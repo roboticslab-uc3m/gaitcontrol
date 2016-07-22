@@ -23,7 +23,7 @@ int main()
 
     //every gait operation start with instantiation and initialization of a Gait child class
     GaitSupportPoligon walk01(kin::Pose(0,-0.3,-1),kin::Pose(0,+0.3,-1));
-    walk01.SetSwingParameters(0.01,0.01); //(swing distance, swing height). revisar valores
+    walk01.SetSwingParameters(0.05,0.05); //(swing distance, swing height). revisar valores
     walk01.SetSupportParameters(0.25); //(hip sideshift). revisar estos valores
 
     //The Gait objects can do the following tasks.
