@@ -50,6 +50,9 @@ int main()
     double rx,ry,rz,ang;
     double wpt;
 
+    cout << "--------------waypoints test-------------------------------!" << endl;
+
+
     for(int i=0;i<rightFootTraj.Size();i++)
     {
         rightFootTraj.GetWaypoint(i,waypoint,wpt);
@@ -63,7 +66,8 @@ int main()
                   << rx << "," << ry << "," << rz << "," << ang << ","<<  wpt << std::endl;
     }
 
-    cout << "---------------------------------------------!" << endl;
+
+    cout << "--------------GetSample test-------------------------------!" << endl;
 
 
     kin::Pose sample;
@@ -72,7 +76,22 @@ int main()
     {
         rightFootTraj.GetSample(t,sample);
         sample.GetRotation(rx,ry,rz,ang);
-        std::cout << sample.GetX() << "," << sample.GetY() << "," << sample.GetZ() << ","
+        std::cout << t << ": " << sample.GetX() << "," << sample.GetY() << "," << sample.GetZ() << ","
+                  << rx << "," << ry << "," << rz << "," << ang << std::endl;
+    }
+    cout << "Finished!" << endl;
+
+
+    cout << "-----------------GetSampleVelocity test----------------------------!" << endl;
+
+
+    kin::Pose sampleVel;
+
+    for (double t=0.1;t<10;t+=0.1)
+    {
+        rightFootTraj.GetSampleVelocity(t,sampleVel);
+        sampleVel.GetRotation(rx,ry,rz,ang);
+        std::cout << t << ": " << sampleVel.GetX() << "," << sampleVel.GetY() << "," << sampleVel.GetZ() << ","
                   << rx << "," << ry << "," << rz << "," << ang << std::endl;
     }
     cout << "Finished!" << endl;
