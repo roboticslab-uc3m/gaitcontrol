@@ -20,8 +20,15 @@ set(TEMPLATE_NAME_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 list(APPEND CMAKE_MODULE_PATH ${TEMPLATE_NAME_MODULE_PATH})
 
 #libraries
+set(SRC_LIB_DIR ${CMAKE_SOURCE_DIR}/lib)
 #gait
-FIND_PACKAGE(gait REQUIRED)
+FIND_PACKAGE(gait)
+if(GAIT_FOUND)
+    message(STATUS "Gait library found.")
+else()
+    #Use the source code if not installed
+    add_subdirectory(${PROJECT_SOURCE_DIR}/lib/gait)
+endif()
 INCLUDE_DIRECTORIES(${GAIT_INCLUDE_DIRS})
 
 #teo MiddleWareInterface
