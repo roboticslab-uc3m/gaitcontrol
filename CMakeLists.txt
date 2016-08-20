@@ -28,6 +28,8 @@ if(GAIT_FOUND)
 else()
     #Use the source code if not installed
     add_subdirectory(${PROJECT_SOURCE_DIR}/lib/gait)
+    set(GAIT_LIBRARIES ${GAIT_LIBRARY} )
+    set(GAIT_INCLUDE_DIRS ${GAIT_INCLUDE_DIR} )
 endif()
 INCLUDE_DIRECTORIES(${GAIT_INCLUDE_DIRS})
 
