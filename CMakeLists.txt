@@ -1,12 +1,3 @@
-##functions
-function(echo_all_cmake_variable_values)
-  message(STATUS "")
-  get_cmake_property(vs VARIABLES)
-  foreach(v ${vs})
-    message(STATUS "${v}='${${v}}'")
-  endforeach(v)
-  message(STATUS "")
-endfunction()
 
 ##cmake code start
 project(gaitcontrol)
@@ -49,6 +40,20 @@ add_executable(${PROJECT_NAME} ${SRC_LIST})
 
 #link with libs
 target_link_libraries( ${PROJECT_NAME} ${GAIT_LIBRARIES} teoMWI SensorIntegration)
+
+
+##functions
+function(echo_all_cmake_variable_values)
+  message(STATUS "")
+  get_cmake_property(vs VARIABLES)
+  foreach(v ${vs})
+    message(STATUS "${v}='${${v}}'")
+  endforeach(v)
+  message(STATUS "")
+endfunction()
+
+
+
 #echo_all_cmake_variable_values()
 
 
