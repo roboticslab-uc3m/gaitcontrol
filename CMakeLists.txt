@@ -39,7 +39,7 @@ INCLUDE_DIRECTORIES(${SensorIntegration_INCLUDE_DIR})
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 
 #link with libs
-target_link_libraries( ${PROJECT_NAME} ${GAIT_LIBRARIES} teoMWI SensorIntegration)
+target_link_libraries( ${PROJECT_NAME} gait teoMWI SensorIntegration)
 
 
 ##functions
