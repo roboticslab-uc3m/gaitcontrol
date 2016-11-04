@@ -4,7 +4,7 @@
 #  GAIT_INCLUDE_DIRS - The libgait include directories
 #  GAIT_LIBRARIES - The libraries needed to use libgait
 
-#Default agit location is /usr/local
+#Default gait location is /usr/local
 set(GAIT_LOCATION /usr/local)
 message(STATUS "Looking for local Gait in: [${GAIT_LOCATION}].")
 
