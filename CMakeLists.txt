@@ -2,7 +2,9 @@
 ##cmake code start
 project(gaitcontrol)
 cmake_minimum_required(VERSION 2.8)
-aux_source_directory(./src SRC_LIST)
+
+
+aux_source_directory(app SRC_LIST)
 
 
 # Pick up our cmake modules - they are all in the cmake subdirectory
@@ -37,10 +39,18 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/lib/sensor-integration)
 set(SensorIntegration_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/lib/sensor-integration ${SensorIntegration_INCLUDE_DIR})
 INCLUDE_DIRECTORIES(${SensorIntegration_INCLUDE_DIR})
 
-add_executable(${PROJECT_NAME} ${SRC_LIST})
+foreach( testsourcefile ${SRC_LIST} )
+    # I used a simple string replace, to cut off .cpp.
+    string( REPLACE ".cpp" "" testname ${testsourcefile} )
+    string( REPLACE "app/" "" testname ${testsourcefile} )
+    add_executable( ${testname} ${testsourcefile} )
+    # Make sure YourLib is linked to each app
+    target_link_libraries( ${testname} gait teoMWI SensorIntegration )
+endforeach( testsourcefile ${APP_SOURCES} )
 
+#add_executable(${PROJECT_NAME} ${SRC_LIST})
 #link with libs
-target_link_libraries( ${PROJECT_NAME} gait teoMWI SensorIntegration)
+#target_link_libraries( ${PROJECT_NAME} gait teoMWI SensorIntegration)
 
 
 ##functions
@@ -55,6 +65,6 @@ endfunction()
 
 
 
-#echo_all_cmake_variable_values()
+echo_all_cmake_variable_values()
 
 
