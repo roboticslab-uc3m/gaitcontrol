@@ -13,7 +13,7 @@ int main()
 
     //Middleware
 
-    std::cout << "[Initial]";
+/*    std::cout << "[Initial]";
     //MWI::Port imuPort;
     //INITIALISE AND CHECK YARP
     yarp::os::Network yarpNet;
@@ -27,7 +27,7 @@ int main()
     {
         std::cout << "[success] YARP network found." << std::endl;
     }
-
+*/
     //Robot teo right arm
     std::stringstream robConfig;
     //YARP device
@@ -60,32 +60,19 @@ int main()
 
     for (int i=0; i<loops; i++)
     {
-        while ( edge==0 )
-        {
 
-            actualPos=rightArm.GetJoint(axis);
-            actualVel=direction*w*sqrt(A*A-actualPos*actualPos);
-            rightArm.SetJointVel(axis,actualVel);
-            if (direction*actualPos-A > acc)
-            {
-                edge=1;
-            }
-            yarp::os::Time::delay(waitYarp);
-            std::cout << T << ", v "
-                         << actualVel << ", p "
-                         << actualPos << ", edge "
-                         << edge << ","
-                         << std::endl;
+        actualPos=rightArm.GetJoint(axis);
+        actualVel=A*w*cos(asin(actualPos/A));
+        rightArm.SetJointVel(axis,actualVel);
 
-        }
+        yarp::os::Time::delay(waitYarp);
+        std::cout << T << ", v "
+                  << actualVel << ", p "
+                  << actualPos << ", edge "
+                  << edge << ","
+                  << std::endl;
 
-        edge=0;
-        direction=direction*-1;
-        std::cout << ", i "
-                     << i << ", dir "
-                     << direction << ","
-                     << "" << ","
-                     << std::endl;
+
     }
 
 
