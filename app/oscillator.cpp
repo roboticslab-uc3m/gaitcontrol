@@ -13,7 +13,7 @@ int main()
 
     //Middleware
 
-/*    std::cout << "[Initial]";
+    std::cout << "[Initial]";
     //MWI::Port imuPort;
     //INITIALISE AND CHECK YARP
     yarp::os::Network yarpNet;
@@ -27,7 +27,7 @@ int main()
     {
         std::cout << "[success] YARP network found." << std::endl;
     }
-*/
+
     //Robot teo right arm
     std::stringstream robConfig;
     //YARP device
@@ -63,19 +63,40 @@ int main()
 
         while (pow(actualPos,2)<pow(A,2))
         {
-            actualPos=rightArm.GetJoint(axis);
+            //important!! Set actualVel before get actualPos, so position will be less than Amplitude
             actualVel=direction*A*w*cos(asin(actualPos/A));
+
+            actualPos=rightArm.GetJoint(axis);
             rightArm.SetJointVel(axis,actualVel);
 
             yarp::os::Time::delay(waitYarp);
             std::cout << T << ", v "
                       << actualVel << ", p "
-                      << actualPos << ", edge "
-                      << edge << ","
+                      << actualPos << ", direction "
+                      << direction << ","
                       << std::endl;
         }
+        rightArm.SetJointVel(axis,-actualVel);
 
+        std::cout << " Edge------------------------------- ";
+
+        while (pow(actualPos,2)>=pow(A,2))
+        {
+            //actualVel=(-actualPos/A)*actualVel;
+            actualPos=rightArm.GetJoint(axis);
+
+            yarp::os::Time::delay(waitYarp);
+            std::cout << T << ", v "
+                      << actualVel << ", p "
+                      << actualPos << ", direction "
+                      << direction << ","
+                      << std::endl;
+        }
         direction=direction*-1;
+
+        std::cout << " Direction------------------------------- ";
+
+
     }
 
 
