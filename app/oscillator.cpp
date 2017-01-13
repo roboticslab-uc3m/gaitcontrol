@@ -61,18 +61,21 @@ int main()
     for (int i=0; i<loops; i++)
     {
 
-        actualPos=rightArm.GetJoint(axis);
-        actualVel=A*w*cos(asin(actualPos/A));
-        rightArm.SetJointVel(axis,actualVel);
+        while (pow(actualPos,2)<pow(A,2))
+        {
+            actualPos=rightArm.GetJoint(axis);
+            actualVel=direction*A*w*cos(asin(actualPos/A));
+            rightArm.SetJointVel(axis,actualVel);
 
-        yarp::os::Time::delay(waitYarp);
-        std::cout << T << ", v "
-                  << actualVel << ", p "
-                  << actualPos << ", edge "
-                  << edge << ","
-                  << std::endl;
+            yarp::os::Time::delay(waitYarp);
+            std::cout << T << ", v "
+                      << actualVel << ", p "
+                      << actualPos << ", edge "
+                      << edge << ","
+                      << std::endl;
+        }
 
-
+        direction=direction*-1;
     }
 
 
