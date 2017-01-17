@@ -63,7 +63,7 @@ int main()
 
         while (pow(actualPos,2)<pow(A,2))
         {
-            //important!! Set actualVel before get actualPos, so position will be less than Amplitude
+            //important!! Set actualVel before get actualPos, so position can be less than Amplitude
             actualVel=direction*A*w*cos(asin(actualPos/A));
 
             actualPos=rightArm.GetJoint(axis);
