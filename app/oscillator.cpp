@@ -4,6 +4,7 @@
 
 #include "MiddlewareInterface.h"
 #include "SensorIntegration.h"
+#include "Oscillator.hpp"
 
 
 
@@ -33,7 +34,7 @@ int main()
     //YARP device
     robConfig << "device remote_controlboard" << " ";
     //To what will be connected
-    robConfig << "remote /teo/rightArm" << " ";
+    robConfig << "remote /teoSim/rightArm" << " ";
     //How will be called on YARP network
     robConfig << "local /local/rightArm/" << " ";
     MWI::Robot rightArm(robConfig);
@@ -46,7 +47,7 @@ int main()
     //Period in secods
     double T = 10;
     //Number of repetitions
-    int loops = 4;
+    int loops = 2;
     double w = 2*M_PI/T;
     double waitYarp = 0.01;
 
@@ -101,6 +102,53 @@ int main()
 
 
     rightArm.SetJointVel(axis,0);
+
+
+    Oscillator o1(T,+A,-A);
+
+    rightArm.SetJointPos(axis,0);
+    yarp::os::Time::delay(2);
+
+    for (int i=0; i<loops; i++)
+    {
+
+        while (pow(actualPos,2)<pow(A,2))
+        {
+            //important!! Set actualVel before get actualPos, so position can be less than Amplitude
+            actualVel=o1.GetVelocity(actualPos);
+
+            actualPos=rightArm.GetJoint(axis);
+            rightArm.SetJointVel(axis,actualVel);
+
+            yarp::os::Time::delay(waitYarp);
+            std::cout << T << ", v "
+                      << actualVel << ", p "
+                      << actualPos << ", direction "
+                      << direction << ","
+                      << std::endl;
+        }
+        rightArm.SetJointVel(axis,-actualVel);
+
+        std::cout << " Edge------------------------------- ";
+
+        while (pow(actualPos,2)>=pow(A,2))
+        {
+            //actualVel=(-actualPos/A)*actualVel;
+            actualPos=rightArm.GetJoint(axis);
+
+            yarp::os::Time::delay(waitYarp);
+            std::cout << T << ", v "
+                      << actualVel << ", p "
+                      << actualPos << ", direction "
+                      << direction << ","
+                      << std::endl;
+        }
+        direction=direction*-1;
+
+        std::cout << " Direction------------------------------- ";
+
+
+    }
 
 
     return 0;
