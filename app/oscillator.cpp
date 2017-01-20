@@ -58,7 +58,7 @@ int main()
 
     rightArm.SetJointPos(axis,0);
     yarp::os::Time::delay(2);
-
+/*
     for (int i=0; i<loops; i++)
     {
 
@@ -100,7 +100,7 @@ int main()
 
     }
 
-
+*/
     rightArm.SetJointVel(axis,0);
 
 
@@ -109,13 +109,15 @@ int main()
     rightArm.SetJointPos(axis,0);
     yarp::os::Time::delay(2);
 
+    double Ts=T/100;
+    double t=0;
     for (int i=0; i<loops; i++)
     {
 
-        while (pow(actualPos,2)<pow(A,2))
+        for (t=0; t<T; t=t+Ts)
         {
             //important!! Set actualVel before get actualPos, so position can be less than Amplitude
-            actualVel=o1.GetVelocity(actualPos);
+            actualVel=o1.GetVelocity(t);
 
             actualPos=rightArm.GetJoint(axis);
             rightArm.SetJointVel(axis,actualVel);
