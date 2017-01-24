@@ -47,7 +47,7 @@ int main()
     //Period in secods
     double T = 10;
     //Number of repetitions
-    int loops = 2;
+    int loops = 4;
     double w = 2*M_PI/T;
     double waitYarp = 0.01;
 
@@ -116,22 +116,21 @@ int main()
 
         for (t=0; t<T; t=t+Ts)
         {
-            //important!! Set actualVel before get actualPos, so position can be less than Amplitude
             actualVel=o1.GetVelocity(t);
 
             actualPos=rightArm.GetJoint(axis);
             rightArm.SetJointVel(axis,actualVel);
 
-            yarp::os::Time::delay(waitYarp);
-            std::cout << T << ", v "
+            yarp::os::Time::delay(t);
+            /*std::cout << T << ", v "
                       << actualVel << ", p "
                       << actualPos << ", direction "
                       << direction << ","
-                      << std::endl;
+                      << std::endl;*/
         }
-        rightArm.SetJointVel(axis,-actualVel);
+        //rightArm.SetJointVel(axis,-actualVel);
 
-        std::cout << " Edge------------------------------- ";
+     /*   std::cout << " Edge------------------------------- ";
 
         while (pow(actualPos,2)>=pow(A,2))
         {
@@ -147,7 +146,7 @@ int main()
         }
         direction=direction*-1;
 
-        std::cout << " Direction------------------------------- ";
+        std::cout << " Direction------------------------------- ";*/
 
 
     }
