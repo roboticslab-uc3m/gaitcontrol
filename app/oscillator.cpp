@@ -34,7 +34,7 @@ int main()
     //YARP device
     leftLegConfig << "device remote_controlboard" << " ";
     //To what will be connected
-    leftLegConfig << "remote /teoSim/leftLeg" << " ";
+    leftLegConfig << "remote /teo/leftLeg" << " ";
     //How will be called on YARP network
     leftLegConfig << "local /local/leftLeg/" << " ";
     MWI::Robot leftLeg(leftLegConfig);
@@ -45,7 +45,7 @@ int main()
     //YARP device
     rightLegConfig << "device remote_controlboard" << " ";
     //To what will be connected
-    rightLegConfig << "remote /teoSim/rightLeg" << " ";
+    rightLegConfig << "remote /teo/rightLeg" << " ";
     //How will be called on YARP network
     rightLegConfig << "local /local/rightLeg/" << " ";
     MWI::Robot rightLeg(rightLegConfig);
@@ -55,7 +55,7 @@ int main()
     int rKnee = 5;
     int lKnee = 5;
     //Amplitude in degrees
-    double A = 10;
+    double A = 1;
     //double acc = 0.1; //accurracy to reach amplitude
     //Period in secods
     double T = 10;
@@ -69,7 +69,8 @@ int main()
     int direction=+1; // +1 forward, -1 backward
     int edge=0; //when position is A, and vel = 0.
 
-    //rightArm.SetJointPos(rHip,0);
+    rightLeg.DefaultPosition();
+    leftLeg.DefaultPosition();
     yarp::os::Time::delay(2);
 
     rightLeg.SetJointVel(rHip,0);
@@ -84,7 +85,10 @@ int main()
     yarp::os::Time::delay(4);
 
     double Ts=T/100;
-    double t=0;
+
+    //hip shake
+    /*double t=0;
+
     for (int i=0; i<loops; i++)
     {
 
@@ -95,9 +99,9 @@ int main()
             actualPos=rightLeg.GetJoint(rHip);
             rightLeg.SetJointVel(rHip,actualVel);
 
-            leftLeg.SetJointVel(lHip,actualVel);
+            leftLeg.SetJointVel(lHip,-actualVel);
 
-            rightLeg.SetJointVel(rKnee,-actualVel);
+            rightLeg.SetJointVel(rKnee,actualVel);
 
             leftLeg.SetJointVel(lKnee,-actualVel);
 
@@ -107,10 +111,35 @@ int main()
 
 
     }
-    rightLeg.SetJointVel(rHip,0);
-    leftLeg.SetJointVel(lHip,0);
-    rightLeg.SetJointVel(rKnee,0);
-    leftLeg.SetJointVel(lKnee,0);
+    */
+    //squat
+    double t=0;
+
+    for (int i=0; i<loops; i++)
+    {
+
+        for (t=0; t<T; t=t+Ts)
+        {
+            actualVel=o1.GetVelocity(t);
+
+            actualPos=rightLeg.GetJoint(rHip);
+            rightLeg.SetJointVel(2,actualVel);
+            rightLeg.SetJointVel(3,actualVel);
+            rightLeg.SetJointVel(4,actualVel);
+
+
+            leftLeg.SetJointVel(2,actualVel);
+            leftLeg.SetJointVel(3,actualVel);
+            leftLeg.SetJointVel(4,actualVel);
+
+
+            yarp::os::Time::delay(Ts);
+            //std::cout << t << ", v " << actualVel << ", p " << actualPos << std::endl;
+        }
+
+
+    }
+
 
 
 
@@ -179,6 +208,10 @@ int main()
 
     std::cout << " Direction------------------------------- ";*/
 
+
+
+    rightLeg.Stop();
+    leftLeg.Stop();
 
     return 0;
 
