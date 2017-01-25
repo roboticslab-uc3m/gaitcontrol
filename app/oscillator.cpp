@@ -29,21 +29,34 @@ int main()
         std::cout << "[success] YARP network found." << std::endl;
     }
 
-    //Robot teo right arm
-    std::stringstream robConfig;
+    //Robot teo left Leg
+    std::stringstream leftLegConfig;
     //YARP device
-    robConfig << "device remote_controlboard" << " ";
+    leftLegConfig << "device remote_controlboard" << " ";
     //To what will be connected
-    robConfig << "remote /teoSim/rightArm" << " ";
+    leftLegConfig << "remote /teoSim/leftLeg" << " ";
     //How will be called on YARP network
-    robConfig << "local /local/rightArm/" << " ";
-    MWI::Robot rightArm(robConfig);
+    leftLegConfig << "local /local/leftLeg/" << " ";
+    MWI::Robot leftLeg(leftLegConfig);
 
 
-     int axis = 0;
+    //Robot teo right leg
+    std::stringstream rightLegConfig;
+    //YARP device
+    rightLegConfig << "device remote_controlboard" << " ";
+    //To what will be connected
+    rightLegConfig << "remote /teoSim/rightLeg" << " ";
+    //How will be called on YARP network
+    rightLegConfig << "local /local/rightLeg/" << " ";
+    MWI::Robot rightLeg(rightLegConfig);
+
+    int rHip = 1;
+    int lHip = 1;
+    int rKnee = 5;
+    int lKnee = 5;
     //Amplitude in degrees
     double A = 10;
-    double acc = 0.1; //accurracy to reach amplitude
+    //double acc = 0.1; //accurracy to reach amplitude
     //Period in secods
     double T = 10;
     //Number of repetitions
@@ -56,57 +69,18 @@ int main()
     int direction=+1; // +1 forward, -1 backward
     int edge=0; //when position is A, and vel = 0.
 
-    rightArm.SetJointPos(axis,0);
+    //rightArm.SetJointPos(rHip,0);
     yarp::os::Time::delay(2);
-/*
-    for (int i=0; i<loops; i++)
-    {
 
-        while (pow(actualPos,2)<pow(A,2))
-        {
-            //important!! Set actualVel before get actualPos, so position can be less than Amplitude
-            actualVel=direction*A*w*cos(asin(actualPos/A));
-
-            actualPos=rightArm.GetJoint(axis);
-            rightArm.SetJointVel(axis,actualVel);
-
-            yarp::os::Time::delay(waitYarp);
-            std::cout << T << ", v "
-                      << actualVel << ", p "
-                      << actualPos << ", direction "
-                      << direction << ","
-                      << std::endl;
-        }
-        rightArm.SetJointVel(axis,-actualVel);
-
-        std::cout << " Edge------------------------------- ";
-
-        while (pow(actualPos,2)>=pow(A,2))
-        {
-            //actualVel=(-actualPos/A)*actualVel;
-            actualPos=rightArm.GetJoint(axis);
-
-            yarp::os::Time::delay(waitYarp);
-            std::cout << T << ", v "
-                      << actualVel << ", p "
-                      << actualPos << ", direction "
-                      << direction << ","
-                      << std::endl;
-        }
-        direction=direction*-1;
-
-        std::cout << " Direction------------------------------- ";
+    rightLeg.SetJointVel(rHip,0);
+    leftLeg.SetJointVel(lHip,0);
+    rightLeg.SetJointVel(rKnee,0);
+    leftLeg.SetJointVel(lKnee,0);
 
 
-    }
+    Oscillator o1(T/2,T/2,A,-A);
 
-*/
-    rightArm.SetJointVel(axis,0);
-
-
-    Oscillator o1(T,+A,-A);
-
-    rightArm.SetJointPos(axis,0);
+    rightLeg.SetJointPos(rHip,0);
     yarp::os::Time::delay(4);
 
     double Ts=T/100;
@@ -118,37 +92,96 @@ int main()
         {
             actualVel=o1.GetVelocity(t);
 
-            actualPos=rightArm.GetJoint(axis);
-            rightArm.SetJointVel(axis,actualVel);
+            actualPos=rightLeg.GetJoint(rHip);
+            rightLeg.SetJointVel(rHip,actualVel);
+
+            leftLeg.SetJointVel(lHip,actualVel);
+
+            rightLeg.SetJointVel(rKnee,-actualVel);
+
+            leftLeg.SetJointVel(lKnee,-actualVel);
 
             yarp::os::Time::delay(Ts);
             //std::cout << t << ", v " << actualVel << ", p " << actualPos << std::endl;
         }
-        //rightArm.SetJointVel(axis,-actualVel);
-
-     /*   std::cout << " Edge------------------------------- ";
-
-        while (pow(actualPos,2)>=pow(A,2))
-        {
-            //actualVel=(-actualPos/A)*actualVel;
-            actualPos=rightArm.GetJoint(axis);
-
-            yarp::os::Time::delay(waitYarp);
-            std::cout << T << ", v "
-                      << actualVel << ", p "
-                      << actualPos << ", direction "
-                      << direction << ","
-                      << std::endl;
-        }
-        direction=direction*-1;
-
-        std::cout << " Direction------------------------------- ";*/
 
 
     }
-    rightArm.SetJointVel(axis,0);
+    rightLeg.SetJointVel(rHip,0);
+    leftLeg.SetJointVel(lHip,0);
+    rightLeg.SetJointVel(rKnee,0);
+    leftLeg.SetJointVel(lKnee,0);
+
+
+
+    /*
+        for (int i=0; i<loops; i++)
+        {
+
+            while (pow(actualPos,2)<pow(A,2))
+            {
+                //important!! Set actualVel before get actualPos, so position can be less than Amplitude
+                actualVel=direction*A*w*cos(asin(actualPos/A));
+
+                actualPos=rightArm.GetJoint(axis);
+                rightArm.SetJointVel(axis,actualVel);
+
+                yarp::os::Time::delay(waitYarp);
+                std::cout << T << ", v "
+                          << actualVel << ", p "
+                          << actualPos << ", direction "
+                          << direction << ","
+                          << std::endl;
+            }
+            rightArm.SetJointVel(axis,-actualVel);
+
+            std::cout << " Edge------------------------------- ";
+
+            while (pow(actualPos,2)>=pow(A,2))
+            {
+                //actualVel=(-actualPos/A)*actualVel;
+                actualPos=rightArm.GetJoint(axis);
+
+                yarp::os::Time::delay(waitYarp);
+                std::cout << T << ", v "
+                          << actualVel << ", p "
+                          << actualPos << ", direction "
+                          << direction << ","
+                          << std::endl;
+            }
+            direction=direction*-1;
+
+            std::cout << " Direction------------------------------- ";
+
+
+        }
+
+    */
+
+    //rightArm.SetJointVel(axis,-actualVel);
+
+
+ /*   std::cout << " Edge------------------------------- ";
+
+    while (pow(actualPos,2)>=pow(A,2))
+    {
+        //actualVel=(-actualPos/A)*actualVel;
+        actualPos=rightArm.GetJoint(axis);
+
+        yarp::os::Time::delay(waitYarp);
+        std::cout << T << ", v "
+                  << actualVel << ", p "
+                  << actualPos << ", direction "
+                  << direction << ","
+                  << std::endl;
+    }
+    direction=direction*-1;
+
+    std::cout << " Direction------------------------------- ";*/
 
 
     return 0;
+
+
 }
 
