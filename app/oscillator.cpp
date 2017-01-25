@@ -47,7 +47,7 @@ int main()
     //Period in secods
     double T = 10;
     //Number of repetitions
-    int loops = 4;
+    int loops = 2;
     double w = 2*M_PI/T;
     double waitYarp = 0.01;
 
@@ -107,7 +107,7 @@ int main()
     Oscillator o1(T,+A,-A);
 
     rightArm.SetJointPos(axis,0);
-    yarp::os::Time::delay(2);
+    yarp::os::Time::delay(4);
 
     double Ts=T/100;
     double t=0;
@@ -121,12 +121,8 @@ int main()
             actualPos=rightArm.GetJoint(axis);
             rightArm.SetJointVel(axis,actualVel);
 
-            yarp::os::Time::delay(t);
-            /*std::cout << T << ", v "
-                      << actualVel << ", p "
-                      << actualPos << ", direction "
-                      << direction << ","
-                      << std::endl;*/
+            yarp::os::Time::delay(Ts);
+            //std::cout << t << ", v " << actualVel << ", p " << actualPos << std::endl;
         }
         //rightArm.SetJointVel(axis,-actualVel);
 
@@ -150,6 +146,7 @@ int main()
 
 
     }
+    rightArm.SetJointVel(axis,0);
 
 
     return 0;
