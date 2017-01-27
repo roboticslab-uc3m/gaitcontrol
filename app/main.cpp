@@ -21,10 +21,10 @@ int main()
 */
 
 
-    kin::Pose initialRightFoot(0,-0.3,-1);
+    kin::Pose initialRightFoot(0,-0.15,-0.85);
     initialRightFoot.ChangeRotation(0,1,0,-M_PI/2);
     initialRightFoot.ChangeRotation(1,0,0,M_PI);
-    kin::Pose initialLeftFoot(0,+0.3,-1);
+    kin::Pose initialLeftFoot(0,+0.15,-0.85);
     initialLeftFoot.ChangeRotation(0,1,0,-M_PI/2);
     //every gait operation start with instantiation and initialization of a Gait child class
     GaitSupportPoligon walk01(initialRightFoot,initialLeftFoot);

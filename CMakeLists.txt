@@ -16,7 +16,7 @@ list(APPEND CMAKE_MODULE_PATH ${TEMPLATE_NAME_MODULE_PATH})
 set(SRC_LIB_DIR ${CMAKE_SOURCE_DIR}/lib)
 #gait
 set(GAIT_PART_OF_PROJECT TRUE)
-FIND_PACKAGE(gait)
+FIND_PACKAGE(Gait)
 if(GAIT_FOUND)
     message(STATUS "Gait library found.")
 else()
@@ -45,7 +45,7 @@ foreach( testsourcefile ${SRC_LIST} )
     string( REPLACE "app/" "" testname ${testsourcefile} )
     add_executable( ${testname} ${testsourcefile} )
     # Make sure YourLib is linked to each app
-    target_link_libraries( ${testname} gait teoMWI SensorIntegration )
+    target_link_libraries( ${testname} Gait teoMWI SensorIntegration )
 endforeach( testsourcefile ${APP_SOURCES} )
 
 #add_executable(${PROJECT_NAME} ${SRC_LIST})
