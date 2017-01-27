@@ -21,7 +21,8 @@ int main()
 */
 
 
-    kin::Pose initialRightFoot(0,-0.15,-0.85);
+
+    kin::Pose initialRightFoot(0,-0.1285,-0.85);
     initialRightFoot.ChangeRotation(0,1,0,-M_PI/2);
     initialRightFoot.ChangeRotation(1,0,0,M_PI);
     kin::Pose initialLeftFoot(0,+0.15,-0.85);
