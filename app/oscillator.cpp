@@ -50,10 +50,10 @@ int main()
     rightLegConfig << "local /local/rightLeg/" << " ";
     MWI::Robot rightLeg(rightLegConfig);
 
-    int rHip = 1;
-    int lHip = 1;
-    int rKnee = 5;
-    int lKnee = 5;
+    int rHip = 2;//1
+    int lHip = 2;//1
+    int rKnee = 6;//5
+    int lKnee = 6;//5
     //Amplitude in degrees
     double A = 1;
     //double acc = 0.1; //accurracy to reach amplitude
@@ -69,9 +69,9 @@ int main()
     int direction=+1; // +1 forward, -1 backward
     int edge=0; //when position is A, and vel = 0.
 
-    rightLeg.DefaultPosition();
-    leftLeg.DefaultPosition();
-    yarp::os::Time::delay(2);
+    //rightLeg.DefaultPosition();
+    //leftLeg.DefaultPosition();
+    //yarp::os::Time::delay(2);
 
     rightLeg.SetJointVel(rHip,0);
     leftLeg.SetJointVel(lHip,0);
@@ -81,10 +81,10 @@ int main()
 
     Oscillator o1(T/2,T/2,A,-A);
 
-    rightLeg.SetJointPos(rHip,0);
-    yarp::os::Time::delay(4);
+    //rightLeg.SetJointPos(rHip,0);
+    //yarp::os::Time::delay(4);
 
-    double Ts=T/100;
+    double Ts=T/10;
 
     //hip shake
     /*double t=0;
@@ -124,12 +124,12 @@ int main()
 
             actualPos=rightLeg.GetJoint(rHip);
             rightLeg.SetJointVel(2,actualVel);
-            rightLeg.SetJointVel(3,actualVel);
+            rightLeg.SetJointVel(3,-actualVel);
             rightLeg.SetJointVel(4,actualVel);
 
 
             leftLeg.SetJointVel(2,actualVel);
-            leftLeg.SetJointVel(3,actualVel);
+            leftLeg.SetJointVel(3,-actualVel);
             leftLeg.SetJointVel(4,actualVel);
 
 
