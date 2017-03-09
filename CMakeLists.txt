@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 2.8)
 
 
 aux_source_directory(app SRC_LIST)
+aux_source_directory(test SRC_LIST)
 
 
 # Pick up our cmake modules - they are all in the cmake subdirectory
@@ -41,9 +42,11 @@ INCLUDE_DIRECTORIES(${SensorIntegration_INCLUDE_DIR})
 
 foreach( testsourcefile ${SRC_LIST} )
     # I used a simple string replace, to cut off .cpp.
-    string( REPLACE ".cpp" "" testname ${testsourcefile} )
-    string( REPLACE "app/" "" testname ${testsourcefile} )
+    string( REGEX REPLACE "[A-z]+[/]" "" testname ${testsourcefile} )
+    string( REPLACE ".cpp" "" testname ${testname} )
+
     add_executable( ${testname} ${testsourcefile} )
+    message ("Including executable: " ${testname})
     # Make sure YourLib is linked to each app
     target_link_libraries( ${testname} Gait teoMWI SensorIntegration )
 endforeach( testsourcefile ${APP_SOURCES} )
