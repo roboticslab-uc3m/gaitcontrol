@@ -58,7 +58,7 @@ int main()
     double px,py,pz;
     double rx,ry,rz,ang;
     double wpt;
-
+/*
     cout << "--------------waypoints test-------------------------------!" << endl;
 
 
@@ -86,7 +86,7 @@ int main()
                   << rx << "," << ry << "," << rz << "," << ang << std::endl;
     }
     cout << "Finished!" << endl;
-
+*/
 
     cout << "-----------------GetSampleVelocity test----------------------------!" << endl;
     kin::Pose sampleVel;
