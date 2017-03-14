@@ -6,6 +6,7 @@ cmake_minimum_required(VERSION 2.8)
 
 aux_source_directory(app SRC_LIST)
 aux_source_directory(test SRC_LIST)
+aux_source_directory(examples SRC_LIST)
 
 
 # Pick up our cmake modules - they are all in the cmake subdirectory

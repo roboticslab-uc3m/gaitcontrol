@@ -20,11 +20,11 @@ int main()
     pose1.GetRotation(rot);
     std::cout << "rotation (0,1,0,-M_PI/2) " << rot << std::endl;
     pose1.ChangeRotation(1,0,0,M_PI);
-    std::cout << "rotation:(1,0,0,M_PI) " << pose1.GetUx() << "," << pose1.GetUy() << "," << pose1.GetUz() << "," << pose1.GetAngle() << std::endl;
+    std::cout << "rotation:(1,0,0,M_PI) " << pose1.Ux() << "," << pose1.Uy() << "," << pose1.Uz() << "," << pose1.Angle() << std::endl;
     pose1.ChangeRotation(0,0,1,M_PI);
-    std::cout << "rotation:(0,0,1,M_PI) " << pose1.GetUx() << "," << pose1.GetUy() << "," << pose1.GetUz() << "," << pose1.GetAngle() << std::endl;
+    std::cout << "rotation:(0,0,1,M_PI) " << pose1.Ux() << "," << pose1.Uy() << "," << pose1.Uz() << "," << pose1.Angle() << std::endl;
     pose1.ChangeRotation(0,1,0,-M_PI/2);
-    std::cout << "final rotation:(0,1,0,-M_PI/2) " << pose1.GetUx() << "," << pose1.GetUy() << "," << pose1.GetUz() << "," << pose1.GetAngle() << std::endl;
+    std::cout << "final rotation:(0,1,0,-M_PI/2) " << pose1.Ux() << "," << pose1.Uy() << "," << pose1.Uz() << "," << pose1.Angle() << std::endl;
     std::cout << " " << std::endl;
 
     //several rotations in one axis
@@ -64,6 +64,13 @@ int main()
 //    pose3.GetRotation(rot);
 //    std::cout << "Relative rotation " << rot << std::endl;
 
+
+    kin::Rotation r1(1,0,0,M_PI/2);
+
+    double x1=0,y1=1,z1=0;
+    std::cout << "X1: " << x1 << "," << y1 << "," << z1 << std::endl;
+    r1.RotatePoint(x1,y1,z1);
+    std::cout << "X1: " << x1 << "," << y1 << "," << z1 << std::endl;
 
 
 
