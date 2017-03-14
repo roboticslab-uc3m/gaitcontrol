@@ -68,9 +68,9 @@ int main()
     kin::Rotation r1(1,0,0,M_PI/2);
 
     double x1=0,y1=1,z1=0;
-    std::cout << "X1: " << x1 << "," << y1 << "," << z1 << std::endl;
+    std::cout << "X1: " << x1 << ", " << y1 << ", " << z1 << std::endl;
     r1.RotatePoint(x1,y1,z1);
-    std::cout << "X1: " << x1 << "," << y1 << "," << z1 << std::endl;
+    std::cout << "X1: " << x1 << ", " << y1 << ", " << z1 << std::endl;
 
 
 
