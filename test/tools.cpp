@@ -27,9 +27,7 @@ int main()
     std::cout << "q2: " << q2.Qw() << "," << q2.Qi() << "," << q2.Qj() << "," << q2.Qk() << std::endl;
 
 
-    kin::Quaternion newP;
-
-    newP.FromProduct(q1,q2);
+    kin::Quaternion newP(q1,q2);
     std::cout << "q1*q2: " << newP.Qw() << "," << newP.Qi() << "," << newP.Qj() << "," << newP.Qk() << std::endl;
 
 
@@ -43,10 +41,10 @@ int main()
 
     //Rotation computed as p'=q0*p*q0^-1
     //double px=0,py=0,pz=1;
-    kin::Quaternion oldP(0,1,0,0);//,px,py,pz);
+    kin::Quaternion oldP(0,0,0,1);//,px,py,pz);
     q1.FromAxisAngle(0,1,0,M_PI/2);
-    newP.FromProduct(q1,oldP);
-    newP.FromProduct(newP,q1.Conjugate());
+    //newP(q1,oldP);
+    newP=q1*oldP*q1.Conjugate();
 
     std::cout << "oldP: " << oldP.Qw() << "," << oldP.Qi() << "," << oldP.Qj() << "," << oldP.Qk() << std::endl;
     std::cout << "q1: " << q1.Qw() << "," << q1.Qi() << "," << q1.Qj() << "," << q1.Qk() << std::endl;
