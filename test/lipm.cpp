@@ -20,7 +20,7 @@ int main()
     kin::Pose initialLeftFoot(0,+0.15,-0.85);
     initialLeftFoot.ChangeRotation(0,1,0,-M_PI/2);
     //every gait operation start with instantiation and initialization of a Gait child class
-    GaitLipm walk01(initialRightFoot,initialLeftFoot);
+    GaitLipm walk01(initialRightFoot,initialLeftFoot,80.);
     walk01.SetSwingParameters(0.05,0.05); //(swing distance, swing height). revisar valores
     walk01.SetHipParameters(0.25, 0.10); //(hip sideshift, hip lowering). revisar estos valores
 
