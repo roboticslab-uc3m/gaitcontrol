@@ -26,75 +26,19 @@ int main()
 
     //The Gait objects can do the following tasks.
 
-    //prepare for gait
-    walk01.BeforeStep();
-    //Add steps forward
-    //this will generate trajectory objects for both feet according to gait strategy
-    walk01.AddStepForward(1);
+
+    std::vector<double> x={0,0};
+    std::vector<double> y={0.3,0.29999999999};
+    std::vector<double> z={1,1};
+    std::cout << "initial x: " << x << std::endl;
+    std::cout << "initial y: " << y << std::endl;
+    std::cout << "initial z: " << z << std::endl;
 
 
-    //Uncomment to save the trayectories in files (in working directory)
-/*    ofstream saveRF, saveLF;
-    saveLF.open("rf.csv");
-    saveRF.open("lf.csv");
-    saveLF << std::setprecision(6) << std::fixed;
-    saveRF << std::setprecision(6) << std::fixed;
-    //here we go!
-    walk01.SaveSpaceTrajectories(saveRF, saveLF);
-*/
-    //get and print the trajectories in cout
-    tra::SpaceTrajectory rightFootTraj, leftFootTraj;
-    walk01.GetTrajectories(rightFootTraj, leftFootTraj);
-
-    kin::Pose waypoint;
-    double px,py,pz;
-    double rx,ry,rz,ang;
-    double wpt;
-
-    cout << "--------------waypoints test-------------------------------!" << endl;
+    walk01.LipZmpTrajectory(x,y,z,0.001);
 
 
-    for(int i=0;i<rightFootTraj.Size();i++)
-    {
-        rightFootTraj.GetWaypoint(i,waypoint,wpt);
-        waypoint.GetRotation(rx,ry,rz,ang);
-        std::cout << i << ":" << waypoint.GetX() << "," << waypoint.GetY() << "," << waypoint.GetZ() << ","
-                  << rx << "," << ry << "," << rz << "," << ang << ". Time: "<<  wpt << std::endl;
 
-        leftFootTraj.GetWaypoint(i,waypoint,wpt);
-        waypoint.GetRotation(rx,ry,rz,ang);
-        std::cout << i << ":" << waypoint.GetX() << "," << waypoint.GetY() << "," << waypoint.GetZ() << ","
-                  << rx << "," << ry << "," << rz << "," << ang << ". Time: "<<  wpt << std::endl;
-    }
-/*
-    cout << "--------------GetSample test-------------------------------!" << endl;
-    kin::Pose sample;
-
-    for (double t=0.1;t<10;t+=0.1)
-    {
-        rightFootTraj.GetSample(t,sample);
-        sample.GetRotation(rx,ry,rz,ang);
-        std::cout << t << ": " << sample.GetX() << "," << sample.GetY() << "," << sample.GetZ() << ","
-                  << rx << "," << ry << "," << rz << "," << ang << std::endl;
-    }
-    cout << "Finished!" << endl;
-
-
-    cout << "-----------------GetSampleVelocity test----------------------------!" << endl;
-    kin::Pose sampleVel;
-
-    for (double t=0.1;t<10;t+=0.1)
-    {
-        rightFootTraj.GetSampleVelocity(t,sampleVel);
-        sampleVel.GetPosition(px,py,pz);
-        sampleVel.GetRotation(rx,ry,rz,ang);
-        std::cout << t << ": " << px << "," << py << "," << pz << ","
-                  << rx << "," << ry << "," << rz << "," << ang << std::endl;
-    }
-    cout << "Finished!" << endl;
-
-
-*/
 
     return 0;
 }
