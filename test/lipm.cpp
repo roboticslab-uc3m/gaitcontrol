@@ -28,7 +28,7 @@ int main()
 
 
     std::vector<double> x={0,0};
-    std::vector<double> y={0.3,0.29999999999};
+    std::vector<double> y={0.3,0.2999};
     std::vector<double> z={1,1};
     std::cout << "initial x: " << x << std::endl;
     std::cout << "initial y: " << y << std::endl;
@@ -37,7 +37,10 @@ int main()
 
     walk01.LipZmpTrajectory(x,y,z,0.001);
 
+    std::vector<double> lipm1={0.15,0.1465};
 
+    walk01.LipmAngularResponse(lipm1,0.01,1);
+    std::cout << "lipm1: " << lipm1 << std::endl;
 
 
     return 0;

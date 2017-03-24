@@ -22,15 +22,15 @@ int main()
 
 
 
-    kin::Pose initialRightFoot(0,-0.1285,-0.85);
+    kin::Pose initialRightFoot(0,-0.1285,-0.845);
     initialRightFoot.ChangeRotation(0,1,0,-M_PI/2);
     initialRightFoot.ChangeRotation(1,0,0,M_PI);
-    kin::Pose initialLeftFoot(0,+0.15,-0.85);
+    kin::Pose initialLeftFoot(0,+0.1285,-0.845);
     initialLeftFoot.ChangeRotation(0,1,0,-M_PI/2);
     //every gait operation start with instantiation and initialization of a Gait child class
     GaitSupportPoligon walk01(initialRightFoot,initialLeftFoot);
     walk01.SetSwingParameters(0.05,0.05); //(swing distance, swing height). revisar valores
-    walk01.SetHipParameters(0.25, 0.10); //(hip sideshift, hip lowering). revisar estos valores
+    walk01.SetHipParameters(0.13, 0.10); //(hip sideshift, hip lowering). revisar estos valores
 
     //The Gait objects can do the following tasks.
 
