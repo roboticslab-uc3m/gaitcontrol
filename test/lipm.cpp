@@ -27,18 +27,29 @@ int main()
     //The Gait objects can do the following tasks.
 
 
+
+    //get the initial speed
+    double ySpeed = walk01.GetSwingYInitialSpeed(0.3,1);
+    std::cout << "ySpeed : " << ySpeed << std::endl;
+
+
     std::vector<double> x={0,0};
-    std::vector<double> y={0.3,0.2999};
+    std::vector<double> y={0.3,0.29};
     std::vector<double> z={1,1};
     std::cout << "initial x: " << x << std::endl;
     std::cout << "initial y: " << y << std::endl;
     std::cout << "initial z: " << z << std::endl;
 
 
-    walk01.LipZmpTrajectory(x,y,z,0.001);
 
+    //zmp based trajectory.
+    walk01.LipZmpTrajectory(x,y,z,0.01);
+
+
+    //Angular response of an inverted pendulum
+    //define the first two points in the trajectory
     std::vector<double> lipm1={0.15,0.1465};
-
+    //define the initial trajectory with the first two points,
     walk01.LipmAngularResponse(lipm1,0.01,1);
     std::cout << "lipm1: " << lipm1 << std::endl;
 
