@@ -26,25 +26,47 @@ int main()
 
     //The Gait objects can do the following tasks.
 
+    double Ts = 0.01;
 
 
     //get the initial speed
     double ySpeed = walk01.GetSwingYInitialSpeed(0.3,1);
     std::cout << "ySpeed : " << ySpeed << std::endl;
 
+    double y1=0.3;
+    double y2=0.299;//y1-ySpeed*Ts*0.8;
+
+
 
     std::vector<double> x={0,0};
-    std::vector<double> y={0.3,0.29};
+    std::vector<double> y={y1,y2};
     std::vector<double> z={1,1};
     std::cout << "initial x: " << x << std::endl;
     std::cout << "initial y: " << y << std::endl;
     std::cout << "initial z: " << z << std::endl;
 
+    //zmp based trajectory.
+    double time01 = walk01.LipZmpTrajectoryWithInit(x,y,z,Ts);
+    std::cout << "time01: " << time01 << std::endl;
 
+    physics::StateVariable sx(0,0,0);
+    physics::StateVariable sy(0.3,-0.8,0);
+    physics::StateVariable sz(1,1,1);
+    std::vector<double> xs(0);
+    std::vector<double> ys(0);
+    std::vector<double> zs(0);
 
     //zmp based trajectory.
-    walk01.LipZmpTrajectory(x,y,z,0.01);
+    walk01.LipmInitialState(sx,sy,sz);
+    time01 = walk01.LipZmpTrajectory(xs,ys,zs,Ts);
+    std::cout << "time01: " << time01 << std::endl;
 
+//    for (double y2test=y1-0.001;y2test>0.28;y2test-=0.001)
+//    {
+//        std::vector<double> y={y1,y2test};
+//        double time01 = walk01.LipZmpTrajectory(x,y,z,Ts);
+//        std::cout << "y1: " << y1<< " ,y2test: " << y2test<< ", time01: " << time01 << std::endl;
+//    }
 
     //Angular response of an inverted pendulum
     //define the first two points in the trajectory
