@@ -62,14 +62,19 @@ int main()
     //footcom.ChangePosition(0,0.35,1);
 
     kin::Pose initialRightFoot(0,-0.1285,-0.845);
-    initialRightFoot.ChangeRotation(0,1,0,-M_PI/2);
+    initialRightFoot.ChangeRotation(0,1,0,M_PI/2);
     initialRightFoot.ChangeRotation(1,0,0,M_PI);
+    initialRightFoot.GetRotation(rot);
+    std::cout << "initialRightFoot.GetRotation: " << rot << std::endl;
+    initialRightFoot.GetPosition(a,b,c);
+    std::cout << "initialRightFoot.GetPosition: " << a << "," << b << "," << c << std::endl;
 
     kin::Pose footcom(initialRightFoot,rootcom);
     footcom.GetRotation(rot);
     std::cout << "footcom.GetRotation: " << rot << std::endl;
     footcom.GetPosition(a,b,c);
     std::cout << "footcom.GetPosition: " << a << "," << b << "," << c << std::endl;
+
 
     kin::Pose footfinal(rootcom.Inverse(),footcom.Inverse());
     footfinal.GetRotation(rot);
@@ -78,17 +83,20 @@ int main()
     std::cout << "footfinal.GetPosition: " << a << "," << b << "," << c << std::endl;
     std::cout << " " << std::endl;
 
-    footcom.CircularMotion(0,0,1,0.15);
-    footcom.GetRotation(rot);
-    std::cout << "footcom.GetRotation: " << rot << std::endl;
-    footcom.GetPosition(a,b,c);
-    std::cout << "footcom.GetPosition: " << a << "," << b << "," << c << std::endl;
+//    std::cout << " After move : footcom.CircularMotion(0,0,1,0.15)" << std::endl;
+//    footcom.CircularMotion(0,0,1,0.15);
+//    footcom.GetRotation(rot);
+//    std::cout << "footcom.GetRotation: " << rot << std::endl;
+//    footcom.GetPosition(a,b,c);
+//    std::cout << "footcom.GetPosition: " << a << "," << b << "," << c << std::endl;
 
-    kin::Pose footfinal2(rootcom.Inverse(),footcom.Inverse());
-    footfinal2.GetRotation(rot);
-    std::cout << "footfinal2.GetRotation: " << rot << std::endl;
-    footfinal2.GetPosition(a,b,c);
-    std::cout << "footfinal2.GetPosition: " << a << "," << b << "," << c << std::endl;
+    footcom.ChangePosition(0,0.1,0);
+
+    footfinal = kin::Pose(rootcom.Inverse(),footcom.Inverse());
+    footfinal.GetRotation(rot);
+    std::cout << "footfinal.GetRotation: " << rot << std::endl;
+    footfinal.GetPosition(a,b,c);
+    std::cout << "footfinal.GetPosition: " << a << "," << b << "," << c << std::endl;
     std::cout << " " << std::endl;
 
 
