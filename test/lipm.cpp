@@ -21,7 +21,7 @@ int main()
     initialLeftFoot.ChangeRotation(0,1,0,-M_PI/2);
     //every gait operation start with instantiation and initialization of a Gait child class
     GaitLipm walk01(initialRightFoot,initialLeftFoot,80.);
-    walk01.SetSwingParameters(0.05,0.05); //(swing distance, swing height). revisar valores
+    walk01.SetKickParameters(0.05,0.05); //(swing distance, swing height). revisar valores
     walk01.SetHipParameters(0.25, 0.10); //(hip sideshift, hip lowering). revisar estos valores
 
     //The Gait objects can do the following tasks.
@@ -46,12 +46,12 @@ int main()
     std::cout << "initial z: " << z << std::endl;
 
     //zmp based trajectory.
-    double time01 = walk01.LipZmpTrajectoryWithInit(x,y,z,Ts);
+    double time01 = walk01.LipInitAndGetZmpTrajectory(x,y,z,Ts);
     std::cout << "time01: " << time01 << std::endl;
 
     physics::StateVariable sx(0,0,0);
     physics::StateVariable sy(0.3,-0.8,0);
-    physics::StateVariable sz(1,1,1);
+    physics::StateVariable sz(1,0,0);
     std::vector<double> xs(0);
     std::vector<double> ys(0);
     std::vector<double> zs(0);

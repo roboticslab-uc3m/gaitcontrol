@@ -29,7 +29,7 @@ int main()
     initialLeftFoot.ChangeRotation(0,1,0,-M_PI/2);
     //every gait operation start with instantiation and initialization of a Gait child class
     GaitSupportPoligon walk01(initialRightFoot,initialLeftFoot);
-    walk01.SetSwingParameters(0.05,0.05); //(swing distance, swing height). revisar valores
+    walk01.SetKickParameters(0.05,0.05); //(swing distance, swing height). revisar valores
     walk01.SetHipParameters(0.13, 0.10); //(hip sideshift, hip lowering). revisar estos valores
 
     //The Gait objects can do the following tasks.
