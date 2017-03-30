@@ -52,7 +52,12 @@ int main()
     lipmStep.AddStepForward(1);
 
 
+    tra::SpaceTrajectory rightFoot;
+    tra::SpaceTrajectory leftFoot;
+    lipmStep.GetTrajectories(rightFoot,leftFoot);
 
+    rightFoot.ShowData();
+    leftFoot.ShowData();
 
     footfinal = kin::Pose(rootcom.Inverse(),footcom.Inverse());
     footfinal.GetRotation(rot);
