@@ -7,3 +7,6 @@
 [submodule "lib/gait"]
 	path = lib/gait
 	url = https://github.com/roboticslab-uc3m/gait.git
+[submodule "lib/i-kinematics"]
+	path = lib/i-kinematics
+	url = https://github.com/munozyanez/i-kinematics.git
