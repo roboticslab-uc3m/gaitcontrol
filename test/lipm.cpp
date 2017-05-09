@@ -22,7 +22,7 @@ int main()
     //every gait operation start with instantiation and initialization of a Gait child class
     GaitLipm walk01(initialRightFoot,initialLeftFoot,80.);
     walk01.SetKickParameters(0.05,0.05); //(swing distance, swing height). revisar valores
-    walk01.SetHipParameters(0.25, 0.10); //(hip sideshift, hip lowering). revisar estos valores
+    walk01.SetHipParameters(0.25, 0.10, 0.15); //(hip sideshift, hip lowering). revisar estos valores
 
     //The Gait objects can do the following tasks.
 

@@ -16,6 +16,11 @@ list(APPEND CMAKE_MODULE_PATH ${TEMPLATE_NAME_MODULE_PATH})
 
 #libraries
 set(SRC_LIB_DIR ${CMAKE_SOURCE_DIR}/lib)
+
+#interface kinematics
+add_subdirectory(${SRC_LIB_DIR}/i-kinematics)
+
+
 #gait
 set(GAIT_PART_OF_PROJECT TRUE)
 FIND_PACKAGE(Gait)
