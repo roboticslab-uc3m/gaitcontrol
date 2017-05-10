@@ -54,8 +54,10 @@ foreach( testsourcefile ${SRC_LIST} )
     add_executable( ${testname} ${testsourcefile} )
     message ("Including executable: " ${testname})
     # Make sure YourLib is linked to each app
-    target_link_libraries( ${testname} Gait teoMWI SensorIntegration )
+    target_link_libraries( ${testname} Gait teoMWI SensorIntegration ${SUBDIR_LINK_NAMES} )
 endforeach( testsourcefile ${APP_SOURCES} )
+
+INCLUDE_DIRECTORIES(${SUBDIR_INCLUDE_DIRECTORIES})
 
 #add_executable(${PROJECT_NAME} ${SRC_LIST})
 #link with libs
