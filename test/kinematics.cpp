@@ -18,7 +18,7 @@ int main()
     }
     std::cout << std::endl;
 
-    teokin.LeftLegFwdKin(pose,q2);
+    teokin.LeftLegInvKin(pose,q2);
     for (long i = 0; i< q2.size(); i++)
     {
         std::cout << q2[i] << ",";
