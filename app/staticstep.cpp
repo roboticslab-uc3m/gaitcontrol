@@ -27,7 +27,7 @@ int main()
 
     tra::SpaceTrajectory traRightLeg, traLeftLeg;
 
-    step.SetHipParameters(0.08,0.02,0.1);
+    step.SetHipParameters(0.09,0.02,0.1);
     step.SetKickParameters(0.07,0.04);
     step.BeforeStep();
     step.AddStepForward(1);
@@ -40,13 +40,18 @@ int main()
     std::vector<double> angsRightLeg(6,0), angsLeftLeg(6,0);
     double dtLeftLeg, dtRightLeg;
 
-    double dt= 0.1;
+    double dt= 0.01;
+    double t;
     for (double t = 0.1; t < traRightLeg.GetTotalDuration(); t=dt+t)
+    //for (int i=0; i< traLeftLeg.Size(); i++)
     {
         traLeftLeg.GetSample(t,kinposeLeftLeg);
+        //traLeftLeg.GetWaypoint(i,kinposeLeftLeg,t);
+        //dt=t-dt;
         kinposeLeftLeg.GetPoseMatrix(poseLeftLeg);
 
         traRightLeg.GetSample(t, kinposeRightLeg);
+        //traRightLeg.GetWaypoint(i,kinposeRightLeg);
         kinposeRightLeg.GetPoseMatrix(poseRightLeg);
 
         teokin.LeftLegInvKin(poseLeftLeg, angsLeftLeg);
@@ -66,6 +71,7 @@ int main()
         std::cout << "rightLeg" << angsRightLeg << std::endl;
 
         yarp::os::Time::delay(dt);
+        //dt=t;
 
     }
 
