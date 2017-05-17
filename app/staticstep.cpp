@@ -46,16 +46,16 @@ int main()
 
     double dt= 0.1;
     double t;
-    //for (double t = 0.1; t < traRightLeg.GetTotalDuration(); t=dt+t)
-    for (int i=0; i< traLeftLeg.Size(); i++)
+    for (double t = 0.1; t < traRightLeg.GetTotalDuration(); t=dt+t)
+    //for (int i=0; i< traLeftLeg.Size(); i++)
     {
-        //traLeftLeg.GetSample(t,kinposeLeftLeg);
-        traLeftLeg.GetWaypoint(i,kinposeLeftLeg,t);
-        dt=t-dt;
+        traLeftLeg.GetSample(t,kinposeLeftLeg);
+        //traLeftLeg.GetWaypoint(i,kinposeLeftLeg,t);
+        //dt=t-dt;
         kinposeLeftLeg.GetPoseMatrix(poseLeftLeg);
 
-        //traRightLeg.GetSample(t, kinposeRightLeg);
-        traRightLeg.GetWaypoint(i,kinposeRightLeg);
+        traRightLeg.GetSample(t, kinposeRightLeg);
+        //traRightLeg.GetWaypoint(i,kinposeRightLeg);
         kinposeRightLeg.GetPoseMatrix(poseRightLeg);
 
         teokin.LeftLegInvKin(poseLeftLeg, angsLeftLeg);
@@ -69,6 +69,7 @@ int main()
         teoLeftLeg.SetJointPositions(angsLeftLeg);
         teoRightLeg.SetJointPositions(angsRightLeg);
 
+        //dt=t;
 
         std::cout << "new waypoint: " << t << " will take " << dt << " seconds " << std::endl;
         std::cout << "leftLeg" << angsLeftLeg << std::endl;
@@ -78,7 +79,7 @@ int main()
         double prec = 1;
         do
         {
-            yarp::os::Time::delay(0.5);
+            yarp::os::Time::delay(0.01);
             done=true;
             teoLeftLeg.GetJoints(qLeftLeg);
             teoRightLeg.GetJoints(qRightLeg);
@@ -94,7 +95,6 @@ int main()
         }
         while (done==false);
 
-        dt=t;
 
     }
 
