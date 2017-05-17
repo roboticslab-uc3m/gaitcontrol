@@ -7,7 +7,7 @@
 #include "GaitSupportPoligon.h"
 #include "tools.h"
 
-#define ROBOT "teo"
+#define ROBOT "teoSim"
 
 using namespace teo;
 
@@ -27,9 +27,10 @@ int main()
 
     tra::SpaceTrajectory traRightLeg, traLeftLeg;
 
-    step.SetDefaultSpeeds(0.02,0.01);
+
+    step.SetDefaultSpeeds(0.01,0.01);
     step.SetHipParameters(0.06,0.01,0.1);
-    step.SetKickParameters(0.07,0.04);
+    step.SetKickParameters(0.07,0.03);
     step.BeforeStep();
     step.AddStepForward(1);
     step.AfterStep();
@@ -39,20 +40,22 @@ int main()
     kin::Pose kinposeRightLeg, kinposeLeftLeg;
     std::vector<double> poseRightLeg(12,0), poseLeftLeg(12,0);
     std::vector<double> angsRightLeg(6,0), angsLeftLeg(6,0);
+    std::vector<double> qRightLeg(6,0), qLeftLeg(6,0);
+
     double dtLeftLeg, dtRightLeg;
 
     double dt= 0.1;
     double t;
-    for (double t = 0.1; t < traRightLeg.GetTotalDuration(); t=dt+t)
-    //for (int i=0; i< traLeftLeg.Size(); i++)
+    //for (double t = 0.1; t < traRightLeg.GetTotalDuration(); t=dt+t)
+    for (int i=0; i< traLeftLeg.Size(); i++)
     {
-        traLeftLeg.GetSample(t,kinposeLeftLeg);
-        //traLeftLeg.GetWaypoint(i,kinposeLeftLeg,t);
-        //dt=t-dt;
+        //traLeftLeg.GetSample(t,kinposeLeftLeg);
+        traLeftLeg.GetWaypoint(i,kinposeLeftLeg,t);
+        dt=t-dt;
         kinposeLeftLeg.GetPoseMatrix(poseLeftLeg);
 
-        traRightLeg.GetSample(t, kinposeRightLeg);
-        //traRightLeg.GetWaypoint(i,kinposeRightLeg);
+        //traRightLeg.GetSample(t, kinposeRightLeg);
+        traRightLeg.GetWaypoint(i,kinposeRightLeg);
         kinposeRightLeg.GetPoseMatrix(poseRightLeg);
 
         teokin.LeftLegInvKin(poseLeftLeg, angsLeftLeg);
@@ -71,8 +74,27 @@ int main()
         std::cout << "leftLeg" << angsLeftLeg << std::endl;
         std::cout << "rightLeg" << angsRightLeg << std::endl;
 
-        yarp::os::Time::delay(0.95*dt);
-        //dt=t;
+        bool done=false;
+        double prec = 1;
+        do
+        {
+            yarp::os::Time::delay(0.5);
+            done=true;
+            teoLeftLeg.GetJoints(qLeftLeg);
+            teoRightLeg.GetJoints(qRightLeg);
+            for (int i=0; i<qLeftLeg.size(); i++)
+            {
+                if ( (qLeftLeg[i]-angsLeftLeg[i] > prec) ||
+                     (qRightLeg[i]-angsRightLeg[i] > prec)
+                     )
+                {
+                    done=false;
+                }
+            }
+        }
+        while (done==false);
+
+        dt=t;
 
     }
 
