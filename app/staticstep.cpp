@@ -7,7 +7,7 @@
 #include "GaitSupportPoligon.h"
 #include "tools.h"
 
-#define ROBOT "teoSim"
+#define ROBOT "teo"
 
 using namespace teo;
 
@@ -28,7 +28,7 @@ int main()
     tra::SpaceTrajectory traRightLeg, traLeftLeg;
 
 
-    step.SetDefaultSpeeds(0.01,0.01);
+    step.SetDefaultSpeeds(0.03,0.03);
     step.SetHipParameters(0.06,0.01,0.1);
     step.SetKickParameters(0.07,0.03);
     step.BeforeStep();
@@ -70,9 +70,9 @@ int main()
         teoRightLeg.SetJointPositions(angsRightLeg);
 
 
-        std::cout << "new waypoint: " << t << " will take " << dt << " seconds " << std::endl;
-        std::cout << "leftLeg" << angsLeftLeg << std::endl;
-        std::cout << "rightLeg" << angsRightLeg << std::endl;
+//        std::cout << "new waypoint: " << t << " will take " << dt << " seconds " << std::endl;
+//        std::cout << "leftLeg" << angsLeftLeg << std::endl;
+//        std::cout << "rightLeg" << angsRightLeg << std::endl;
 
         yarp::os::Time::delay(dt);
 
