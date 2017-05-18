@@ -29,7 +29,7 @@ int main()
 
 
     step.SetDefaultSpeeds(0.03,0.03);
-    step.SetHipParameters(0.06,0.01,0.1);
+    step.SetHipParameters(0.07,0.015,0.1);
     step.SetKickParameters(0.07,0.03);
     step.BeforeStep();
     step.AddStepForward(1);
