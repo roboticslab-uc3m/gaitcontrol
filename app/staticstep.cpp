@@ -7,14 +7,17 @@
 #include "GaitSupportPoligon.h"
 #include "tools.h"
 
-#define ROBOT "teo"
+#define ROBOT "teoSim"
 
 using namespace teo;
 
 int main()
 {
 
-    MWI::Robot teoRightLeg(ROBOT,"rightLeg"), teoLeftLeg(ROBOT,"leftLeg");
+    MWI::Limb teoRightLeg(ROBOT,"rightLeg"), teoLeftLeg(ROBOT,"leftLeg");
+    teoRightLeg.SetControlMode(3);
+    teoLeftLeg.SetControlMode(3);
+
     IKinematics teokin;
 
     kin::Pose initialRightFoot(0,-0.1285,-0.845);

@@ -37,7 +37,7 @@ int main()
     leftLegConfig << "remote /teo/leftLeg" << " ";
     //How will be called on YARP network
     leftLegConfig << "local /local/leftLeg/" << " ";
-    MWI::Robot leftLeg(leftLegConfig);
+    MWI::Limb leftLeg(leftLegConfig);
 
 
     //Robot teo right leg
@@ -48,7 +48,7 @@ int main()
     rightLegConfig << "remote /teo/rightLeg" << " ";
     //How will be called on YARP network
     rightLegConfig << "local /local/rightLeg/" << " ";
-    MWI::Robot rightLeg(rightLegConfig);
+    MWI::Limb rightLeg(rightLegConfig);
 
     int rHip = 2;//1
     int lHip = 2;//1
