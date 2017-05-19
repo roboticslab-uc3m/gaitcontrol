@@ -7,7 +7,7 @@
 #include "GaitSupportPoligon.h"
 #include "tools.h"
 
-#define ROBOT "teoSim"
+#define ROBOT "teo"
 
 using namespace teo;
 
@@ -15,8 +15,8 @@ int main()
 {
 
     MWI::Limb teoRightLeg(ROBOT,"rightLeg"), teoLeftLeg(ROBOT,"leftLeg");
-    teoRightLeg.SetControlMode(3);
-    teoLeftLeg.SetControlMode(3);
+    teoRightLeg.SetControlMode(1);
+    teoLeftLeg.SetControlMode(1);
 
     IKinematics teokin;
 
@@ -32,7 +32,7 @@ int main()
 
 
     step.SetDefaultSpeeds(0.03,0.03);
-    step.SetHipParameters(0.07,0.015,0.1);
+    step.SetHipParameters(0.05,0.015,0.1);
     step.SetKickParameters(0.07,0.03);
     step.BeforeStep();
     step.AddStepForward(1);
