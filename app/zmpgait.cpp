@@ -7,7 +7,7 @@
 
 using namespace std;
 
-using namespace teo;
+using namespace roboticslab;
 
 
 int main()
@@ -42,7 +42,7 @@ int main()
 
 
     //create a lipm object and compute trajectory
-    teo::GaitLipm lipmStep(initialRightFoot,initialLefttFoot,80.0);
+    roboticslab::GaitLipm lipmStep(initialRightFoot,initialLefttFoot,80.0);
     //set initial swing velocity for y
     double yvel = 0.5;
 

@@ -9,7 +9,7 @@
 
 #define ROBOT "teo"
 
-using namespace teo;
+using namespace roboticslab;
 
 int main()
 {
@@ -25,7 +25,7 @@ int main()
     kin::Pose initialLeftFoot(0,+0.1285,-0.845);
 
     //every gait operation start with instantiation and initialization of a Gait child class
-    teo::GaitSupportPoligon step(initialRightFoot,initialLeftFoot);
+    roboticslab::GaitSupportPoligon step(initialRightFoot,initialLeftFoot);
 
 
     tra::SpaceTrajectory traRightLeg, traLeftLeg;
