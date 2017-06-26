@@ -31,7 +31,7 @@ int main()
     tra::SpaceTrajectory traRightLeg, traLeftLeg;
 
 
-    step.SetDefaultSpeeds(0.03,0.03);
+    step.SetDefaultSpeeds(0.1,0.1);
     step.SetHipParameters(0.06,0.01,0.1);
     step.SetKickParameters(0.07,0.03);
     step.BeforeStep();
@@ -47,9 +47,9 @@ int main()
 
     double dtLeftLeg, dtRightLeg;
 
-    double dt= 0.05;
+    double dt= 0.01;
     double t;
-    for (double t = 0.05; t < traRightLeg.GetTotalDuration(); t=dt+t)
+    for (double t = 0.01; t < traRightLeg.GetTotalDuration(); t=dt+t)
     //for (int i=0; i< traLeftLeg.Size(); i++)
     {
         traLeftLeg.GetSample(t,kinposeLeftLeg);
@@ -79,27 +79,28 @@ int main()
 
         yarp::os::Time::delay(dt);
 
-        bool done=false;
-        double prec = 1;
-        for (int retries=0; retries <15; retries++)
-        {
-            yarp::os::Time::delay(dt/retries);
-            done=true;
-            teoLeftLeg.GetJoints(qLeftLeg);
-            teoRightLeg.GetJoints(qRightLeg);
-            for (int i=0; i<qLeftLeg.size(); i++)
-            {
-                if ( (qLeftLeg[i]-angsLeftLeg[i] > prec) ||
-                     (qRightLeg[i]-angsRightLeg[i] > prec)
-                     )
-                {
-                    done=false;
-                }
+//        bool done=false;
+//        double prec = 1;
+//        long maxRetries = 15;
+//        for (int retries=0; retries <maxRetries; retries++)
+//        {
+//            yarp::os::Time::delay(dt/maxRetries);
+//            done=true;
+//            teoLeftLeg.GetJoints(qLeftLeg);
+//            teoRightLeg.GetJoints(qRightLeg);
+//            for (int i=0; i<qLeftLeg.size(); i++)
+//            {
+//                if ( (qLeftLeg[i]-angsLeftLeg[i] > prec) ||
+//                     (qRightLeg[i]-angsRightLeg[i] > prec)
+//                     )
+//                {
+//                    done=false;
+//                }
 
-            }
+//            }
 
-            if (done) break;
-        }
+//            if (done) break;
+//        }
         //while (done==false);
 
         //dt=t;
