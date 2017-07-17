@@ -1,7 +1,7 @@
 
 ##cmake code start
 project(gaitcontrol)
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.11)
 
 
 aux_source_directory(app SRC_LIST)
@@ -22,17 +22,13 @@ add_subdirectory(${SRC_LIB_DIR}/i-kinematics)
 
 
 #gait
-set(GAIT_PART_OF_PROJECT TRUE)
-FIND_PACKAGE(Gait)
-if(GAIT_FOUND)
+FIND_PACKAGE(ROBOTICSLAB_GAIT QUIET)
+if(ROBOTICSLAB_GAIT_FOUND)
     message(STATUS "Gait library found.")
 else()
     #Use the source code if not installed
     add_subdirectory(${PROJECT_SOURCE_DIR}/lib/gait)
-    #set(GAIT_LIBRARIES ${GAIT_LIBRARY} )
-    #set(GAIT_INCLUDE_DIRS ${GAIT_INCLUDE_DIR} )
 endif()
-INCLUDE_DIRECTORIES(${GAIT_INCLUDE_DIRS})
 
 #teo MiddleWareInterface
 message(STATUS "compiling teo MiddleWareInterface form sources")
@@ -54,14 +50,14 @@ foreach( testsourcefile ${SRC_LIST} )
     add_executable( ${testname} ${testsourcefile} )
     message ("Including executable: " ${testname})
     # Make sure YourLib is linked to each app
-    target_link_libraries( ${testname} Gait teoMWI SensorIntegration ${SUBDIR_LINK_NAMES} )
+    target_link_libraries( ${testname} ROBOTICSLAB::Gait teoMWI SensorIntegration ${SUBDIR_LINK_NAMES} )
 endforeach( testsourcefile ${APP_SOURCES} )
 
 INCLUDE_DIRECTORIES(${SUBDIR_INCLUDE_DIRECTORIES})
 
 #add_executable(${PROJECT_NAME} ${SRC_LIST})
 #link with libs
-#target_link_libraries( ${PROJECT_NAME} gait teoMWI SensorIntegration)
+#target_link_libraries( ${PROJECT_NAME} ROBOTICSLAB::gait teoMWI SensorIntegration)
 
 
 ##functions
