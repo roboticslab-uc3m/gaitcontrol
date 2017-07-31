@@ -13,7 +13,7 @@ using namespace roboticslab;
 
 double accel=1/60;//rad/s^2
 std::vector<double> DqRightLeg(6,0), DqLeftLeg(6,0);
-long accelSmoother (const std::vector<double> & target_pos, std::vector<double> & reach_pos);
+long accelSmoother (const std::vector<double> & target_pos, std::vector<double> & reach_pos, double dt);
 
 
 int main()
@@ -69,7 +69,7 @@ int main()
         teokin.LeftLegInvKin(poseLeftLeg, angsLeftLeg);
         teokin.RightLegInvKin(poseRightLeg, angsRightLeg);
 
-        accelSmoother(angsLeftLeg, qLeftLeg);
+        accelSmoother(angsLeftLeg, qLeftLeg, dts);
 
         //to degrees
         std::transform(angsLeftLeg.begin(), angsLeftLeg.end(), angsLeftLeg.begin(),
@@ -122,11 +122,12 @@ int main()
 }
 
 
-long accelSmoother (const std::vector<double> & target_pos, std::vector<double> & reach_pos)
+long accelSmoother (const std::vector<double> & target_pos, std::vector<double> & reach_pos, double dt)
 {
 
     for (int i=0;i<reach_pos.size();i++)
     {
+
 
     }
 
