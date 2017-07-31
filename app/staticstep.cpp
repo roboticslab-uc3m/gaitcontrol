@@ -7,9 +7,14 @@
 #include "GaitSupportPoligon.h"
 #include "tools.h"
 
-#define ROBOT "teo"
+#define ROBOT "teoSim"
 
 using namespace roboticslab;
+
+double accel=1/60;//rad/s^2
+std::vector<double> DqRightLeg(6,0), DqLeftLeg(6,0);
+long accelSmoother (const std::vector<double> & target_pos, std::vector<double> & reach_pos);
+
 
 int main()
 {
@@ -47,9 +52,9 @@ int main()
 
     double dtLeftLeg, dtRightLeg;
 
-    double dt= 0.01;
+    double dts= 0.01;
     double t;
-    for (double t = 0.01; t < traRightLeg.GetTotalDuration(); t=dt+t)
+    for (double t = 0.01; t < traRightLeg.GetTotalDuration(); t=dts+t)
     //for (int i=0; i< traLeftLeg.Size(); i++)
     {
         traLeftLeg.GetSample(t,kinposeLeftLeg);
@@ -64,6 +69,9 @@ int main()
         teokin.LeftLegInvKin(poseLeftLeg, angsLeftLeg);
         teokin.RightLegInvKin(poseRightLeg, angsRightLeg);
 
+        accelSmoother(angsLeftLeg, qLeftLeg);
+
+        //to degrees
         std::transform(angsLeftLeg.begin(), angsLeftLeg.end(), angsLeftLeg.begin(),
                                      std::bind1st(std::multiplies<double>(), 180/M_PI));
         std::transform(angsRightLeg.begin(), angsRightLeg.end(), angsRightLeg.begin(),
@@ -77,7 +85,7 @@ int main()
 //        std::cout << "leftLeg" << angsLeftLeg << std::endl;
 //        std::cout << "rightLeg" << angsRightLeg << std::endl;
 
-        yarp::os::Time::delay(dt);
+        yarp::os::Time::delay(dts);
 
 //        bool done=false;
 //        double prec = 1;
@@ -108,6 +116,19 @@ int main()
     }
 
     return 0;
+
+
+
+}
+
+
+long accelSmoother (const std::vector<double> & target_pos, std::vector<double> & reach_pos)
+{
+
+    for (int i=0;i<reach_pos.size();i++)
+    {
+
+    }
 
 
 
