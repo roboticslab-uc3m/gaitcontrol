@@ -18,7 +18,6 @@ long accelSmoother (const std::vector<double> & target_pos, std::vector<double> 
 
 int main()
 {
-
     MWI::Limb teoRightLeg(ROBOT,"rightLeg"), teoLeftLeg(ROBOT,"leftLeg");
     teoRightLeg.SetControlMode(1);
     teoLeftLeg.SetControlMode(1);
