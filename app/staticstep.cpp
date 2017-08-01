@@ -89,7 +89,7 @@ int main()
         }
 
         vel=(pos-oldpos)/dts;
-        accelSmoother((pos-oldpos), (vel-oldvel), dts);
+        accelSmoother(pos, (vel-oldvel), dts);
 
 
         //to degrees
@@ -159,7 +159,11 @@ long accelSmoother (const valarray<double>& pos,const valarray<double>& dvel, co
         valarray<double> q(12,0);
         valarray<double> vels(12,0);
         vector<double> qRight(6,0),qLeft(6,0);
+        //how many times acc is bigger than max
         double times=(long)(acc/max_accel);
+        //will use times velocity slices
+        // but the ending position (sum of all qs) must be the same
+        //so vels are like vels*times*dts=dpos
         vels=dvel/(times*(times+1)/2);
         q=pos;
         for (long i=0; i<times; i++)
@@ -173,8 +177,11 @@ long accelSmoother (const valarray<double>& pos,const valarray<double>& dvel, co
             }
             teoRightLeg.SetJointPositions(qRight);
             teoLeftLeg.SetJointPositions(qLeft);
+            yarp::os::Time::delay(dts);
         }
     }
+    //at return, it will be dts*times later, and vels=dvel, but the calling function
+    //wont notice, so traj time will increase but can keep the plan.
 
 return 0;
 
