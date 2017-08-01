@@ -10,16 +10,17 @@
 #define ROBOT "teoSim"
 
 using namespace roboticslab;
+using namespace std;
 
 double max_accel=1/60;//rad/s^2
 std::vector<double> DqRightLeg(6,0), DqLeftLeg(6,0);
 std::vector<double> qRightLeg(6,0), qLeftLeg(6,0);
-long accelSmoother (const std::vector<double> & target, const double dt, std::vector<double> & reachVel);
+long accelSmoother (const valarray<double> &pos, const valarray<double> &dvels, const double dts);
+MWI::Limb teoRightLeg(ROBOT,"rightLeg"), teoLeftLeg(ROBOT,"leftLeg");
 
 
 int main()
 {
-    MWI::Limb teoRightLeg(ROBOT,"rightLeg"), teoLeftLeg(ROBOT,"leftLeg");
     teoRightLeg.SetControlMode(1);
     teoLeftLeg.SetControlMode(1);
 
@@ -50,6 +51,12 @@ int main()
     std::vector<double> angsRightLeg(6,0), angsLeftLeg(6,0);
     //std::vector<double> qRightLeg(6,0), qLeftLeg(6,0);
 
+    valarray<double> oldpos(12, 0);
+    valarray<double> dpos(12, 0);
+    valarray<double> pos(12, 0); //if the first position is all zeros!!
+    valarray<double> vel(12, 0); //if the first position has all zero vels!!
+    valarray<double> oldvel(12, 0);
+
     double dtLeftLeg, dtRightLeg;
 
     double dts= 0.01;
@@ -57,6 +64,11 @@ int main()
     for (double t = 0.01; t < traRightLeg.GetTotalDuration(); t=dts+t)
     //for (int i=0; i< traLeftLeg.Size(); i++)
     {
+
+        //store old values
+        oldpos=pos;
+        oldvel=vel;
+
         traLeftLeg.GetSample(t,kinposeLeftLeg);
         //traLeftLeg.GetWaypoint(i,kinposeLeftLeg,t);
         //dt=t-dt;
@@ -69,7 +81,16 @@ int main()
         teokin.LeftLegInvKin(poseLeftLeg, angsLeftLeg);
         teokin.RightLegInvKin(poseRightLeg, angsRightLeg);
 
-        //accelSmoother(angsLeftLeg, qLeftLeg, dts);
+        //compute pos
+        for (int i=0; i<pos.size()/2; i++)
+        {
+            pos[i]=angsRightLeg[i];
+            pos[i+6]=angsLeftLeg[i];
+        }
+
+        vel=(pos-oldpos)/dts;
+        accelSmoother((pos-oldpos), (vel-oldvel), dts);
+
 
         //to degrees
         std::transform(angsLeftLeg.begin(), angsLeftLeg.end(), angsLeftLeg.begin(),
@@ -122,21 +143,38 @@ int main()
 }
 
 
-long accelSmoother (const std::vector<double> & target, const double dt, std::vector<double> & reach)
+long accelSmoother (const valarray<double>& pos,const valarray<double>& dvel, const double dts)
 {
-    //reach = target;
+//    valarray<double> dpos(angs, oldangs);
+//    valarray<double> vels(angs, oldangs);
 
-//    double accel;
-//    for (int i=0;i<dpos.size();i++)
-//    {
-//        Dq = target[i]/dt;
+//    dvel=dpos/dts;
+//    valarray<double> dvel
+//            (vels, oldvels);
 
-//        if(accel>max_accel)
-//        {
 
-//        }
+    double acc=dvel.max()/dts;
+    if(acc>max_accel)
+    {
+        valarray<double> q(12,0);
+        valarray<double> vels(12,0);
+        vector<double> qRight(6,0),qLeft(6,0);
+        double times=(long)(acc/max_accel);
+        vels=dvel/(times*(times+1)/2);
+        q=pos;
+        for (long i=0; i<times; i++)
+        {
+            for (long j=0; j<q.size(); j++)
+            {
 
-//    }
+                q[j]=q[j]+i*vels[j]*dts;
+                qRight[j]=q[j];
+                qLeft[j]=q[j+6];
+            }
+            teoRightLeg.SetJointPositions(qRight);
+            teoLeftLeg.SetJointPositions(qLeft);
+        }
+    }
 
 return 0;
 
