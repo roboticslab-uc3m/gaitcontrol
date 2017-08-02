@@ -100,6 +100,7 @@ int main()
         peak_acc = max(acc.max(),-acc.min());
 
         st=accelSmoother(pos, (vel-oldvel), dts);
+        //t+=st;
         if (  st==0  )
         {
 
@@ -180,7 +181,7 @@ double accelSmoother (const valarray<double>& pos,const valarray<double>& dvel, 
         valarray<double> vels(0.0,12);
         vector<double> qRight(6,0),qLeft(6,0);
         //how many times acc is bigger than max
-        double n=(long)(acc/max_accel);
+        double n=(long)(acc/max_accel);//std::min((long)(acc/max_accel),(long)100);
         std::cout << "times: " << n << " acc " << acc << " max_accel " << max_accel << std::endl;
 
         //will use times velocity slices
@@ -190,15 +191,24 @@ double accelSmoother (const valarray<double>& pos,const valarray<double>& dvel, 
         q=pos;
         for (long i=0; i<n; i++)
         {
-            for (long j=0; j<q.size()/2; j++)
+            for (long j=0; j<q.size(); j++)
             {
 
                 q[j]=q[j]+vels[j]*dts*i;
-                qRight[j]=q[j];
-                qLeft[j]=q[j+6];
-                //std::cout << "j: " << j << " qRight " << qRight[j] << " qLeft " << qLeft[j] << std::endl;
+
+                std::cout << "j: " << j << " q[j] " << q[j] << " vels[j] " << vels[j] << std::endl;
 
             }
+            for (long j=0; j<qRight.size(); j++)
+            {
+
+                qRight[j]=q[j];
+                qLeft[j]=q[j+6];
+
+                std::cout << "j: " << j << " qRight " << qRight[j] << " qLeft " << qLeft[j] << std::endl;
+
+            }
+
 
             //to degrees
             std::transform(qLeft.begin(), qLeft.end(), qLeft.begin(),
@@ -217,7 +227,7 @@ double accelSmoother (const valarray<double>& pos,const valarray<double>& dvel, 
         //so positions will be the same at dts =
 
 
-        return dts*( (long)((n+1)/2) );
+        return dts*( ((n+1)/2) );
 
     }
     //at return, it will be dts*times later, and vels=dvel, but the calling function
