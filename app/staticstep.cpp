@@ -12,12 +12,12 @@
 using namespace roboticslab;
 using namespace std;
 
-double max_accel=(10.0/60.0);//rad/s^2
+double max_accel=(100.0/60.0);//rad/s^2
 std::vector<double> DqRightLeg(6,0), DqLeftLeg(6,0);
 std::vector<double> qRightLeg(6,0), qLeftLeg(6,0);
 double accelSmoother(const valarray<double> &pos, const valarray<double> &dvels, const double dts);
 MWI::Limb teoRightLeg(ROBOT,"rightLeg"), teoLeftLeg(ROBOT,"leftLeg");
-
+double peak_acc = 0;
 
 int main()
 {
@@ -55,6 +55,8 @@ int main()
     valarray<double> dpos(0.0, 12);
     valarray<double> pos(0.0, 12); //if the first position is all zeros!!
     valarray<double> vel(0.0, 12); //if the first position has all zero vels!!
+    valarray<double> acc(0.0, 12); //if the first position is all zeros!!
+
     valarray<double> oldvel(0.0, 12);
 
     double dtLeftLeg, dtRightLeg;
@@ -93,7 +95,18 @@ int main()
         std::cout << "pos.max(): " << pos.max() << " vel.max(): " << vel.max() << " oldvel.max(): " << oldvel.max() << std::endl;
 
         vel=(pos-oldpos)/dts;
-        t+=accelSmoother(pos, (vel-oldvel), dts);
+        acc=(vel-oldvel)/dts;
+
+        peak_acc = max(acc.max(),-acc.min());
+
+        if (  peak_acc>max_accel  )
+        {
+
+
+        }
+
+        accelSmoother(pos, (vel-oldvel), dts);
+
 
 
 
@@ -187,7 +200,7 @@ double accelSmoother (const valarray<double>& pos,const valarray<double>& dvel, 
             for (long j=0; j<q.size()/2; j++)
             {
 
-                q[j]=q[j]+i*vels[j]*dts;
+                q[j]=q[j]+vels[j]*dts;//*i;
                 qRight[j]=q[j];
                 qLeft[j]=q[j+6];
                 //std::cout << "j: " << j << " qRight " << qRight[j] << " qLeft " << qLeft[j] << std::endl;
@@ -201,7 +214,7 @@ double accelSmoother (const valarray<double>& pos,const valarray<double>& dvel, 
                                          std::bind1st(std::multiplies<double>(), 180/M_PI));
             teoRightLeg.SetJointPositions(qRight);
             teoLeftLeg.SetJointPositions(qLeft);
-            yarp::os::Time::delay(dts);
+            yarp::os::Time::delay(10*dts/times);
         }
         std::cout << "smooth: " << times << " by " << dts << " seconds " << std::endl;
 
@@ -211,7 +224,7 @@ double accelSmoother (const valarray<double>& pos,const valarray<double>& dvel, 
         //so positions will be the same at dts =
 
 
-        return dts*((int)(times+1)/2);
+        return 0.01;// dts*((int)(times+1)/2);
 
     }
     //at return, it will be dts*times later, and vels=dvel, but the calling function
