@@ -62,7 +62,7 @@ int main()
     double dtLeftLeg, dtRightLeg;
 
     double dts= 0.01;
-    double t;
+    double st;
     for (double t = 0.01; t < traRightLeg.GetTotalDuration(); t=dts+t)
     //for (int i=0; i< traLeftLeg.Size(); i++)
     {
@@ -99,16 +99,9 @@ int main()
 
         peak_acc = max(acc.max(),-acc.min());
 
-        if (  peak_acc>max_accel  )
+        st=accelSmoother(pos, (vel-oldvel), dts);
+        if (  st==0  )
         {
-
-
-        }
-
-        accelSmoother(pos, (vel-oldvel), dts);
-
-
-
 
 
         //to degrees
@@ -126,7 +119,7 @@ int main()
         std::cout << "rightLeg" << angsRightLeg << std::endl;
 
         yarp::os::Time::delay(dts);
-
+        }
 //        bool done=false;
 //        double prec = 1;
 //        long maxRetries = 15;
@@ -187,20 +180,20 @@ double accelSmoother (const valarray<double>& pos,const valarray<double>& dvel, 
         valarray<double> vels(0.0,12);
         vector<double> qRight(6,0),qLeft(6,0);
         //how many times acc is bigger than max
-        double times=(long)(acc/max_accel);
-        std::cout << "times: " << times << " acc " << acc << " max_accel " << max_accel << std::endl;
+        double n=(long)(acc/max_accel);
+        std::cout << "times: " << n << " acc " << acc << " max_accel " << max_accel << std::endl;
 
         //will use times velocity slices
         // but the ending position (sum of all qs) must be the same
         //so vels are like vels*times*dts=dpos
-        vels=dvel/times;//(times*(times+1)/2);
+        vels=dvel/n;//(times*(times+1)/2);
         q=pos;
-        for (long i=0; i<times; i++)
+        for (long i=0; i<n; i++)
         {
             for (long j=0; j<q.size()/2; j++)
             {
 
-                q[j]=q[j]+vels[j]*dts;//*i;
+                q[j]=q[j]+vels[j]*dts*i;
                 qRight[j]=q[j];
                 qLeft[j]=q[j+6];
                 //std::cout << "j: " << j << " qRight " << qRight[j] << " qLeft " << qLeft[j] << std::endl;
@@ -214,9 +207,9 @@ double accelSmoother (const valarray<double>& pos,const valarray<double>& dvel, 
                                          std::bind1st(std::multiplies<double>(), 180/M_PI));
             teoRightLeg.SetJointPositions(qRight);
             teoLeftLeg.SetJointPositions(qLeft);
-            yarp::os::Time::delay(10*dts/times);
+            yarp::os::Time::delay(dts);
         }
-        std::cout << "smooth: " << times << " by " << dts << " seconds " << std::endl;
+        std::cout << "smooth: " << n << " by " << dts << " seconds " << std::endl;
 
         //need to compute the positon difference for the main traj
         //while main traj should have moved dts*times*dvel (average dvel) in position,
@@ -224,12 +217,12 @@ double accelSmoother (const valarray<double>& pos,const valarray<double>& dvel, 
         //so positions will be the same at dts =
 
 
-        return 0.01;// dts*((int)(times+1)/2);
+        return dts*( (long)((n+1)/2) );
 
     }
     //at return, it will be dts*times later, and vels=dvel, but the calling function
     //wont notice, so traj time will increase but can keep the plan.
 
-return 0.0;
+return 0;
 
 }
