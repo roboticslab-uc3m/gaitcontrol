@@ -38,10 +38,11 @@ int main()
     tra::SpaceTrajectory traRightLeg, traLeftLeg;
 
 
-    step.SetDefaultSpeeds(0.04,0.03);
-    step.SetHipParameters(0.06,0.01,0.1);
-    step.SetKickParameters(0.07,0.03);
+    step.SetDefaultSpeeds(0.03,0.02);
+    step.SetHipParameters(0.065,0.01,0.1);
+    step.SetKickParameters(0.06,0.03);
     step.BeforeStep();
+
     step.AddStepForward(1);
     step.AfterStep();
     step.GetTrajectories(traRightLeg, traLeftLeg);

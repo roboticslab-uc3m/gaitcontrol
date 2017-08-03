@@ -7,12 +7,12 @@
 #include "GaitSupportPoligon.h"
 #include "tools.h"
 
-#define ROBOT "teoSim"
+#define ROBOT "teo"
 
 using namespace roboticslab;
 using namespace std;
 
-double max_accel=(100.0/60.0);//rad/s^2
+double max_accel=(60.0/60.0);//rad/s^2
 std::vector<double> DqRightLeg(6,0), DqLeftLeg(6,0);
 std::vector<double> qRightLeg(6,0), qLeftLeg(6,0);
 double accelSmoother(valarray<double> &pos, const valarray<double> &dvels, const double dts);
@@ -37,8 +37,8 @@ int main()
     tra::SpaceTrajectory traRightLeg, traLeftLeg;
 
 
-    step.SetDefaultSpeeds(0.04,0.04);
-    step.SetHipParameters(0.06,0.01,0.1);
+    step.SetDefaultSpeeds(0.03,0.02);
+    step.SetHipParameters(0.065,0.009,0.1);
     step.SetKickParameters(0.07,0.03);
     step.BeforeStep();
     step.AddStepForward(1);
@@ -106,7 +106,7 @@ int main()
         traj.push_back(pos);
 
         st=accelSmoother(pos, (vel-oldvel), dts);
-        //t+=st;
+        t+=st;
         if (  st==0  )
         {
 
@@ -165,7 +165,7 @@ double accelSmoother (valarray<double>& pos,const valarray<double>& dvel, const 
         valarray<double> vels(0.0,12);
         vector<double> qRight(6,0),qLeft(6,0);
         //how many times acc is bigger than max
-        double n=(long)(acc/max_accel);//std::min((long)(acc/max_accel),(long)100);
+        double n=min((long)(acc/max_accel),(long)20);//std::min((long)(acc/max_accel),(long)100);
         std::cout << "times: " << n << " acc " << acc << " max_accel " << max_accel << std::endl;
 
         //will use times velocity slices
@@ -178,7 +178,7 @@ double accelSmoother (valarray<double>& pos,const valarray<double>& dvel, const 
             for (long j=0; j<q.size(); j++)
             {
 
-                q[j]=q[j]+vels[j]*dts*i;
+                q[j]=q[j]+dvel[j]*dts*(i/n);
 
                 std::cout << "j: " << j << " q[j] " << q[j] << " vels[j] " << vels[j] << std::endl;
 
@@ -211,12 +211,12 @@ double accelSmoother (valarray<double>& pos,const valarray<double>& dvel, const 
         //so positions will be the same at dts =
 
 
-        return n;
+        return dts*(long)0.99*((n+1)/2);
 
     }
     //at return, it will be dts*times later, and vels=dvel, but the calling function
     //wont notice, so traj time will increase but can keep the plan.
 
-return 0;
+return 0.0;
 
 }
