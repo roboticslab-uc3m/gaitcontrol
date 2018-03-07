@@ -68,10 +68,7 @@ int main()
         yarp::os::Time::delay(3);
 
         //Now for a specific pose
-
-        cout << "LeftFoot New pos:" << kinposeLeftFoot.GetX();
-
-        kinposeLeftFoot.ChangePosition(0,0,0.0);
+        kinposeLeftFoot.ChangePosition(0,0,0.01);
         //set left leg pose (initial). Mind the origin (at teo hip)
         kinposeLeftFoot.GetPoseMatrix(poseLeftLeg);
         //get left ik
@@ -80,11 +77,12 @@ int main()
         std::transform(angsLeftLeg.begin(), angsLeftLeg.end(), angsLeftLeg.begin(),
                                      std::bind1st(std::multiplies<double>(), 180/M_PI));
         //Send angles to ipos
-        //teoLeftLeg.SetJointPositions(angsLeftLeg);
+        //angsLeftLeg=std::vector<double>{0, -1.78111e-13, -9.74135, 20.4678, -10.7265, -1.78111e-13};
+        teoLeftLeg.SetJointPositions(angsLeftLeg);
 
 
 
-        kinposeRightFoot.ChangePosition(0,0,0.0);
+        kinposeRightFoot.ChangePosition(0,0,0.01);
         //set right leg pose (initial). Mind the origin (at teo hip)
         kinposeRightFoot.GetPoseMatrix(poseRightLeg);
         //get right ik
@@ -93,7 +91,7 @@ int main()
         std::transform(angsRightLeg.begin(), angsRightLeg.end(), angsRightLeg.begin(),
                                      std::bind1st(std::multiplies<double>(), 180/M_PI));
         //Send angles to ipos
-        //teoRightLeg.SetJointPositions(angsRightLeg);
+        teoRightLeg.SetJointPositions(angsRightLeg);
 
         std::cout << "leftLeg" << angsLeftLeg << std::endl;
         std::cout << "rightLeg" << angsRightLeg << std::endl;
