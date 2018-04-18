@@ -21,8 +21,14 @@ double peak_acc = 0;
 
 int main()
 {
+
     teoRightLeg.SetControlMode(1);
     teoLeftLeg.SetControlMode(1);
+
+    teoRightLeg.SetJointPositions(qRightLeg);
+    teoLeftLeg.SetJointPositions(qLeftLeg);
+
+    yarp::os::Time::delay(4);
 
     IKinematics teokin;
 
@@ -41,6 +47,7 @@ int main()
     step.SetHipParameters(0.065,0.009,0.1);
     step.SetKickParameters(0.07,0.03);
     step.BeforeStep();
+
     step.AddStepForward(1);
     step.AfterStep();
     step.GetTrajectories(traRightLeg, traLeftLeg);
@@ -84,6 +91,9 @@ int main()
 
         teokin.LeftLegInvKin(poseLeftLeg, angsLeftLeg);
         teokin.RightLegInvKin(poseRightLeg, angsRightLeg);
+
+        angsRightLeg[1]= -1*angsRightLeg[1];
+        angsLeftLeg[5]= -1*angsLeftLeg[6];
 
         //store pos
         for (int i=0; i<6; i++)

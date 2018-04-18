@@ -38,7 +38,7 @@ int main()
     tra::SpaceTrajectory traRightLeg, traLeftLeg;
 
 
-    step.SetDefaultSpeeds(0.03,0.02);
+    step.SetDefaultSpeeds(0.06,0.04);
     step.SetHipParameters(0.065,0.01,0.1);
     step.SetKickParameters(0.06,0.03);
     step.BeforeStep();
@@ -55,6 +55,11 @@ int main()
 
 
     double dtLeftLeg, dtRightLeg;
+
+    // Opening file:
+
+    //std::ofstream exportData;
+    //exportData.open("exportData.csv");
 
     double dts= 0.01;
     for (double t = 0.01; t < traRightLeg.GetTotalDuration(); t=dts+t)
@@ -74,7 +79,8 @@ int main()
         teokin.LeftLegInvKin(poseLeftLeg, angsLeftLeg);
         teokin.RightLegInvKin(poseRightLeg, angsRightLeg);
 
-
+        //angsRightLeg[1]= -1*angsRightLeg[1];
+        //angsLeftLeg[5]= -1*angsLeftLeg[6];
 
         //to degrees
         std::transform(angsLeftLeg.begin(), angsLeftLeg.end(), angsLeftLeg.begin(),
@@ -90,10 +96,18 @@ int main()
         std::cout << "leftLeg" << angsLeftLeg << std::endl;
         std::cout << "rightLeg" << angsRightLeg << std::endl;
 
+        //if(exportData.is_open()){
+        //    exportData << t << " " <<angsLeftLeg << " " << angsRightLeg << std::endl;
+        //}
+        //else std::cout << "Unable to open file" << std::endl;
+
+
         yarp::os::Time::delay(dts);
 
+        //This section will export the data to a file in order to review the results.
 
     }
+    //exportData.close();
 
     return 0;
 
