@@ -79,8 +79,8 @@ int main()
         teokin.LeftLegInvKin(poseLeftLeg, angsLeftLeg);
         teokin.RightLegInvKin(poseRightLeg, angsRightLeg);
 
-        //angsRightLeg[1]= -1*angsRightLeg[1];
-        //angsLeftLeg[5]= -1*angsLeftLeg[6];
+        angsRightLeg[1]= -1*angsRightLeg[1];
+        angsLeftLeg[5]= -1*angsLeftLeg[6];
 
         //to degrees
         std::transform(angsLeftLeg.begin(), angsLeftLeg.end(), angsLeftLeg.begin(),
