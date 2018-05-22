@@ -52,6 +52,7 @@ int main()
     std::vector<double> poseRightLeg(12,0), poseLeftLeg(12,0);
     std::vector<double> angsRightLeg(6,0), angsLeftLeg(6,0);
     //std::vector<double> qRightLeg(6,0), qLeftLeg(6,0);
+    std:vector<double> currRightLeg(6,0), currLeftLeg(6,0);
 
 
     double dtLeftLeg, dtRightLeg;
@@ -74,7 +75,8 @@ int main()
         teokin.LeftLegInvKin(poseLeftLeg, angsLeftLeg);
         teokin.RightLegInvKin(poseRightLeg, angsRightLeg);
 
-
+        angsRightLeg[1]= -1*angsRightLeg[1];
+        angsLeftLeg[5]= -1*angsLeftLeg[6];
 
         //to degrees
         std::transform(angsLeftLeg.begin(), angsLeftLeg.end(), angsLeftLeg.begin(),
@@ -84,11 +86,22 @@ int main()
 
         teoLeftLeg.SetJointPositions(angsLeftLeg);
         teoRightLeg.SetJointPositions(angsRightLeg);
+        
+        //Get currents
+        for(int i=0; i<5; i++)
+        {
+            currRightLeg[i]=teoRightLeg.GetCurrent(i);
+            currLeftLeg[i]=teoLeftLeg.GetCurrent(i);
+        }
+        
 
-
+        
         std::cout << "new waypoint: " << t << " will take " << dts << " seconds " << std::endl;
         std::cout << "leftLeg" << angsLeftLeg << std::endl;
         std::cout << "rightLeg" << angsRightLeg << std::endl;
+
+        std::cout << "Currents (A) Right Leg:" << currRightLeg << std::cout;
+        std::cout << "Currents (A) Left Leg:" << currLeftLeg << std::cout;
 
         yarp::os::Time::delay(dts);
 
