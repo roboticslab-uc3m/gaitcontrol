@@ -79,6 +79,9 @@ int main()
         angsLeftLeg[5]= -1*angsLeftLeg[6];
 
         //to degrees
+
+
+
         std::transform(angsLeftLeg.begin(), angsLeftLeg.end(), angsLeftLeg.begin(),
                                      std::bind1st(std::multiplies<double>(), 180/M_PI));
         std::transform(angsRightLeg.begin(), angsRightLeg.end(), angsRightLeg.begin(),
@@ -93,15 +96,17 @@ int main()
             currRightLeg[i]=teoRightLeg.GetCurrent(i);
             currLeftLeg[i]=teoLeftLeg.GetCurrent(i);
         }
-        
+
 
         
         std::cout << "new waypoint: " << t << " will take " << dts << " seconds " << std::endl;
         std::cout << "leftLeg" << angsLeftLeg << std::endl;
         std::cout << "rightLeg" << angsRightLeg << std::endl;
 
-        std::cout << "Currents (A) Right Leg:" << currRightLeg << std::cout;
-        std::cout << "Currents (A) Left Leg:" << currLeftLeg << std::cout;
+
+        std::cout << "Currents (A) Right Leg:" << currRightLeg << std::endl;
+        std::cout << "Currents (A) Left Leg:" << currLeftLeg << std::endl;
+
 
         yarp::os::Time::delay(dts);
 
