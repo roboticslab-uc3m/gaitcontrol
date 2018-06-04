@@ -91,6 +91,7 @@ int main()
         teoRightLeg.SetJointPositions(angsRightLeg);
         
         //Get currents
+
         for(int i=0; i<5; i++)
         {
             currRightLeg[i]=teoRightLeg.GetCurrent(i);
