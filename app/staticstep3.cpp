@@ -8,7 +8,7 @@
 #include "GaitSupportPoligon.h"
 #include "tools.h"
 
-#define ROBOT "teo"
+#define ROBOT "teoSim"
 
 using namespace roboticslab;
 using namespace std;
@@ -39,7 +39,7 @@ int main()
     tra::SpaceTrajectory traRightLeg, traLeftLeg;
 
 
-    step.SetDefaultSpeeds(0.03,0.02);
+    step.SetDefaultSpeeds(0.03,0.02);//rad/s
     step.SetHipParameters(0.065,0.01,0.1);
     step.SetKickParameters(0.06,0.03);
     step.BeforeStep();
@@ -56,6 +56,7 @@ int main()
     std::vector<double> q2RightLeg(6,0), q2LeftLeg(6,0);//q-2 vector of angular values
     std::vector<double> v1RightLeg(6,0), v1LeftLeg(6,0);
     std::vector<double> v2RightLeg(6,0), v2LeftLeg(6,0);
+    std::vector<double> accRightLeg(6,0), accLeftLeg(6,0);
     //std:vector<double> currRightLeg(6,0), currLeftLeg(6,0);
 
 
@@ -96,7 +97,20 @@ int main()
 
         //1st step, calculate the angular velocities
         
-        
+        v2RightLeg = v1RightLeg;
+        v2LeftLeg = v1LeftLeg;
+
+        for(int i=0; i<6; i++)
+        {
+            v1RightLeg[i] = (q1RightLeg[i]-angsRightLeg[i])/dts;
+            v1LeftLeg[i] = ( q1LeftLeg[i]-angsLeftLeg[i] ) / dts;
+
+            accRightLeg[i] = ( v2RightLeg[i]-v1RightLeg[i]) / dts;
+            accLeftLeg[i] = ( v2LeftLeg[i] - v1LeftLeg[i]) / dts;
+        }
+
+        std::cout << "Angular acceleration of the right leg:" << accRightLeg << std::cout;
+        std::cout << "Angular acceleration of the left leg:" << accLeftLeg << std::cout;
         
 
         teoLeftLeg.SetJointPositions(angsLeftLeg);
