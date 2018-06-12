@@ -1,5 +1,3 @@
-
-
 #include <time.h>
 #include <chrono>
 
@@ -8,16 +6,18 @@
 #include "GaitSupportPoligon.h"
 #include "tools.h"
 
-#define ROBOT "teoSim"
+#define ROBOT "teo"
 
 using namespace roboticslab;
 using namespace std;
 
-double max_accel=(100.0/60.0);//rad/s^2
+double max_accel=(100.0/60.0);//rad/s²
 std::vector<double> DqRightLeg(6,0), DqLeftLeg(6,0);
 std::vector<double> qRightLeg(6,0), qLeftLeg(6,0);
 double accelSmoother(valarray<double> &pos, const valarray<double> &dvels, const double dts);
 double peak_acc = 0;
+double maxAcceleration=10; //deg/s²
+bool checkAcceleration(std::vector<double> accRight,std::vector<double> accLeft, double maxAcc);
 
 int main()
 {
@@ -62,6 +62,15 @@ int main()
 
     double dtLeftLeg, dtRightLeg;
 
+    std::ofstream exportData;
+    exportData.open("exportData.csv");
+    if(exportData.is_open())
+    {
+        exportData << "t,angsLeftLeg,angsRightLeg,accLeftLeg,accRightLeg" << std::endl;
+    }else{
+        std::cout << "Unable to open file" << std::endl;
+    }
+
     double dts= 0.01;
     for (double t = 0.01; t < traRightLeg.GetTotalDuration(); t=dts+t)
     //for (int i=0; i< traLeftLeg.Size(); i++)
@@ -97,21 +106,25 @@ int main()
 
         //1st step, calculate the angular velocities
         
-        v2RightLeg = v1RightLeg;
-        v2LeftLeg = v1LeftLeg;
+
+
 
         for(int i=0; i<6; i++)
         {
-            v1RightLeg[i] = (q1RightLeg[i]-angsRightLeg[i])/dts;
-            v1LeftLeg[i] = ( q1LeftLeg[i]-angsLeftLeg[i] ) / dts;
+            v1RightLeg[i] = (q1RightLeg[i]-angsRightLeg[i])/ dts;
+            v1LeftLeg[i] = (q1LeftLeg[i]-angsLeftLeg[i] ) / dts;
 
             accRightLeg[i] = ( v2RightLeg[i]-v1RightLeg[i]) / dts;
             accLeftLeg[i] = ( v2LeftLeg[i] - v1LeftLeg[i]) / dts;
         }
 
-        std::cout << "Angular acceleration of the right leg:" << accRightLeg << std::cout;
-        std::cout << "Angular acceleration of the left leg:" << accLeftLeg << std::cout;
+
+
+        std::cout << "Angular acceleration of the right leg:" << accRightLeg << std::endl;
+        std::cout << "Angular acceleration of the left leg:" << accLeftLeg << std::endl;
         
+        bool checkAcc= checkAcceleration(accRightLeg, accRightLeg, maxAcceleration);
+
 
         teoLeftLeg.SetJointPositions(angsLeftLeg);
         teoRightLeg.SetJointPositions(angsRightLeg);
@@ -124,14 +137,13 @@ int main()
             currLeftLeg[i]=teoLeftLeg.GetCurrent(i);
         }
         */
-
-        //for()
-
-
         q2RightLeg = q1RightLeg;
         q2LeftLeg = q1LeftLeg;
         q1RightLeg = angsRightLeg;
         q1LeftLeg = angsLeftLeg;
+
+        v2RightLeg = v1RightLeg;
+        v2LeftLeg = v1LeftLeg;
 
         std::cout << "new waypoint: " << t << " will take " << dts << " seconds " << std::endl;
         std::cout << "leftLeg" << angsLeftLeg << std::endl;
@@ -141,16 +153,43 @@ int main()
 //        std::cout << "Currents (A) Right Leg:" << currRightLeg << std::endl;
 //        std::cout << "Currents (A) Left Leg:" << currLeftLeg << std::endl;
 
+        if(exportData.is_open())
+        {
+            exportData << t << " " <<angsLeftLeg << " " << angsRightLeg << " " << accLeftLeg << " " << accRightLeg << std::endl;
+
+        }else{
+
+            std::cout << "Unable to open file" << std::endl;
+        }
+
 
         yarp::os::Time::delay(dts);
 
 
     }
 
+    exportData.close();
     return 0;
-
-
-
 }
 
+bool checkAcceleration(std::vector<double> accRight,std::vector<double> accLeft, double maxAcc)
+{
 
+    for(int i=0; i<6; i++)
+    {
+        if(accRight[i]>maxAcc)
+        {
+            std::cout << "Max acceleration reached in the joint: " << i << "of the Right Leg" << std::endl;
+            return true;
+        }
+    }
+    for(int i=0; i<6; i++)
+    {
+        if(accLeft[i]>maxAcc)
+        {
+            std::cout << "Max acceleration reached in the joint: " << i << "of the Left Leg" << std::endl;
+            return true;
+        }
+    }
+    return false;
+}
