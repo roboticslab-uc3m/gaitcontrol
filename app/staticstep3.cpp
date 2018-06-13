@@ -18,7 +18,8 @@ double accelSmoother(valarray<double> &pos, const valarray<double> &dvels, const
 double peak_acc = 0;
 double maxAcceleration=10; //deg/s²
 bool checkAcceleration(std::vector<double> accRight,std::vector<double> accLeft, double maxAcc);
-
+int checkLimitantVelocity(std::vector<double> velLeft, std::vector<double> velRight);
+int calculateSmothSteps(double topVelocity, double bottomVelocity, double maxACC);
 int main()
 {
     MWI::Limb teoRightLeg(ROBOT,"rightLeg"), teoLeftLeg(ROBOT,"leftLeg");
@@ -123,11 +124,54 @@ int main()
         std::cout << "Angular acceleration of the right leg:" << accRightLeg << std::endl;
         std::cout << "Angular acceleration of the left leg:" << accLeftLeg << std::endl;
         
-        bool checkAcc= checkAcceleration(accRightLeg, accRightLeg, maxAcceleration);
+        bool checkAcc = checkAcceleration(accRightLeg, accRightLeg, maxAcceleration);
+        std::vector<double> viRightLeg(6,0), viLeftLeg(6,0);
 
 
-        teoLeftLeg.SetJointPositions(angsLeftLeg);
-        teoRightLeg.SetJointPositions(angsRightLeg);
+
+        if(checkAcc == 1 )
+        {
+            //Acceleration too high, must smoth.
+            int objectiveVelocityJoint = checkLimitantVelocity(v1LeftLeg, v1RightLeg);
+            double objectiveVelocity, baseVelocity;
+            int nSteps=0;
+
+            if(objectiveVelocityJoint>=6)
+            {
+                objectiveVelocity = v1RightLeg[objectiveVelocityJoint-6];
+                baseVelocity = v2RightLeg[objectiveVelocityJoint-6];
+            }
+            else
+            {
+                objectiveVelocity = v1LeftLeg[objectiveVelocityJoint];
+                baseVelocity = v2LeftLeg[objectiveVelocityJoint];
+            }
+
+            nSteps = calculateSmothSteps(objectiveVelocity, baseVelocity, maxAcceleration);
+
+            for(int i=0; i<nSteps;i++)
+            {
+                viRightLeg = v2RightLeg;
+                viLeftLeg = v2LeftLeg;
+
+                for(int i=0;i<6;i++)
+                {
+                    viRightLeg[i] = viRightLeg[i]+maxAcceleration*dts;
+                    viLeftLeg[i] = viLeftLeg[i]+maxAcceleration*dts;
+                    q2RightLeg[i] = q2RightLeg[i]+viRightLeg[i]*dts;
+                    q2LeftLeg[i] = q2LeftLeg[i]+viLeftLeg[i]*dts;
+                 }
+
+                teoLeftLeg.SetJointPositions(q2RightLeg);
+                teoRightLeg.SetJointPositions(q2LeftLeg);
+
+            }
+
+        }
+
+
+        teoLeftLeg.SetJointPositions(q2RightLeg);
+        teoRightLeg.SetJointPositions(q2LeftLeg);
 
         //Get currents
         /*
@@ -156,9 +200,9 @@ int main()
         if(exportData.is_open())
         {
             exportData << t << " " <<angsLeftLeg << " " << angsRightLeg << " " << accLeftLeg << " " << accRightLeg << std::endl;
-
-        }else{
-
+        }
+        else
+        {
             std::cout << "Unable to open file" << std::endl;
         }
 
@@ -192,4 +236,24 @@ bool checkAcceleration(std::vector<double> accRight,std::vector<double> accLeft,
         }
     }
     return false;
+}
+int checkLimitantVelocity(std::vector<double> velLeft, std::vector<double> velRight)
+{
+    int limitVel=0;
+
+    for(int i=0; i<6; i++)
+    {
+        if(velLeft[i]>limitVel) limitVel=i;
+    }
+    for(int i=0;i<6; i++)
+    {
+        if(velRight[i]>limitVel) limitVel=i+6;
+    }
+    return limitVel;
+}
+int calculateSmothSteps(double topVelocity, double bottomVelocity, double maxACC)
+{
+    int steps;
+    steps = ceil( (topVelocity-bottomVelocity)/maxACC );
+    return steps;
 }
