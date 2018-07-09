@@ -61,14 +61,14 @@ int main()
     std::vector<double> v2RightLeg(6,0), v2LeftLeg(6,0);
     std::vector<double> accRightLeg(6,0), accLeftLeg(6,0);
     std::vector<double> incrementRight(6,0), incrementLeft(6,0);
-    //std:vector<double> currRightLeg(6,0), currLeftLeg(6,0);
+    std::vector<double> currRightLeg(6,0), currLeftLeg(6,0);
 
 
     double dtLeftLeg, dtRightLeg;
 
     std::ofstream exportData;
     exportData.open("exportData.csv");
-
+/*
     if(exportData.is_open())
     {
         exportData << "t,angsLeftLeg,angsRightLeg,accLeftLeg,accRightLeg" << std::endl;
@@ -254,13 +254,13 @@ int main()
         teoRightLeg.SetJointPositions(q2LeftLeg);
 
         //Get currents
-        /*
-        for(int i=0; i<5; i++)
+
+        for(int i=0; i<6; i++)
         {
             currRightLeg[i]=teoRightLeg.GetCurrent(i);
             currLeftLeg[i]=teoLeftLeg.GetCurrent(i);
         }
-        */
+
         q2RightLeg = q1RightLeg;
         q2LeftLeg = q1LeftLeg;
         q1RightLeg = angsRightLeg;
@@ -274,18 +274,19 @@ int main()
         std::cout << "rightLeg" << q2RightLeg << std::endl;
 
 
-//        std::cout << "Currents (A) Right Leg:" << currRightLeg << std::endl;
-//        std::cout << "Currents (A) Left Leg:" << currLeftLeg << std::endl;
-/*
+        std::cout << "Currents (A) Right Leg:" << currRightLeg << std::endl;
+        std::cout << "Currents (A) Left Leg:" << currLeftLeg << std::endl;
+
         if(exportData.is_open())
         {
-            exportData << t << " " <<q2LeftLeg << " " << q2RightLeg << " " << accLeftLeg << " " << accRightLeg << std::endl;
+            //exportData << t << " " <<q2LeftLeg << " " << q2RightLeg << " " << accLeftLeg << " " << accRightLeg << std::endl;
+            exportData << t << " " <<currLeftLeg << " " << q2RightLeg << " " << currRightLeg << std::endl;
         }
         else
         {
             std::cout << "Unable to open file" << std::endl;
         }
-*/
+
 
         yarp::os::Time::delay(dts);
 
