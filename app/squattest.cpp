@@ -6,7 +6,7 @@
 #include "GaitSupportPoligon.h"
 #include "tools.h"
 
-#define ROBOT "teo"
+#define ROBOT "teoSim"
 
 using namespace roboticslab;
 using namespace std;
@@ -45,9 +45,10 @@ int main()
     step.SetDefaultSpeeds(0.03,0.02);//rad/s
     step.SetHipParameters(0.065,0.01,0.1);
     step.SetKickParameters(0.06,0.03);
-    step.BeforeStep();
 
-    step.AddStepForward(1);
+    step.Squat(0.01);
+
+    //step.AddStepForward(1);
     //step.AfterStep();
     step.GetTrajectories(traRightLeg, traLeftLeg);
 
@@ -151,7 +152,7 @@ int main()
 
 
         std::cout << "Acceleration check: " << checkAcc << std::endl;
-
+/*
         if((checkAcc == 1 )&&(t>2))
         {
             std::cout << "Acceleration too high, must smoth. "<<std::endl;
@@ -234,7 +235,7 @@ int main()
                     q2LeftLeg[i]    =   q2LeftLeg[i]     + (viLeftLeg[i]*dts);
 
 
-                }*/
+                }
 
                 teoLeftLeg.SetJointPositions(q2RightLeg);
                 teoRightLeg.SetJointPositions(q2LeftLeg);
@@ -247,7 +248,7 @@ int main()
 
             //elapsedTime+=(nSteps-2)*dts;
 
-        }
+        }*/
 
 
         teoLeftLeg.SetJointPositions(q2RightLeg);
@@ -273,7 +274,7 @@ int main()
         std::cout << "leftLeg" << q2LeftLeg << std::endl;
         std::cout << "rightLeg" << q2RightLeg << std::endl;
 
-
+/*
         std::cout << "Currents (A) Right Leg:" << currRightLeg << std::endl;
         std::cout << "Currents (A) Left Leg:" << currLeftLeg << std::endl;
 
@@ -287,7 +288,7 @@ int main()
             std::cout << "Unable to open file" << std::endl;
         }
 
-
+*/
         yarp::os::Time::delay(dts);
 
 

@@ -42,6 +42,13 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/lib/sensor-integration)
 set(SensorIntegration_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/lib/sensor-integration ${SensorIntegration_INCLUDE_DIR})
 INCLUDE_DIRECTORIES(${SensorIntegration_INCLUDE_DIR})
 
+#OpenCanBus 
+#message(STATUS "compiling CiA402Device form sources")
+#add_subdirectory(${PROJECT_SOURCE_DIR}/lib/CiA402Device)
+#set(CiA402Device_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/lib/CiA402Device 
+#${CiA402Device_INCLUDE_DIR})
+#INCLUDE_DIRECTORIES(${CiA402Device_INCLUDE_DIR})
+
 foreach( testsourcefile ${SRC_LIST} )
     # I used a simple string replace, to cut off .cpp.
     string( REGEX REPLACE "[A-z]+[/]" "" testname ${testsourcefile} )
